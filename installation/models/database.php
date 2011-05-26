@@ -168,7 +168,7 @@ class JInstallationModelDatabase extends JModel
 				return false;
 			}
 
-			// Load the localise.sql for translating the data in joomla.sql/joomla_backwards.sql
+			// Load the localise.sql for translating the data in molajo.sql/joomla_backwards.sql
 			$dblocalise = 'sql/'.(($type == 'mysqli') ? 'mysql' : $type).'/localise.sql';
 			if (JFile::exists($dblocalise)) {
 				if (!$this->populateDatabase($db, $dblocalise)) {

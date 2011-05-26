@@ -237,8 +237,11 @@ class JInstallationModelConfiguration extends JModel
 		}
 
 		// Map the super admin to the Super Admin Group
+/**
+ *  Molajo Hack: Modify group_id to 4 for Administrator - Amy Stephen
+ */
 		$query = 'REPLACE INTO #__user_usergroup_map' .
-				' SET user_id = 42, group_id = 8';
+				' SET user_id = 42, group_id = 4';
 		$db->setQuery($query);
 		if (!$db->query()) {
 			$this->setError($db->getErrorMsg());

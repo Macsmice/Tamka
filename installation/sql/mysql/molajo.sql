@@ -1,4 +1,6 @@
-# $Id: joomla.sql 20947 2011-03-10 11:25:04Z infograf768 $
+# $Id: molajo.sql
+
+# Changes to core 
 
 
 #
@@ -26,126 +28,38 @@ CREATE TABLE IF NOT EXISTS `#__assets` (
 
 INSERT INTO `#__assets` (`id`, `parent_id`, `lft`, `rgt`, `level`, `name`, `title`, `rules`)
 VALUES
-	(1, 0, 1, 414, 0, 'root.1', 'Root Asset', '{"core.login.site":{"6":1,"2":1},"core.login.admin":{"6":1},"core.admin":{"8":1},"core.manage":{"7":1},"core.create":{"6":1,"3":1},"core.delete":{"6":1},"core.edit":{"6":1,"4":1},"core.edit.state":{"6":1,"5":1},"core.edit.own":{"6":1,"3":1}}'),
-	(2,1,1,2,1,'com_admin','com_admin','{}'),
-	(3,1,3,6,1,'com_banners','com_banners','{"core.admin":{"7":1},"core.manage":{"6":1},"core.create":[],"core.delete":[],"core.edit":[],"core.edit.state":[]}'),
-	(4,1,7,8,1,'com_cache','com_cache','{"core.admin":{"7":1},"core.manage":{"7":1}}'),
-	(5,1,9,10,1,'com_checkin','com_checkin','{"core.admin":{"7":1},"core.manage":{"7":1}}'),
-	(6,1,11,12,1,'com_config','com_config','{}'),
-	(7,1,13,16,1,'com_contact','com_contact','{"core.admin":{"7":1},"core.manage":{"6":1},"core.create":[],"core.delete":[],"core.edit":[],"core.edit.state":[],"core.edit.own":[]}'),
-	(8,1,17,20,1,'com_content','com_content','{"core.admin":{"7":1},"core.manage":{"6":1},"core.create":{"3":1},"core.delete":[],"core.edit":{"4":1},"core.edit.state":{"5":1},"core.edit.own":[]}'),
-	(9,1,21,22,1,'com_cpanel','com_cpanel','{}'),
-	(10,1,23,24,1,'com_installer','com_installer','{"core.admin":{"7":1},"core.manage":{"7":1},"core.delete":[],"core.edit.state":[]}'),
-	(11,1,25,26,1,'com_languages','com_languages','{"core.admin":{"7":1},"core.manage":[],"core.create":[],"core.delete":[],"core.edit":[],"core.edit.state":[]}'),
-	(12,1,27,28,1,'com_login','com_login','{}'),
-	(13,1,29,30,1,'com_mailto','com_mailto','{}'),
-	(14,1,31,32,1,'com_massmail','com_massmail','{}'),
-	(15,1,33,34,1,'com_media','com_media','{"core.admin":{"7":1},"core.manage":{"6":1},"core.create":{"3":1},"core.delete":{"5":1}}'),
-	(16,1,35,36,1,'com_menus','com_menus','{"core.admin":{"7":1},"core.manage":[],"core.create":[],"core.delete":[],"core.edit":[],"core.edit.state":[]}'),
-	(17,1,37,38,1,'com_messages','com_messages','{"core.admin":{"7":1},"core.manage":{"7":1}}'),
-	(18,1,39,40,1,'com_modules','com_modules','{"core.admin":{"7":1},"core.manage":[],"core.create":[],"core.delete":[],"core.edit":[],"core.edit.state":[]}'),
-	(19,1,41,44,1,'com_newsfeeds','com_newsfeeds','{"core.admin":{"7":1},"core.manage":{"6":1},"core.create":[],"core.delete":[],"core.edit":[],"core.edit.state":[],"core.edit.own":[]}'),
-	(20,1,45,46,1,'com_plugins','com_plugins','{"core.admin":{"7":1},"core.manage":[],"core.edit":[],"core.edit.state":[]}'),
-	(21,1,47,48,1,'com_redirect','com_redirect','{"core.admin":{"7":1},"core.manage":[]}'),
-	(22,1,49,50,1,'com_search','com_search','{"core.admin":{"7":1},"core.manage":{"6":1}}'),
-	(23,1,51,52,1,'com_templates','com_templates','{"core.admin":{"7":1},"core.manage":[],"core.create":[],"core.delete":[],"core.edit":[],"core.edit.state":[]}'),
-	(24,1,53,54,1,'com_users','com_users','{"core.admin":{"7":1},"core.manage":[],"core.create":[],"core.delete":[],"core.edit":[],"core.edit.own":{"6":1},"core.edit.state":[]}'),
-	(25,1,55,58,1,'com_weblinks','com_weblinks','{"core.admin":{"7":1},"core.manage":{"6":1},"core.create":{"3":1},"core.delete":[],"core.edit":{"4":1},"core.edit.state":{"5":1},"core.edit.own":[]}'),
-	(26,1,59,60,1,'com_wrapper','com_wrapper','{}'),
-	(27, 8, 18, 19, 2, 'com_content.category.2', 'Uncategorised', '{"core.create":[],"core.delete":[],"core.edit":[],"core.edit.state":[],"core.edit.own":[]}'),
-	(28, 3, 4, 5, 2, 'com_banners.category.3', 'Uncategorised', '{"core.create":[],"core.delete":[],"core.edit":[],"core.edit.state":[]}'),
-	(29, 7, 14, 15, 2, 'com_contact.category.4', 'Uncategorised', '{"core.create":[],"core.delete":[],"core.edit":[],"core.edit.state":[],"core.edit.own":[]}'),
-	(30, 19, 42, 43, 2, 'com_newsfeeds.category.5', 'Uncategorised', '{"core.create":[],"core.delete":[],"core.edit":[],"core.edit.state":[],"core.edit.own":[]}'),
-	(31, 25, 56, 57, 2, 'com_weblinks.category.6', 'Uncategorised', '{"core.create":[],"core.delete":[],"core.edit":[],"core.edit.state":[],"core.edit.own":[]}');
+(1,0,1,414, 0, 'root.1', 'Root Asset', '{"core.login.site":{"6":1,"2":1},"core.login.admin":{"6":1},"core.admin":{"8":1},"core.manage":{"7":1},"core.create":{"6":1,"3":1},"core.delete":{"6":1},"core.edit":{"6":1,"4":1},"core.edit.state":{"6":1,"5":1},"core.edit.own":{"6":1,"3":1}}'),
+(2,1,1,2,1,'com_admin','com_admin','{}'),
+(4,1,7,8,1,'com_cache','com_cache','{"core.admin":{"7":1},"core.manage":{"7":1}}'),
+(5,1,9,10,1,'com_checkin','com_checkin','{"core.admin":{"7":1},"core.manage":{"7":1}}'),
+(6,1,11,12,1,'com_config','com_config','{}'),
+(7,1,13,16,1,'com_contact','com_contact','{"core.admin":{"7":1},"core.manage":{"6":1},"core.create":[],"core.delete":[],"core.edit":[],"core.edit.state":[],"core.edit.own":[]}'),
+(29, 7, 14, 15, 2, 'com_contact.category.4', 'Uncategorised', '{"core.create":[],"core.delete":[],"core.edit":[],"core.edit.state":[],"core.edit.own":[]}'),
 
-# -------------------------------------------------------
+(8,1,17,20,1,'com_content','com_content','{"core.admin":{"7":1},"core.manage":{"6":1},"core.create":{"3":1},"core.delete":[],"core.edit":{"4":1},"core.edit.state":{"5":1},"core.edit.own":[]}'),
+(27, 8, 18, 19, 2, 'com_content.category.2', 'Uncategorised', '{"core.create":[],"core.delete":[],"core.edit":[],"core.edit.state":[],"core.edit.own":[]}'),
 
-#
-# Table structure for table `#__banners`
-#
+(9,1,21,22,1,'com_cpanel','com_cpanel','{}'),
+(10,1,23,24,1,'com_installer','com_installer','{"core.admin":{"7":1},"core.manage":{"7":1},"core.delete":[],"core.edit.state":[]}'),
+(11,1,25,26,1,'com_languages','com_languages','{"core.admin":{"7":1},"core.manage":[],"core.create":[],"core.delete":[],"core.edit":[],"core.edit.state":[]}'),
+(12,1,27,28,1,'com_login','com_login','{}'),
+(13,1,29,30,1,'com_mailto','com_mailto','{}'),
+(14,1,31,32,1,'com_massmail','com_massmail','{}'),
+(15,1,33,34,1,'com_media','com_media','{"core.admin":{"7":1},"core.manage":{"6":1},"core.create":{"3":1},"core.delete":{"5":1}}'),
+(16,1,35,36,1,'com_menus','com_menus','{"core.admin":{"7":1},"core.manage":[],"core.create":[],"core.delete":[],"core.edit":[],"core.edit.state":[]}'),
+(17,1,37,38,1,'com_messages','com_messages','{"core.admin":{"7":1},"core.manage":{"7":1}}'),
+(18,1,39,40,1,'com_modules','com_modules','{"core.admin":{"7":1},"core.manage":[],"core.create":[],"core.delete":[],"core.edit":[],"core.edit.state":[]}'),
+(19,1,41,44,1,'com_newsfeeds','com_newsfeeds','{"core.admin":{"7":1},"core.manage":{"6":1},"core.create":[],"core.delete":[],"core.edit":[],"core.edit.state":[],"core.edit.own":[]}'),
+(30, 19, 42, 43, 2, 'com_newsfeeds.category.5', 'Uncategorised', '{"core.create":[],"core.delete":[],"core.edit":[],"core.edit.state":[],"core.edit.own":[]}'),
+(20,1,45,46,1,'com_plugins','com_plugins','{"core.admin":{"7":1},"core.manage":[],"core.edit":[],"core.edit.state":[]}'),
+(21,1,47,48,1,'com_redirect','com_redirect','{"core.admin":{"7":1},"core.manage":[]}'),
+(22,1,49,50,1,'com_search','com_search','{"core.admin":{"7":1},"core.manage":{"6":1}}'),
+(23,1,51,52,1,'com_templates','com_templates','{"core.admin":{"7":1},"core.manage":[],"core.create":[],"core.delete":[],"core.edit":[],"core.edit.state":[]}'),
+(24,1,53,54,1,'com_users','com_users','{"core.admin":{"7":1},"core.manage":[],"core.create":[],"core.delete":[],"core.edit":[],"core.edit.own":{"6":1},"core.edit.state":[]}'),
+(25,1,55,58,1,'com_weblinks','com_weblinks','{"core.admin":{"7":1},"core.manage":{"6":1},"core.create":{"3":1},"core.delete":[],"core.edit":{"4":1},"core.edit.state":{"5":1},"core.edit.own":[]}'),
+(31, 25, 56, 57, 2, 'com_weblinks.category.6', 'Uncategorised', '{"core.create":[],"core.delete":[],"core.edit":[],"core.edit.state":[],"core.edit.own":[]}');
 
-CREATE TABLE `#__banners` (
-  `id` INTEGER NOT NULL auto_increment,
-  `cid` INTEGER NOT NULL DEFAULT '0',
-  `type` INTEGER NOT NULL DEFAULT '0',
-  `name` VARCHAR(255) NOT NULL DEFAULT '',
-  `alias` VARCHAR(255) NOT NULL DEFAULT '',
-  `imptotal` INTEGER NOT NULL DEFAULT '0',
-  `impmade` INTEGER NOT NULL DEFAULT '0',
-  `clicks` INTEGER NOT NULL DEFAULT '0',
-  `clickurl` VARCHAR(200) NOT NULL DEFAULT '',
-  `state` TINYINT(3) NOT NULL DEFAULT '0',
-  `catid` INTEGER UNSIGNED NOT NULL DEFAULT 0,
-  `description` TEXT NOT NULL,
-  `custombannercode` VARCHAR(2048) NOT NULL,
-  `sticky` TINYINT(1) UNSIGNED NOT NULL DEFAULT 0,
-  `ordering` INTEGER NOT NULL DEFAULT 0,
-  `metakey` TEXT NOT NULL,
-  `params` TEXT NOT NULL,
-  `own_prefix` TINYINT(1) NOT NULL DEFAULT '0',
-  `metakey_prefix` VARCHAR(255) NOT NULL DEFAULT '',
-  `purchase_type` TINYINT NOT NULL DEFAULT '-1',
-  `track_clicks` TINYINT NOT NULL DEFAULT '-1',
-  `track_impressions` TINYINT NOT NULL DEFAULT '-1',
-  `checked_out` INTEGER UNSIGNED NOT NULL DEFAULT '0',
-  `checked_out_time` DATETIME NOT NULL DEFAULT '0000-00-00 00:00:00',
-  `publish_up` DATETIME NOT NULL DEFAULT '0000-00-00 00:00:00',
-  `publish_down` DATETIME NOT NULL DEFAULT '0000-00-00 00:00:00',
-  `reset` DATETIME NOT NULL DEFAULT '0000-00-00 00:00:00',
-  `created` DATETIME NOT NULL DEFAULT '0000-00-00 00:00:00',
-  `language` char(7) NOT NULL DEFAULT '',
-  PRIMARY KEY  (`id`),
-  INDEX `idx_state` (`state`),
-  INDEX `idx_own_prefix` (`own_prefix`),
-  INDEX `idx_metakey_prefix` (`metakey_prefix`),
-  INDEX `idx_banner_catid`(`catid`),
-  INDEX `idx_language` (`language`)
-) DEFAULT CHARSET=utf8;
-
-# -------------------------------------------------------
-
-#
-# Table structure for table `#__banner_clients`
-#
-
-CREATE TABLE `#__banner_clients` (
-  `id` INTEGER NOT NULL auto_increment,
-  `name` VARCHAR(255) NOT NULL DEFAULT '',
-  `contact` VARCHAR(255) NOT NULL DEFAULT '',
-  `email` VARCHAR(255) NOT NULL DEFAULT '',
-  `extrainfo` TEXT NOT NULL,
-  `state` TINYINT(3) NOT NULL DEFAULT '0',
-  `checked_out` INTEGER UNSIGNED NOT NULL DEFAULT '0',
-  `checked_out_time` DATETIME NOT NULL default '0000-00-00 00:00:00',
-  `metakey` TEXT NOT NULL,
-  `own_prefix` TINYINT NOT NULL DEFAULT '0',
-  `metakey_prefix` VARCHAR(255) NOT NULL default '',
-  `purchase_type` TINYINT NOT NULL DEFAULT '-1',
-  `track_clicks` TINYINT NOT NULL DEFAULT '-1',
-  `track_impressions` TINYINT NOT NULL DEFAULT '-1',
-  PRIMARY KEY  (`id`),
-  INDEX `idx_own_prefix` (`own_prefix`),
-  INDEX `idx_metakey_prefix` (`metakey_prefix`)
-)  DEFAULT CHARSET=utf8;
-
-# -------------------------------------------------------
-
-#
-# Table structure for table `#__banner_tracks`
-#
-
-CREATE TABLE  `#__banner_tracks` (
-  `track_date` DATETIME NOT NULL,
-  `track_type` INTEGER UNSIGNED NOT NULL,
-  `banner_id` INTEGER UNSIGNED NOT NULL,
-  `count` INTEGER UNSIGNED NOT NULL DEFAULT '0',
-  PRIMARY KEY (`track_date`, `track_type`, `banner_id`),
-  INDEX `idx_track_date` (`track_date`),
-  INDEX `idx_track_type` (`track_type`),
-  INDEX `idx_banner_id` (`banner_id`)
-)  DEFAULT CHARSET=utf8;
-
-# -------------------------------------------------------
+(26,1,59,60,1,'com_wrapper','com_wrapper','{}');
 
 #
 # Table structure for table `#__categories`
@@ -199,156 +113,6 @@ INSERT INTO `#__categories` VALUES
 # -------------------------------------------------------
 
 #
-# Table structure for table `#__contact_details`
-#
-
-CREATE TABLE `#__contact_details` (
-  `id` integer NOT NULL auto_increment,
-  `name` varchar(255) NOT NULL default '',
-  `alias` varchar(255) NOT NULL default '',
-  `con_position` varchar(255) default NULL,
-  `address` text,
-  `suburb` varchar(100) default NULL,
-  `state` varchar(100) default NULL,
-  `country` varchar(100) default NULL,
-  `postcode` varchar(100) default NULL,
-  `telephone` varchar(255) default NULL,
-  `fax` varchar(255) default NULL,
-  `misc` mediumtext,
-  `image` varchar(255) default NULL,
-  `imagepos` varchar(20) default NULL,
-  `email_to` varchar(255) default NULL,
-  `default_con` tinyint(1) unsigned NOT NULL default '0',
-  `published` tinyint(1) NOT NULL default '0',
-  `checked_out` integer unsigned NOT NULL default '0',
-  `checked_out_time` datetime NOT NULL default '0000-00-00 00:00:00',
-  `ordering` integer NOT NULL default '0',
-  `params` text NOT NULL,
-  `user_id` integer NOT NULL default '0',
-  `catid` integer NOT NULL default '0',
-  `access` tinyint(3) unsigned NOT NULL default '0',
-  `mobile` varchar(255) NOT NULL default '',
-  `webpage` varchar(255) NOT NULL default '',
-  `sortname1` varchar(255) NOT NULL,
-  `sortname2` varchar(255) NOT NULL,
-  `sortname3` varchar(255) NOT NULL,
-  `language` char(7) NOT NULL,
-  `created` datetime NOT NULL default '0000-00-00 00:00:00',
-  `created_by` int(10) unsigned NOT NULL default '0',
-  `created_by_alias` varchar(255) NOT NULL default '',
-  `modified` datetime NOT NULL default '0000-00-00 00:00:00',
-  `modified_by` int(10) unsigned NOT NULL default '0',
-  `metakey` text NOT NULL,
-  `metadesc` text NOT NULL,
-  `metadata` text NOT NULL,
-  `featured` tinyint(3) unsigned NOT NULL default '0' COMMENT 'Set if article is featured.',
-  `xreference` varchar(50) NOT NULL COMMENT 'A reference to enable linkages to external data sets.',
-  `publish_up` datetime NOT NULL default '0000-00-00 00:00:00',
-  `publish_down` datetime NOT NULL default '0000-00-00 00:00:00',
-  PRIMARY KEY  (`id`),
-  KEY `idx_access` (`access`),
-  KEY `idx_checkout` (`checked_out`),
-  KEY `idx_state` (`published`),
-  KEY `idx_catid` (`catid`),
-  KEY `idx_createdby` (`created_by`),
-  KEY `idx_featured_catid` (`featured`,`catid`),
-  KEY `idx_language` (`language`),
-  KEY `idx_xreference` (`xreference`)
-)  DEFAULT CHARSET=utf8;
-
-# -------------------------------------------------------
-
-#
-# Table structure for table `#__content`
-#
-
-CREATE TABLE `#__content` (
-  `id` integer unsigned NOT NULL auto_increment,
-  `asset_id` INTEGER UNSIGNED NOT NULL DEFAULT 0 COMMENT 'FK to the #__assets table.',
-  `title` varchar(255) NOT NULL default '',
-  `alias` varchar(255) NOT NULL default '',
-  `title_alias` varchar(255) NOT NULL default '',
-  `introtext` mediumtext NOT NULL,
-  `fulltext` mediumtext NOT NULL,
-  `state` tinyint(3) NOT NULL default '0',
-  `sectionid` integer unsigned NOT NULL default '0',
-  `mask` integer unsigned NOT NULL default '0',
-  `catid` integer unsigned NOT NULL default '0',
-  `created` datetime NOT NULL default '0000-00-00 00:00:00',
-  `created_by` integer unsigned NOT NULL default '0',
-  `created_by_alias` varchar(255) NOT NULL default '',
-  `modified` datetime NOT NULL default '0000-00-00 00:00:00',
-  `modified_by` integer unsigned NOT NULL default '0',
-  `checked_out` integer unsigned NOT NULL default '0',
-  `checked_out_time` datetime NOT NULL default '0000-00-00 00:00:00',
-  `publish_up` datetime NOT NULL default '0000-00-00 00:00:00',
-  `publish_down` datetime NOT NULL default '0000-00-00 00:00:00',
-  `images` text NOT NULL,
-  `urls` text NOT NULL,
-  `attribs` varchar(5120) NOT NULL,
-  `version` integer unsigned NOT NULL default '1',
-  `parentid` integer unsigned NOT NULL default '0',
-  `ordering` integer NOT NULL default '0',
-  `metakey` text NOT NULL,
-  `metadesc` text NOT NULL,
-  `access` integer unsigned NOT NULL default '0',
-  `hits` integer unsigned NOT NULL default '0',
-  `metadata` text NOT NULL,
-  `featured` tinyint(3) unsigned NOT NULL default '0' COMMENT 'Set if article is featured.',
-  `language` char(7) NOT NULL COMMENT 'The language code for the article.',
-  `xreference` varchar(50) NOT NULL COMMENT 'A reference to enable linkages to external data sets.',
-  PRIMARY KEY  (`id`),
-  KEY `idx_access` (`access`),
-  KEY `idx_checkout` (`checked_out`),
-  KEY `idx_state` (`state`),
-  KEY `idx_catid` (`catid`),
-  KEY `idx_createdby` (`created_by`),
-  KEY `idx_featured_catid` (`featured`,`catid`),
-  KEY `idx_language` (`language`),
-  KEY `idx_xreference` (`xreference`)
-)  DEFAULT CHARSET=utf8;
-
-# -------------------------------------------------------
-
-#
-# Table structure for table `#__content_frontpage`
-#
-
-CREATE TABLE `#__content_frontpage` (
-  `content_id` integer NOT NULL default '0',
-  `ordering` integer NOT NULL default '0',
-  PRIMARY KEY  (`content_id`)
-)  DEFAULT CHARSET=utf8;
-
-# -------------------------------------------------------
-
-#
-# Table structure for table `#__content_rating`
-#
-
-CREATE TABLE `#__content_rating` (
-  `content_id` integer NOT NULL default '0',
-  `rating_sum` integer unsigned NOT NULL default '0',
-  `rating_count` integer unsigned NOT NULL default '0',
-  `lastip` varchar(50) NOT NULL default '',
-  PRIMARY KEY  (`content_id`)
-)  DEFAULT CHARSET=utf8;
-
-# -------------------------------------------------------
-
-#
-# Table structure for table `#__core_log_searches`
-#
-
-CREATE TABLE `#__core_log_searches` (
-  `search_term` varchar(128) NOT NULL default '',
-  `hits` integer unsigned NOT NULL default '0'
-)  DEFAULT CHARSET=utf8;
-
-
-# -------------------------------------------------------
-
-#
 # Table structure for table `#__extensions`
 #
 
@@ -376,7 +140,7 @@ CREATE TABLE `#__extensions` (
   INDEX `extension`(`type`,`element`,`folder`,`client_id`)
 ) AUTO_INCREMENT=10000 CHARACTER SET utf8;
 
-# Components
+
 INSERT INTO `#__extensions` (`extension_id`, `name`, `type`, `element`, `folder`, `client_id`, `enabled`, `access`, `protected`, `manifest_cache`, `params`, `custom_data`, `system_data`, `checked_out`, `checked_out_time`, `ordering`, `state`) VALUES
 (1, 'com_mailto', 'component', 'com_mailto', '', 0, 1, 1, 1, '', '', '', '', 0, '0000-00-00 00:00:00', 0, 0),
 (2, 'com_wrapper', 'component', 'com_wrapper', '', 0, 1, 1, 1, '', '', '', '', 0, '0000-00-00 00:00:00', 0, 0),
@@ -616,39 +380,6 @@ CREATE TABLE `#__menu_types` (
 
 INSERT INTO `#__menu_types` VALUES (1, 'mainmenu', 'Main Menu', 'The main menu for the site');
 
-# -------------------------------------------------------
-
-#
-# Table structure for table `#__messages`
-#
-
-CREATE TABLE `#__messages` (
-  `message_id` integer unsigned NOT NULL auto_increment,
-  `user_id_from` integer unsigned NOT NULL default '0',
-  `user_id_to` integer unsigned NOT NULL default '0',
-  `folder_id` tinyint(3) unsigned NOT NULL DEFAULT '0',
-  `date_time` datetime NOT NULL default '0000-00-00 00:00:00',
-  `state` tinyint(1) NOT NULL DEFAULT '0',
-  `priority` tinyint(1) unsigned NOT NULL DEFAULT '0',
-  `subject` varchar(255) NOT NULL DEFAULT '',
-  `message` text NOT NULL,
-  PRIMARY KEY  (`message_id`),
-  KEY `useridto_state` (`user_id_to`, `state`)
-)  DEFAULT CHARSET=utf8;
-# -------------------------------------------------------
-
-#
-# Table structure for table `#__messages_cfg`
-#
-
-CREATE TABLE `#__messages_cfg` (
-  `user_id` integer unsigned NOT NULL default '0',
-  `cfg_name` varchar(100) NOT NULL default '',
-  `cfg_value` varchar(255) NOT NULL default '',
-  UNIQUE `idx_user_var_name` (`user_id`,`cfg_name`)
-)  DEFAULT CHARSET=utf8;
-# -------------------------------------------------------
-
 #
 # Table structure for table `#__modules`
 #
@@ -729,73 +460,6 @@ INSERT INTO `#__modules_menu` VALUES
 (16,0),
 (17,0),
 (18,0);
-
-# -------------------------------------------------------
-
-#
-# Table structure for table `#__newsfeeds`
-#
-
-CREATE TABLE `#__newsfeeds` (
-  `catid` integer NOT NULL default '0',
-  `id` integer(10) UNSIGNED NOT NULL auto_increment,
-  `name`  varchar(100) NOT NULL DEFAULT '',
-  `alias` varchar(100) NOT NULL default '',
-  `link` varchar(200) NOT NULL DEFAULT '',
-  `filename` varchar(200) default NULL,
-  `published` tinyint(1) NOT NULL default '0',
-  `numarticles` integer unsigned NOT NULL default '1',
-  `cache_time` integer unsigned NOT NULL default '3600',
-  `checked_out` integer(10) unsigned NOT NULL default '0',
-  `checked_out_time` datetime NOT NULL default '0000-00-00 00:00:00',
-  `ordering` integer NOT NULL default '0',
-  `rtl` tinyint(4) NOT NULL default '0',
-  `access` tinyint UNSIGNED NOT NULL DEFAULT '0',
-  `language` char(7) NOT NULL DEFAULT '',
-  `params` text NOT NULL,
-  `created` datetime NOT NULL default '0000-00-00 00:00:00',
-  `created_by` int(10) unsigned NOT NULL default '0',
-  `created_by_alias` varchar(255) NOT NULL default '',
-  `modified` datetime NOT NULL default '0000-00-00 00:00:00',
-  `modified_by` int(10) unsigned NOT NULL default '0',
-  `metakey` text NOT NULL,
-  `metadesc` text NOT NULL,
-  `metadata` text NOT NULL,
-  `xreference` varchar(50) NOT NULL COMMENT 'A reference to enable linkages to external data sets.',
-  `publish_up` datetime NOT NULL default '0000-00-00 00:00:00',
-  `publish_down` datetime NOT NULL default '0000-00-00 00:00:00',
-
-  PRIMARY KEY  (`id`),
-  KEY `idx_access` (`access`),
-  KEY `idx_checkout` (`checked_out`),
-  KEY `idx_state` (`published`),
-  KEY `idx_catid` (`catid`),
-  KEY `idx_createdby` (`created_by`),
-  KEY `idx_language` (`language`),
-  KEY `idx_xreference` (`xreference`)
-
-)  DEFAULT CHARSET=utf8;
-
-# -------------------------------------------------------
-
-#
-# Table structure for table `#__redirect_links`
-#
-
-CREATE TABLE `#__redirect_links` (
-  `id` integer unsigned NOT NULL auto_increment,
-  `old_url` varchar(150) NOT NULL,
-  `new_url` varchar(150) NOT NULL,
-  `referer` varchar(150) NOT NULL,
-  `comment` varchar(255) NOT NULL,
-  `published` tinyint(4) NOT NULL,
-  `created_date` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
-  `modified_date` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
-  PRIMARY KEY  (`id`),
-  UNIQUE KEY `idx_link_old` (`old_url`),
-  KEY `idx_link_modifed` (`modified_date`)
-)  DEFAULT CHARSET=utf8;
-
 
 # -------------------------------------------------------
 
@@ -940,14 +604,10 @@ CREATE TABLE IF NOT EXISTS `#__usergroups` (
 
 INSERT INTO `#__usergroups` (`id` ,`parent_id` ,`lft` ,`rgt` ,`title`)
 VALUES
-(1, 0, 1, 20, 'Public'),
-	(2, 1, 6, 17, 'Registered'),
-		(3, 2, 7, 14, 'Author'),
-			(4, 3, 8, 11, 'Editor'),
-				(5, 4, 9, 10, 'Publisher'),
-(6, 1, 2, 5, 'Manager'),
-	(7, 6, 3, 4, 'Administrator'),
-(8, 1, 18, 19, 'Super Users');
+(1, 0, 1, 2, 'Public'),
+	(2, 1, 3, 4, 'Guest'),
+	(3, 1, 5, 8, 'Registered'),
+	  (4, 3, 6, 7, 'Administrator');
 
 # -------------------------------------------------------
 
@@ -975,64 +635,6 @@ CREATE TABLE `#__users` (
   KEY `username` (`username`),
   KEY `email` (`email`)
 )  DEFAULT CHARSET=utf8;
-
-# -------------------------------------------------------
-
-CREATE TABLE IF NOT EXISTS `#__user_profiles` (
-  `user_id` int(11) NOT NULL,
-  `profile_key` varchar(100) NOT NULL,
-  `profile_value` varchar(255) NOT NULL,
-  `ordering` int(11) NOT NULL default '0',
-  UNIQUE KEY `idx_user_id_profile_key` (`user_id`,`profile_key`)
-)  DEFAULT CHARSET=utf8 COMMENT='Simple user profile storage table';
-
-#
-# Table structure for table `#__weblinks`
-#
-
-CREATE TABLE `#__weblinks` (
-  `id` integer unsigned NOT NULL auto_increment,
-  `catid` integer NOT NULL default '0',
-  `sid` integer NOT NULL default '0',
-  `title` varchar(250) NOT NULL default '',
-  `alias` varchar(255) NOT NULL default '',
-  `url` varchar(250) NOT NULL default '',
-  `description` TEXT NOT NULL,
-  `date` datetime NOT NULL default '0000-00-00 00:00:00',
-  `hits` integer NOT NULL default '0',
-  `state` tinyint(1) NOT NULL default '0',
-  `checked_out` integer NOT NULL default '0',
-  `checked_out_time` datetime NOT NULL default '0000-00-00 00:00:00',
-  `ordering` integer NOT NULL default '0',
-  `archived` tinyint(1) NOT NULL default '0',
-  `approved` tinyint(1) NOT NULL default '1',
-  `access` integer NOT NULL default '1',
-  `params` text NOT NULL,
-  `language` char(7) NOT NULL DEFAULT '',
-  `created` datetime NOT NULL default '0000-00-00 00:00:00',
-  `created_by` int(10) unsigned NOT NULL default '0',
-  `created_by_alias` varchar(255) NOT NULL default '',
-  `modified` datetime NOT NULL default '0000-00-00 00:00:00',
-  `modified_by` int(10) unsigned NOT NULL default '0',
-  `metakey` text NOT NULL,
-  `metadesc` text NOT NULL,
-  `metadata` text NOT NULL,
-  `featured` tinyint(3) unsigned NOT NULL default '0' COMMENT 'Set if link is featured.',
-  `xreference` varchar(50) NOT NULL COMMENT 'A reference to enable linkages to external data sets.',
-  `publish_up` datetime NOT NULL default '0000-00-00 00:00:00',
-  `publish_down` datetime NOT NULL default '0000-00-00 00:00:00',
-
-  PRIMARY KEY  (`id`),
-  KEY `idx_access` (`access`),
-  KEY `idx_checkout` (`checked_out`),
-  KEY `idx_state` (`state`),
-  KEY `idx_catid` (`catid`),
-  KEY `idx_createdby` (`created_by`),
-  KEY `idx_featured_catid` (`featured`,`catid`),
-  KEY `idx_language` (`language`),
-  KEY `idx_xreference` (`xreference`)
-)  DEFAULT CHARSET=utf8;
-# -------------------------------------------------------
 
 #
 # Table structure for table `#__viewlevels`
