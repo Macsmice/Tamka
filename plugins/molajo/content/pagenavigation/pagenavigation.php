@@ -30,7 +30,7 @@ class plgContentPagenavigation extends JPlugin
 			return false;
 		}
 
-		if ($params->get('show_item_navigation') && ($context == 'com_content.article') && ($view == 'article')) {
+		if ($params->get('show_item_navigation') && ($context == 'com_articles.article') && ($view == 'article')) {
 			$html = '';
 			$db		= JFactory::getDbo();
 			$user	= JFactory::getUser();
@@ -41,7 +41,7 @@ class plgContentPagenavigation extends JPlugin
 			$now	= $date->toMySQL();
 
 			$uid	= $row->id;
-			$option	= 'com_content';
+			$option	= 'com_articles';
 			$canPublish = $user->authorise('core.edit.state', $option.'.article.'.$row->id);
 
 			// The following is needed as different menu items types utilise a different param to control ordering.

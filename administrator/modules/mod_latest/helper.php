@@ -8,7 +8,7 @@
 // No direct access.
 defined('_JEXEC') or die;
 
-JModel::addIncludePath(JPATH_ADMINISTRATOR.'/components/com_content/models', 'ContentModel');
+JModel::addIncludePath(JPATH_ADMINISTRATOR.'/components/com_articles/models', 'ArticlesModel');
 
 jimport('joomla.application.categories');
 
@@ -87,8 +87,8 @@ var_dump($items);
 
 		// Set the links
 		foreach ($items as &$item) {
-			if ($user->authorise('core.edit','com_content.article.'.$item->id)){
-				$item->link = JRoute::_('index.php?option=com_content&task=article.edit&id='.$item->id);
+			if ($user->authorise('core.edit','com_articles.article.'.$item->id)){
+				$item->link = JRoute::_('index.php?option=com_articles&task=article.edit&id='.$item->id);
 			} else {
 				$item->link = '';
 			}
@@ -110,7 +110,7 @@ var_dump($items);
 		$type = $params->get('ordering') == 'c_dsc' ? '_CREATED' : '_MODIFIED';
 		if ($catid)
 		{
-			$category = JCategories::getInstance('Content')->get($catid);
+			$category = JCategories::getInstance('Articles')->get($catid);
 			if ($category) {
 				$title = $category->title;
 			}

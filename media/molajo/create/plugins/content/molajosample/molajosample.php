@@ -34,7 +34,7 @@ class plgContentMolajosample extends JPlugin
 	 *
 	 * Method is called by the view
      * 
-     * 'com_content.article
+     * 'com_articles.article
 	 *
 	 * @param	string	$context    The context of the content being passed to the plugin.
 	 * @param	object	$item       The content object.  Note $content->text is also available

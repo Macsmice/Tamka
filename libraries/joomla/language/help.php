@@ -96,7 +96,7 @@ class JHelp
 		// Replace substitution codes in help URL.
 		$search = array(
 			'{app}',			// Application name (eg. 'Administrator')
-			'{component}',		// Component name (eg. 'com_content')
+			'{component}',		// Component name (eg. 'com_articles')
 			'{keyref}',			// Help screen key reference
 			'{language}',		// Full language code (eg. 'en-GB')
 			'{langcode}',		// Short language code (eg. 'en')

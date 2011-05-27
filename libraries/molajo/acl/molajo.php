@@ -68,7 +68,7 @@ class MolajoACL extends ACL
      *  ACL authoriseTask Method calls one of below which calls MolajoACL::checkTaskUpdate
      *
      *  $option_value_literal - molajo.admin or molajo.manage or molajo.checkin
-     *  $option - component, ex. com_content or com_comments
+     *  $option - component, ex. com_articles or com_comments
 
      *  Method below calls above, and is called by ACL::authoriseTask
      *
@@ -76,8 +76,8 @@ class MolajoACL extends ACL
      *  checkCheckInAuthorisation - Can User check-in Content for the Component
      *  checkManageAuthorisation - Can User access the Component from within the Administrator
      *
-     *  @param string $option_value_literal ex. molajo.admin or molajo.manage.com_content
-     *  @param string $option ex. com_content
+     *  @param string $option_value_literal ex. molajo.admin or molajo.manage.com_articles
+     *  @param string $option ex. com_articles
      *
      *  @return boolean
      */
@@ -125,7 +125,7 @@ class MolajoACL extends ACL
      *
      *  getDisplayAuthorisation - Can User view specific content for the Component
      *
-     *  @param string $option - ex. com_content
+     *  @param string $option - ex. com_articles
      *  @param string $entity - name of item, ex. 'article'
      *  @param string $task - ex save
      *  @param int $id - primary key of item
@@ -167,7 +167,7 @@ class MolajoACL extends ACL
      *  Access to Content Item and Primary Key, Category, Component and Global
      *  Matching TaskOwn methods checked before advancing to the next level
      *
-     *  @param string $option - ex. com_content
+     *  @param string $option - ex. com_articles
      *  @param string $entity - name of item, ex. 'article'
      *  @param string $task - ex save
      *  @param int $id - primary key of item

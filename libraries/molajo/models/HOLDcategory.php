@@ -37,7 +37,7 @@ class MolajoModelCategory extends JModel
          *
          * @var		string
          */
-        protected $_context = 'com_content.category';
+        protected $_context = 'com_articles.category';
 
         /**
          * The category that applies.
@@ -102,13 +102,13 @@ class MolajoModelCategory extends JModel
 
             // filter.order
             $itemid = JRequest::getInt('id', 0) . ':' . JRequest::getInt('Itemid', 0);
-            $orderCol = JFactory::getApplication()->getUserStateFromRequest('com_content.category.list.' . $itemid . '.filter_order', 'filter_order', '', 'string');
+            $orderCol = JFactory::getApplication()->getUserStateFromRequest('com_articles.category.list.' . $itemid . '.filter_order', 'filter_order', '', 'string');
             if (!in_array($orderCol, $this->filter_fields)) {
                 $orderCol = 'a.ordering';
             }
             $this->setState('list.ordering', $orderCol);
 
-            $listOrder = JFactory::getApplication()->getUserStateFromRequest('com_content.category.list.' . $itemid . '.filter_order_Dir',
+            $listOrder = JFactory::getApplication()->getUserStateFromRequest('com_articles.category.list.' . $itemid . '.filter_order_Dir',
                 'filter_order_Dir', '', 'cmd');
             if (!in_array(strtoupper($listOrder), array('ASC', 'DESC', ''))) {
                 $listOrder = 'ASC';
@@ -123,7 +123,7 @@ class MolajoModelCategory extends JModel
                 $this->setState('list.links', $params->get('num_links'));
             }
             else {
-                $limit = JFactory::getApplication()->getUserStateFromRequest('com_content.category.list.' . $itemid . '.limit', 'limit', $params->get('display_num'));
+                $limit = JFactory::getApplication()->getUserStateFromRequest('com_articles.category.list.' . $itemid . '.limit', 'limit', $params->get('display_num'));
             }
 
             $this->setState('list.limit', $limit);
@@ -204,8 +204,8 @@ class MolajoModelCategory extends JModel
             $db			= $this->getDbo();
             $params		= $this->state->params;
             $itemid		= JRequest::getInt('id', 0) . ':' . JRequest::getInt('Itemid', 0);
-            $orderCol	= JFactory::getApplication()->getUserStateFromRequest('com_content.category.list.' . $itemid . '.filter_order', 'filter_order', '', 'string');
-            $orderDirn	= JFactory::getApplication()->getUserStateFromRequest('com_content.category.list.' . $itemid . '.filter_order_Dir', 'filter_order_Dir', '', 'cmd');
+            $orderCol	= JFactory::getApplication()->getUserStateFromRequest('com_articles.category.list.' . $itemid . '.filter_order', 'filter_order', '', 'string');
+            $orderDirn	= JFactory::getApplication()->getUserStateFromRequest('com_articles.category.list.' . $itemid . '.filter_order_Dir', 'filter_order_Dir', '', 'cmd');
             $orderby	= ' ';
 
             if (!in_array($orderCol, $this->filter_fields)) {
@@ -266,7 +266,7 @@ class MolajoModelCategory extends JModel
                 if (is_object($this->_item)) {
                     $user	= JFactory::getUser();
                     $userId	= JFactory::getUser()->get('id');
-                    $asset	= 'com_content.category.'.$this->_item->id;
+                    $asset	= 'com_articles.category.'.$this->_item->id;
 
                     // Check general create permission.
                     if (JFactory::getUser()->authorise('core.create', $asset)) {

@@ -242,7 +242,7 @@ class modelContentItem
         $query = "CREATE TABLE IF NOT EXISTS ";
         $query .= $db->namequote(trim($sql_table_name));
         $query .= "  (
-          `component_option` varchar(100) NOT NULL DEFAULT '' COMMENT 'Option value, like com_content; links to Component ',
+          `component_option` varchar(100) NOT NULL DEFAULT '' COMMENT 'Option value, like com_articles; links to Component ',
           `content_id` int(10) unsigned NOT NULL DEFAULT '0' COMMENT 'FK to component table identified in Option.',
           `field_name` varchar(100) NOT NULL DEFAULT '' COMMENT 'Name of Custom Field defined within Content Type file.',
           `field_value` varchar(255) NOT NULL DEFAULT '' COMMENT 'Component, Content ID value for the Content Type Custom Field',

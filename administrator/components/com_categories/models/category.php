@@ -102,7 +102,7 @@ class CategoriesModelCategory extends JModelAdmin
 		$pk = (int) JRequest::getInt('id');
 		$this->setState($this->getName().'.id', $pk);
 
-		$extension = JRequest::getCmd('extension', 'com_content');
+		$extension = JRequest::getCmd('extension', 'com_articles');
 		$this->setState('category.extension', $extension);
 		$parts = explode('.',$extension);
 
@@ -815,27 +815,13 @@ class CategoriesModelCategory extends JModelAdmin
 	}
 
 	/**
-	 * Custom clean the cache of com_content and content modules
+	 * Custom clean the cache of com_articles and content modules
 	 *
 	 * @since	1.6
 	 */
 	protected function cleanCache()
 	{
 		$extension = JRequest::getCmd('extension');
-		switch ($extension)
-		{
-			case 'com_content':
-				parent::cleanCache('com_content');
-				parent::cleanCache('mod_articles_archive');
-				parent::cleanCache('mod_articles_categories');
-				parent::cleanCache('mod_articles_category');
-				parent::cleanCache('mod_articles_latest');
-				parent::cleanCache('mod_articles_news');
-				parent::cleanCache('mod_articles_popular');
-				break;
-			default:
-				parent::cleanCache($extension);
-				break;
-		}
+		parent::cleanCache($extension);
 	}
 }

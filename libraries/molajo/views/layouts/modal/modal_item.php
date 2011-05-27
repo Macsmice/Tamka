@@ -2,7 +2,7 @@
 /**
  * @version		$Id: modal.php 21020 2011-03-27 06:52:01Z infograf768 $
  * @package		Joomla.Administrator
- * @subpackage	com_content
+ * @subpackage	com_articles
  * @copyright	Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
@@ -37,7 +37,7 @@ $listDirn	= $this->escape($this->state->get('list.direction'));
 
 			<select name="filter_category_id" class="inputbox" onchange="this.form.submit()">
 				<option value=""><?php echo JText::_('JOPTION_SELECT_CATEGORY');?></option>
-				<?php echo JHtml::_('select.options', JHtml::_('category.options', 'com_content'), 'value', 'text', $this->state->get('filter.category_id'));?>
+				<?php echo JHtml::_('select.options', JHtml::_('category.options', 'com_articles'), 'value', 'text', $this->state->get('filter.category_id'));?>
 			</select>
 
 		</div>

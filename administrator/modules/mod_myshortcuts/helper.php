@@ -83,9 +83,9 @@ abstract class ModMyshortcutsHelper
                     'access' => array('core.manage','com_config')
                 ),
                 array(
-                    'link' => JRoute::_('index.php?option=com_content'),
+                    'link' => JRoute::_('index.php?option=com_articles'),
                     'text' => 'Content',
-                    'access' => array('core.manage','com_content')
+                    'access' => array('core.manage','com_articles')
                 )
             );
         }
@@ -113,14 +113,14 @@ abstract class ModMyshortcutsHelper
                     'access' => array('core.manage','com_config')
                 ),
                 array(
-                    'link' => JRoute::_('index.php?option=com_content'),
+                    'link' => JRoute::_('index.php?option=com_articles'),
                     'text' => JText::_('MOD_MYSHORTCUTS_ARTICLES'),
-                    'access' => array('core.manage','com_content')
+                    'access' => array('core.manage','com_articles')
                 ),
                 array(
-                    'link' => JRoute::_('index.php?option=com_content&task=article.add'),
+                    'link' => JRoute::_('index.php?option=com_articles&task=article.add'),
                     'text' => JText::_('MOD_MYSHORTCUTS_ADD_ARTICLE'),
-                    'access' => array('core.manage','com_content')
+                    'access' => array('core.manage','com_articles')
                 ),
                 array(
                     'link' => JRoute::_('index.php?option=com_media'),

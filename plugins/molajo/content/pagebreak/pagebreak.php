@@ -52,7 +52,7 @@ class plgContentPagebreak extends JPlugin
 	 */
 	public function onContentPrepare($context, &$row, &$params, $page = 0)
 	{  
-		$canProceed = $context == 'com_content.article';
+		$canProceed = $context == 'com_articles.article';
 
 		// Expression to search for.
 		$regex = '#<hr(.*)class="system-pagebreak"(.*)\/>#iU';

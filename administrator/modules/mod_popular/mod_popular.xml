@@ -36,7 +36,7 @@
 					id="catid"
 					name="catid"
 					type="category"
-					extension="com_content"
+					extension="com_articles"
 					label="JCATEGORY"
 					description="MOD_POPULAR_FIELD_CATEGORY_DESC"
 					default=""

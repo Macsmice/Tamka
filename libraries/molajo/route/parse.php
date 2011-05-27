@@ -24,7 +24,7 @@ defined('MOLAJO') or die;
 /**
  * MolajoParseRoute
  * @param  $segments
- * @param  $componentParam ex com_content
+ * @param  $componentParam ex com_articles
  * @param  $singleParam ex. thing
  * @param  $multipleParam ex. things
  * @param  $typeParam ex. Thing

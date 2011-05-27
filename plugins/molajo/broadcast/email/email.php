@@ -32,7 +32,7 @@ class plgContentJoomla extends JPlugin
 	public function onContentAfterSave($context, &$article, $isNew)
 	{
 		// Check we are handling the frontend edit form.
-		if ($context != 'com_content.form') {
+		if ($context != 'com_articles.form') {
 			return true;
 		}
 
@@ -65,7 +65,7 @@ class plgContentJoomla extends JPlugin
 				// Load language for messaging
 				$receiver = JUser::getInstance($user_id);
 				$lang = JLanguage::getInstance($receiver->getParam('admin_language', $default_language), $debug);
-				$lang->load('com_content');
+				$lang->load('com_articles');
 				$message = array(
 					'user_id_to'	=> $user_id,
 					'subject'		=> $lang->_('COM_CONTENT_NEW_ARTICLE'),
@@ -107,7 +107,7 @@ class plgContentJoomla extends JPlugin
 		$tableInfo = array (
 			'com_banners' => array('table_name' => '#__banners'),
 			'com_contact' => array('table_name' => '#__contact_details'),
-			'com_content' => array('table_name' => '#__content'),
+			'com_articles' => array('table_name' => '#__content'),
 			'com_newsfeeds' => array('table_name' => '#__newsfeeds'),
 			'com_weblinks' => array('table_name' => '#__weblinks')
 		);

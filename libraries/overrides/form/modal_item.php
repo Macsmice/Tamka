@@ -13,7 +13,7 @@ jimport('joomla.form.formfield');
  * Supports a modal article picker.
  *
  * @package		Joomla.Administrator
- * @subpackage	com_content
+ * @subpackage	com_articles
  * @since		1.6
  */
 class JFormFieldModal_Item extends JFormField

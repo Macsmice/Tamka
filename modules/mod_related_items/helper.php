@@ -10,7 +10,7 @@
 // no direct access
 defined('_JEXEC') or die;
 
-require_once JPATH_SITE.'/components/com_content/helpers/route.php';
+require_once JPATH_SITE.'/components/com_articles/helpers/route.php';
 
 abstract class modRelatedItemsHelper
 {
@@ -37,7 +37,7 @@ abstract class modRelatedItemsHelper
 		$related	= array();
 		$query		= $db->getQuery(true);
 
-		if ($option == 'com_content' && $view == 'article' && $id)
+		if ($option == 'com_articles' && $view == 'article' && $id)
 		{
 			// select the meta keywords from the item
 

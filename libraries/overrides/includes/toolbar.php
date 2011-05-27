@@ -483,7 +483,7 @@ abstract class JToolBarHelper
 	/**
 	 * Writes a configuration button and invokes a cancel operation (eg a checkin).
 	 *
-	 * @param	string	$component	The name of the component, eg, com_content.
+	 * @param	string	$component	The name of the component, eg, com_articles.
 	 * @param	int		$height		The height of the popup.
 	 * @param	int		$width		The width of the popup.
 	 * @param	string	$alt		The name of the button.

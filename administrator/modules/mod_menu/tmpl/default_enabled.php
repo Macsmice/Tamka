@@ -188,33 +188,33 @@ if ($user->authorise('core.manage', 'com_menus'))
 //
 // Content Submenu
 //
-if ($user->authorise('core.manage', 'com_content'))
+if ($user->authorise('core.manage', 'com_articles'))
 {
 	$menu->addChild(
 	new JMenuNode(JText::_('MOD_MENU_COM_CONTENT'), '#'), true
 	);
-	$createContent =  $shownew && $user->authorise('core.create', 'com_content');
+	$createContent =  $shownew && $user->authorise('core.create', 'com_articles');
 	$menu->addChild(
-	new JMenuNode(JText::_('MOD_MENU_COM_CONTENT_ARTICLE_MANAGER'), 'index.php?option=com_content', 'class:article'), $createContent
+	new JMenuNode(JText::_('MOD_MENU_COM_CONTENT_ARTICLE_MANAGER'), 'index.php?option=com_articles', 'class:article'), $createContent
 	);
 	if ($createContent) {
 		$menu->addChild(
-		new JMenuNode(JText::_('MOD_MENU_COM_CONTENT_NEW_ARTICLE'), 'index.php?option=com_content&task=article.add', 'class:newarticle')
+		new JMenuNode(JText::_('MOD_MENU_COM_CONTENT_NEW_ARTICLE'), 'index.php?option=com_articles&task=article.add', 'class:newarticle')
 		);
 		$menu->getParent();
 	}
 
 	$menu->addChild(
-	new JMenuNode(JText::_('MOD_MENU_COM_CONTENT_CATEGORY_MANAGER'), 'index.php?option=com_categories&extension=com_content', 'class:category'), $createContent
+	new JMenuNode(JText::_('MOD_MENU_COM_CONTENT_CATEGORY_MANAGER'), 'index.php?option=com_categories&extension=com_articles', 'class:category'), $createContent
 	);
 	if ($createContent) {
 		$menu->addChild(
-		new JMenuNode(JText::_('MOD_MENU_COM_CONTENT_NEW_CATEGORY'), 'index.php?option=com_categories&task=category.add&extension=com_content', 'class:newarticle')
+		new JMenuNode(JText::_('MOD_MENU_COM_CONTENT_NEW_CATEGORY'), 'index.php?option=com_categories&task=category.add&extension=com_articles', 'class:newarticle')
 		);
 		$menu->getParent();
 	}
 	$menu->addChild(
-	new JMenuNode(JText::_('MOD_MENU_COM_CONTENT_FEATURED'), 'index.php?option=com_content&view=featured', 'class:featured')
+	new JMenuNode(JText::_('MOD_MENU_COM_CONTENT_FEATURED'), 'index.php?option=com_articles&view=featured', 'class:featured')
 	);
 	$menu->addSeparator();
 	if ($user->authorise('core.manage', 'com_media')) {

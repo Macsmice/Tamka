@@ -39,7 +39,7 @@ class JElementCategory extends JElement
 			// Alias for extension
 			$extension = $node->attributes('scope');
 			if (!isset ($extension)) {
-				$extension = 'com_content';
+				$extension = 'com_articles';
 			}
 		}
 

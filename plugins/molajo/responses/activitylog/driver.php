@@ -25,7 +25,7 @@ class ResponsesActivityLog extends JPlugin
 		}
 		
 		$option = JRequest::getVar('option');
-		if($option == "com_content") {
+		if($option == "com_articles") {
 		} else {
 			return;
 		}		

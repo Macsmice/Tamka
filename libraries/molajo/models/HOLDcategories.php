@@ -14,7 +14,7 @@ jimport('joomla.application.component.model');
  * This models supports retrieving lists of article categories.
  *
  * @package		Joomla.Site
- * @subpackage	com_content
+ * @subpackage	com_articles
  * @since		1.6
  */
 class MolajoModelCategories extends JModel
@@ -24,14 +24,14 @@ class MolajoModelCategories extends JModel
 	 *
 	 * @var		string
 	 */
-	public $_context = 'com_content.categories';
+	public $_context = 'com_articles.categories';
 
 	/**
 	 * The category context (allows other extensions to derived from this model).
 	 *
 	 * @var		string
 	 */
-	protected $_extension = 'com_content';
+	protected $_extension = 'com_articles';
 
 	private $_parent = null;
 

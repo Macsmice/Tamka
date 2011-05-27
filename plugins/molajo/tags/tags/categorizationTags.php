@@ -69,7 +69,7 @@ class plgMolajoCategorizationTags extends JPlugin
 		$config	= &JFactory::getConfig();
 
 		$query	= 'SELECT tag, alias FROM ' . $db->nameQuote('#__tamka_tags') .
-			' WHERE ' . $db->nameQuote('component') . ' = "com_content" ' .
+			' WHERE ' . $db->nameQuote('component') . ' = "com_articles" ' .
 			'   AND ' . $db->nameQuote('component_item_id') . ' = ' . $article->id .
 			'   ORDER BY ' . $db->nameQuote('tag') ;
 
@@ -102,7 +102,7 @@ class plgMolajoCategorizationTags extends JPlugin
 	 * 	Delete Existing Tags
 	 */
 		$query	= 'DELETE FROM ' . $db->nameQuote('#__tamka_tags') .
-			' WHERE ' . $db->nameQuote('component') . ' = "com_content" ' .
+			' WHERE ' . $db->nameQuote('component') . ' = "com_articles" ' .
 			'   AND ' . $db->nameQuote('component_item_id') . ' = ' . $article->id;
 
             $db->setQuery($query);
@@ -127,7 +127,7 @@ class plgMolajoCategorizationTags extends JPlugin
 
 				$query	= 'INSERT INTO #__tamka_tags										' .
 					' (component, component_item_id, tag, alias, tag_type )				' .
-					' SELECT "com_content", ' . $article->id . ', "' . $tag . '", "' . $tagAlias . '", "post"';
+					' SELECT "com_articles", ' . $article->id . ', "' . $tag . '", "' . $tagAlias . '", "post"';
 
 	            $db->setQuery($query);
 	            if (!$db->query()) {

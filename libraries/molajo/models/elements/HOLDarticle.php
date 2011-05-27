@@ -36,7 +36,7 @@ class MolajoElementArticle extends JElement
 		}";
 		JFactory::getDocument()->addScriptDeclaration($js);
 
-		$link = 'index.php?option=com_content&amp;task=element&amp;tmpl=component&amp;function=jSelectItem_'.$name;
+		$link = 'index.php?option=com_articles&amp;task=element&amp;tmpl=component&amp;function=jSelectItem_'.$name;
 
 		JHtml::_('behavior.modal', 'a.modal');
 		$html = "\n".'<div class="fltlft"><input type="text" id="'.$name.'_name" value="'.htmlspecialchars($article->title, ENT_QUOTES, 'UTF-8').'" disabled="disabled" /></div>';

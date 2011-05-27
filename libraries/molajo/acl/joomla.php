@@ -73,8 +73,8 @@ class JoomlaACL extends ACL
      *  checkCheckInAuthorisation - Can User check-in Content for the Component
      *  checkManageAuthorisation - Can User access the Component from within the Administrator
      *
-     *  @param string $option_value_literal ex. core.admin or core.manage.com_content
-     *  @param string $option ex. com_content
+     *  @param string $option_value_literal ex. core.admin or core.manage.com_articles
+     *  @param string $option ex. com_articles
      *
      *  @return boolean
      */
@@ -124,7 +124,7 @@ class JoomlaACL extends ACL
      *
      *  getDisplayAuthorisation - Can User view specific content for the Component
      *
-     *  @param string $option - ex. com_content
+     *  @param string $option - ex. com_articles
      *  @param string $entity - name of item, ex. 'article'
      *  @param string $task - ex save
      *  @param int $id - primary key of item
@@ -171,7 +171,7 @@ class JoomlaACL extends ACL
      *  Access to Content Item and Primary Key, Category, Component and Global
      *  Matching TaskOwn methods checked before advancing to the next level
      *
-     *  @param string $option - ex. com_content
+     *  @param string $option - ex. com_articles
      *  @param string $entity - name of item, ex. 'article'
      *  @param string $task - ex save
      *  @param int $id - primary key of item
@@ -382,8 +382,8 @@ class JoomlaACL extends ACL
          *
          * Find a better way to restrict published information that only restricts what is needed
 
-        if (JFactory::getUser()->authorise('core.edit.state', 'com_content')
-            || JFactory::getUser()->authorise('core.edit', 'com_content')) {
+        if (JFactory::getUser()->authorise('core.edit.state', 'com_articles')
+            || JFactory::getUser()->authorise('core.edit', 'com_articles')) {
         } else {
             $query->where('a.state in ('.MOLAJO_STATE_ARCHIVED.','.MOLAJO_STATE_PUBLISHED.')');
 
@@ -488,7 +488,7 @@ class JoomlaACL extends ACL
      *
      *  Disables form fields that required editstate for those without such authorisation
      *
-     *  @param string $option 'com_content', etc.
+     *  @param string $option 'com_articles', etc.
      *  @param string $entity 'article', or 'comment', etc.
      *  @param string $task 'add', 'delete', 'publish'
      *  @param integer $id - primary key for content

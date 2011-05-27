@@ -17,7 +17,7 @@ class ACL
     *
     *  authoriseTask determines the implemented ACL class and runs appropriate checkTASKAuthorisation method(s)
     *
-    *  @param      string      $option - component ex. com_content
+    *  @param      string      $option - component ex. com_articles
     *  @param      string      $entity - singular form of component subject ex. article, comment
     *  @param      string      $task - all tasks handled in the code must be defined by member ex. display, add, delete
     *  @param      int         $id - primary key of the item or the value 0
@@ -50,7 +50,7 @@ class ACL
      *
      * Note: No ACL Implementation needed as this uses the existing Task/ACL Permission processes
      *
-     * @param string $option 'com_content', etc.
+     * @param string $option 'com_articles', etc.
      * @param string $entity 'article', or 'comment', etc.
      * @param string $task 'add', 'delete', 'publish'
      * @param integer $id - primary key for content
@@ -79,7 +79,7 @@ class ACL
      *
      * Note: No ACL Implementation needed as this uses the existing Task/ACL Permission processes
      *
-     * @param string $option 'com_content', etc.
+     * @param string $option 'com_articles', etc.
      * @param string $entity 'article', or 'comment', etc.
      * @param string $task 'add', 'delete', 'publish'
      *
@@ -203,7 +203,7 @@ class ACL
     *
     *  Evaluates set of form fields for current users's authorisation to hide or disable fields from update, if needed
     *
-    *  @param string $option 'com_content', etc.
+    *  @param string $option 'com_articles', etc.
     *  @param string $entity 'article', or 'comment', etc.
     *  @param string $task 'add', 'delete', 'publish'
     *  @param integer $id - primary key for content

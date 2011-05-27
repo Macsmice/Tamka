@@ -67,22 +67,22 @@ abstract class modQuickIconHelper
 		if (empty(self::$buttons)) {
 			self::$buttons = array(
 				array(
-					'link' => JRoute::_('index.php?option=com_content&task=article.add'),
+					'link' => JRoute::_('index.php?option=com_articles&task=article.add'),
 					'image' => 'header/icon-48-article-add.png',
 					'text' => JText::_('MOD_QUICKICON_ADD_NEW_ARTICLE'),
-					'access' => array('core.manage', 'com_content', 'core.create', 'com_content', )
+					'access' => array('core.manage', 'com_articles', 'core.create', 'com_articles', )
 				),
 				array(
-					'link' => JRoute::_('index.php?option=com_content'),
+					'link' => JRoute::_('index.php?option=com_articles'),
 					'image' => 'header/icon-48-article.png',
 					'text' => JText::_('MOD_QUICKICON_ARTICLE_MANAGER'),
-					'access' => array('core.manage', 'com_content')
+					'access' => array('core.manage', 'com_articles')
 				),
 				array(
-					'link' => JRoute::_('index.php?option=com_categories&extension=com_content'),
+					'link' => JRoute::_('index.php?option=com_categories&extension=com_articles'),
 					'image' => 'header/icon-48-category.png',
 					'text' => JText::_('MOD_QUICKICON_CATEGORY_MANAGER'),
-					'access' => array('core.manage', 'com_content')
+					'access' => array('core.manage', 'com_articles')
 				),
 				array(
 					'link' => JRoute::_('index.php?option=com_media'),

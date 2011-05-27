@@ -63,7 +63,7 @@ class JFormFieldCategory extends JFormFieldList
                         $user = JFactory::getUser();
 
                         // TODO: Add a preload method to JAccess so that we can get all the asset rules in one query and cache them.
-                        // eg JAccess::preload('core.create', 'com_content.category')
+                        // eg JAccess::preload('core.create', 'com_articles.category')
                         foreach($options as $i => $option) {
                                 // Unset the option if the user isn't authorised for it.
                                 if (!$user->authorise($action, $extension.'.category.'.$option->value)) {

@@ -29,8 +29,8 @@ class ResponsesSocialBookmarks extends JPlugin
 		}
 		$document =& JFactory::getDocument();
 
-		$option = JRequest::getVar('option','com_content');
-		if ($option !== 'com_content') {
+		$option = JRequest::getVar('option','com_articles');
+		if ($option !== 'com_articles') {
 				return;
 		}
 

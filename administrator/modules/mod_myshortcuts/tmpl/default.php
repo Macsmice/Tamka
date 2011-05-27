@@ -35,7 +35,7 @@ $lang->load('mod_menu', JPATH_ADMINISTRATOR, null, true);
 	</li>
 	<?php endif; ?>
 	<?php 
-		if( $currentUser->authorize( array('core.manage','com_content') )
+		if( $currentUser->authorize( array('core.manage','com_articles') )
 			|| $currentUser->authorize( array('core.manage','com_categories') ) 
 			|| $currentUser->authorize( array('core.manage','com_media') )
 		) : 
@@ -43,26 +43,26 @@ $lang->load('mod_menu', JPATH_ADMINISTRATOR, null, true);
 	<li class="parent">
 		<a href="#"><?php echo JText::_('MOD_MENU_COM_CONTENT');?></a>
 		<nav class="sub">			
-			<?php if( $currentUser->authorize( array('core.manage','com_content') ) ): ?>
+			<?php if( $currentUser->authorize( array('core.manage','com_articles') ) ): ?>
 			<ul>				
 				<li>
-					<a class="section" href="<?php echo JRoute::_('index.php?option=com_content#content-box'); ?>"><?php echo JText::_('MOD_MYSHORTCUTS_ARTICLES'); ?></a>
+					<a class="section" href="<?php echo JRoute::_('index.php?option=com_articles#content-box'); ?>"><?php echo JText::_('MOD_MYSHORTCUTS_ARTICLES'); ?></a>
 				</li>			
 				<li>
-					<a href="<?php echo JRoute::_('index.php?option=com_content&task=article.add'); ?>"><?php echo JText::_('MOD_MENU_COM_CONTENT_NEW_ARTICLE'); ?></a>
+					<a href="<?php echo JRoute::_('index.php?option=com_articles&task=article.add'); ?>"><?php echo JText::_('MOD_MENU_COM_CONTENT_NEW_ARTICLE'); ?></a>
 				</li>
 				<li>
-					<a href="<?php echo JRoute::_('index.php?option=com_content&view=featured#content-box'); ?>"><?php echo JText::_('MOD_MENU_COM_CONTENT_FEATURED'); ?></a>
+					<a href="<?php echo JRoute::_('index.php?option=com_articles&view=featured#content-box'); ?>"><?php echo JText::_('MOD_MENU_COM_CONTENT_FEATURED'); ?></a>
 				</li>
 			</ul>
 			<?php endif; ?>
 			<?php if( $currentUser->authorize( array('core.manage','com_categories') ) ): ?>
 			<ul>
 				<li>
-					<a class="section" href="<?php echo JRoute::_('index.php?option=com_categories&view=categories&extension=com_content#content-box'); ?>"><?php echo JText::_('MOD_MYSHORTCUTS_CATEGORIES'); ?></a>
+					<a class="section" href="<?php echo JRoute::_('index.php?option=com_categories&view=categories&extension=com_articles#content-box'); ?>"><?php echo JText::_('MOD_MYSHORTCUTS_CATEGORIES'); ?></a>
 				</li>
 				<li>
-					<a href="<?php echo JRoute::_('index.php?option=com_categories&view=category&layout=edit&extension=com_content'); ?>"><?php echo JText::_('MOD_MENU_COM_CONTENT_NEW_CATEGORY'); ?></a>
+					<a href="<?php echo JRoute::_('index.php?option=com_categories&view=category&layout=edit&extension=com_articles'); ?>"><?php echo JText::_('MOD_MENU_COM_CONTENT_NEW_CATEGORY'); ?></a>
 				</li>
 			</ul>
 			<?php endif; ?>

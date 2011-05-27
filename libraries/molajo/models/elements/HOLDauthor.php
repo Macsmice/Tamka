@@ -30,7 +30,7 @@ class MolajoElementAuthor extends JElement
 		$access	= JFactory::getACL();
 
 		// Include user in groups that have access to edit their articles, other articles, or manage content.
-		$action = array('com_content.article.edit_own', 'com_content.article.edit_article', 'com_content.manage');
+		$action = array('com_articles.article.edit_own', 'com_articles.article.edit_article', 'com_articles.manage');
 		$groups	= $access->getAuthorisedUsergroups($action, true);
 
 		// Check the results of the access check.

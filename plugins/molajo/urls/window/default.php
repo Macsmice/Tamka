@@ -35,7 +35,7 @@ class plgSystemTamka_Router extends JPlugin	{
 		}
 	}
 /**
- * Build URL for com_content given SEF URL options
+ * Build URL for com_articles given SEF URL options
  */
 	function TamkaBuildRoute(&$router, &$uri)	{
 
@@ -48,7 +48,7 @@ class plgSystemTamka_Router extends JPlugin	{
 			$option = $query['option'];			
 		}
 		
-		if($option == 'com_content') {
+		if($option == 'com_articles') {
 			$option = $query['option'];
 			$component	= preg_replace('/[^A-Z0-9_\.-]/i', '', $option);
 			if (file_exists(JPATH_BASE . DS . 'plugins' . DS . 'system' . DS . 'tamka_router' . DS . $component . 'router.php')) {
@@ -121,7 +121,7 @@ class plgSystemTamka_Router extends JPlugin	{
 		}
 		$option = JRequest::getVar('option', '');
 		if ($option !== "") {
-			if ($option !== "com_content") {
+			if ($option !== "com_articles") {
 				return $vars;
 			}
 		}
@@ -177,7 +177,7 @@ class plgSystemTamka_Router extends JPlugin	{
 
 		if(isset($query['option'])) {
 			$option = $query['option'];
-			if ( $option == 'com_content') {
+			if ( $option == 'com_articles') {
 			} else {
 				return $vars;		
 			}			
@@ -261,7 +261,7 @@ class plgSystemTamka_Router extends JPlugin	{
 	 /**
 	 * 	6.	Parameterized URLs
 	 * 		a.  If it's an Article request, build a good SEF URL and 301 redirect 
-	 * 			index.php?option=com_content&view=article&id=5:joomla-license-guidelines&catid=25:the-project&Itemid=2
+	 * 			index.php?option=com_articles&view=article&id=5:joomla-license-guidelines&catid=25:the-project&Itemid=2
 	 * 		b.	If there is a Menu Item match, build a good SEF URL and 301 redirect
 	 * 		c.  If there is a 301 table entry, build a good SEF URL and redirect
 	 * 		d.  Or, 404
@@ -270,7 +270,7 @@ class plgSystemTamka_Router extends JPlugin	{
 
 			if(isset($query['option'])) {
 				//	Article
-				if ($query['option'] == 'com_content') {
+				if ($query['option'] == 'com_articles') {
 					$id = $query['id'];
 					if (stripos($id, ':')) {
 						$id = substr($id, 0, stripos($id, ':'));
