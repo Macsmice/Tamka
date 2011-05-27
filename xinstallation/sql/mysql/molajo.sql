@@ -330,7 +330,7 @@ CREATE TABLE IF NOT EXISTS `#__assets` (
 
 INSERT INTO `#__assets` (`id`, `parent_id`, `lft`, `rgt`, `level`, `name`, `title`, `rules`)
 VALUES
-(1,0,1,43, 0, 'root.1', 'Root Asset', '{"core.login.site":{"6":1,"2":1},"core.login.admin":{"6":1},"core.admin":{"8":1},"core.manage":{"7":1},"core.create":{"6":1,"3":1},"core.delete":{"6":1},"core.edit":{"6":1,"4":1},"core.edit.state":{"6":1,"5":1},"core.edit.own":{"6":1,"3":1}}'),
+(1,0,1,43, 0, 'root.1', 'Root Asset', '{"core.login.site":{"4":1,"3":1},"core.login.admin":{"4":1},"core.admin":{"4":1},"core.manage":{"4":1},"core.create":{"4":1,"3":1},"core.delete":{"4":1},"core.edit":{"4":1},"core.edit.state":{"4":1},"core.edit.own":{"4":1,"3":1}}'),
 (2,1,2,3,1,'com_admin','com_admin','{}'),
 (3,1,4,9,1,'com_articles', 'com_article', '{"core.admin":{"4":1},"core.create":{"3":1},"core.manage":{"3":1},"core.view":{"1":1},"core.delete":[],"core.edit":[],"core.edit.state":[],"core.edit.own":{"3":1}}'),
 (4,3,5,8,2,'com_articles.category.2', 'Uncategorised', '{"core.view":[],"core.create":[],"core.delete":[],"core.edit":[],"core.edit.state":[],"core.edit.own":[]}'),

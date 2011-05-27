@@ -277,6 +277,7 @@ class JUser extends JObject
 	{
 		// Make sure we only check for core.admin once during the run.
 		if ($this->isRoot === null) {
+
 			$this->isRoot = false;
 
 			// Check for the configuration file failsafe.
@@ -291,8 +292,11 @@ class JUser extends JObject
 				$this->isRoot = true;
 			}
 			else {
+
 				// Get all groups against which the user is mapped.
 				$identities = $this->getAuthorisedGroups();
+                var_dump($identities);
+                die();
 				array_unshift($identities, $this->id * -1);
 
 				if (JAccess::getAssetRules(1)->allow('core.admin', $identities)) {
@@ -301,7 +305,8 @@ class JUser extends JObject
 				}
 			}
 		}
-
+echo $this->isRoot ;
+        die();
 		return $this->isRoot ? true : JAccess::check($this->id, $action, $assetname);
 	}
 
