@@ -9,10 +9,10 @@
 #
 
 #
-# Table structure for table `#__assets`
+# Table structure for table `jos_assets`
 #
 
-CREATE TABLE IF NOT EXISTS `#__assets` (
+CREATE TABLE IF NOT EXISTS `jos_assets` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT 'Primary Key',
   `parent_id` int(11) NOT NULL DEFAULT '0' COMMENT 'Nested set parent.',
   `lft` int(11) NOT NULL DEFAULT '0' COMMENT 'Nested set lft.',
@@ -28,11 +28,11 @@ CREATE TABLE IF NOT EXISTS `#__assets` (
 ) DEFAULT CHARSET=utf8;
 
 
-INSERT INTO `#__assets` (`id`, `parent_id`, `lft`, `rgt`, `level`, `name`, `title`, `rules`)
+INSERT INTO `jos_assets` (`id`, `parent_id`, `lft`, `rgt`, `level`, `name`, `title`, `rules`)
 VALUES
 (1,0,1,43, 0, 'root.1', 'Root Asset', '{"core.login.site":{"6":1,"2":1},"core.login.admin":{"6":1},"core.admin":{"8":1},"core.manage":{"7":1},"core.create":{"6":1,"3":1},"core.delete":{"6":1},"core.edit":{"6":1,"4":1},"core.edit.state":{"6":1,"5":1},"core.edit.own":{"6":1,"3":1}}'),
 (2,1,2,3,1,'com_admin','com_admin','{}'),
-(3,1,4,9,1,'com_articles', 'com_article', '{"core.admin":{"4":1},"core.create":{"3":1},"core.manage":{"3":1},"core.view":{"1":1},"core.delete":[],"core.edit":[],"core.edit.state":[],"core.edit.own":{"3":1}}');
+(3,1,4,9,1,'com_articles', 'com_article', '{"core.admin":{"4":1},"core.create":{"3":1},"core.manage":{"3":1},"core.view":{"1":1},"core.delete":[],"core.edit":[],"core.edit.state":[],"core.edit.own":{"3":1}}'),
 (4,3,5,8,2,'com_articles.category.2', 'Uncategorised', '{"core.view":[],"core.create":[],"core.delete":[],"core.edit":[],"core.edit.state":[],"core.edit.own":[]}'),
 (5,4,6,7,3,'com_articles.article.1', 'My First Article', '{"core.view":[],"core.create":[],"core.delete":[],"core.edit":[],"core.edit.state":[],"core.edit.own":[]}');
 (6,1,7,8,1,'com_cache','com_cache','{}'),
@@ -55,17 +55,17 @@ VALUES
 (23,1,41,42,1,'com_users','com_users','{}');
 
 #
-# Table structure for table `#__articles`
+# Table structure for table `jos_articles`
 #
 
-CREATE TABLE IF NOT EXISTS `#__articles` (
+CREATE TABLE IF NOT EXISTS `jos_articles` (
   `id` INT (11) UNSIGNED NOT NULL AUTO_INCREMENT COMMENT 'Primary Key',
   `catid` INT (11) NOT NULL COMMENT 'Category ID associated with the Primary Key',
 
   `title` VARCHAR (255) NOT NULL COMMENT 'Title',
   `alias` VARCHAR (255) NOT NULL COMMENT 'URL Alias',
 
-  `content_type` tinyint(3) NOT NULL DEFAULT '0' COMMENT 'Content Type: Links to #__molajo_configuration.option_id = 10 and component_option values matching ',
+  `content_type` tinyint(3) NOT NULL DEFAULT '0' COMMENT 'Content Type: Links to jos_molajo_configuration.option_id = 10 and component_option values matching ',
 
   `content_text` MEDIUMTEXT NULL COMMENT 'Content Primary Text Field, can include break to designate Introductory and Full text',
   `content_link` VARCHAR (2083) NULL COMMENT 'Content Link for Weblink or Newsfeed Field',
@@ -101,7 +101,7 @@ CREATE TABLE IF NOT EXISTS `#__articles` (
   `checked_out` INTEGER UNSIGNED NOT NULL DEFAULT '0' COMMENT 'Checked out by User Id',
   `checked_out_time` DATETIME NOT NULL DEFAULT '0000-00-00 00:00:00' COMMENT 'Checked out Date and Time',
 
-  `asset_id` INTEGER UNSIGNED NOT NULL DEFAULT 0 COMMENT 'FK to the #__assets table.',
+  `asset_id` INTEGER UNSIGNED NOT NULL DEFAULT 0 COMMENT 'FK to the jos_assets table.',
   `access` INTEGER UNSIGNED NOT NULL DEFAULT 0 COMMENT 'View Level Access',
 
   `component_option` VARCHAR(50) NOT NULL COMMENT 'Component Option Value',
@@ -136,41 +136,41 @@ CREATE TABLE IF NOT EXISTS `#__articles` (
 /* FIELDS */
 
 /* 010 MOLAJO_CONFIG_OPTION_ID_CONTENT_TYPES */
-INSERT INTO `#__molajo_configuration` (`component_option`, `option_id`, `option_value`, `option_value_literal`, `ordering`) VALUES
+INSERT INTO `jos_molajo_configuration` (`component_option`, `option_id`, `option_value`, `option_value_literal`, `ordering`) VALUES
 ('com_articles', 10, '', '', 0),
 ('com_articles', 10, 'articles', 'Articles', 1);
 
 /* VIEWS */
 
 /* 020 MOLAJO_CONFIG_OPTION_ID_VIEW_PAIRS */
-INSERT INTO `#__molajo_configuration` (`component_option`, `option_id`, `option_value`, `option_value_literal`, `ordering`) VALUES
+INSERT INTO `jos_molajo_configuration` (`component_option`, `option_id`, `option_value`, `option_value_literal`, `ordering`) VALUES
 ('com_articles', 20, '', '', 0),
 ('com_articles', 20, 'article', 'articles', 1);
 
 /* TABLE */
 
 /* 045 MOLAJO_CONFIG_OPTION_ID_TABLE */;
-INSERT INTO `#__molajo_configuration` (`component_option`, `option_id`, `option_value`, `option_value_literal`, `ordering`) VALUES
+INSERT INTO `jos_molajo_configuration` (`component_option`, `option_id`, `option_value`, `option_value_literal`, `ordering`) VALUES
 ('com_articles', 45, '', '', 0),
 ('com_articles', 45, '__articles', '__articles', 1);
 
 /* 050 MOLAJO_CONFIG_OPTION_ID_EDIT_LAYOUTS */;
-INSERT INTO `#__molajo_configuration` (`component_option`, `option_id`, `option_value`, `option_value_literal`, `ordering`) VALUES
+INSERT INTO `jos_molajo_configuration` (`component_option`, `option_id`, `option_value`, `option_value_literal`, `ordering`) VALUES
 ('com_articles', 50, '', '', 0),
 ('com_articles', 50, 'article', 'article', 1);
 
 /* 060 MOLAJO_CONFIG_OPTION_ID_DEFAULT_LAYOUT */;
-INSERT INTO `#__molajo_configuration` (`component_option`, `option_id`, `option_value`, `option_value_literal`, `ordering`) VALUES
+INSERT INTO `jos_molajo_configuration` (`component_option`, `option_id`, `option_value`, `option_value_literal`, `ordering`) VALUES
 ('com_articles', 60, '', '', 0),
 ('com_articles', 60, 'articles', 'articles', 1);
 
 #
-# Table structure for table `#__categories`
+# Table structure for table `jos_categories`
 #
 
-CREATE TABLE `#__categories` (
+CREATE TABLE `jos_categories` (
   `id` int(11) NOT NULL auto_increment,
-  `asset_id` INTEGER UNSIGNED NOT NULL DEFAULT 0 COMMENT 'FK to the #__assets table.',
+  `asset_id` INTEGER UNSIGNED NOT NULL DEFAULT 0 COMMENT 'FK to the jos_assets table.',
   `parent_id` int(10) unsigned NOT NULL default '0',
   `lft` int(11) NOT NULL default '0',
   `rgt` int(11) NOT NULL default '0',
@@ -205,7 +205,7 @@ CREATE TABLE `#__categories` (
   INDEX `idx_language` (`language`)
 )  DEFAULT CHARSET=utf8;
 
-INSERT INTO `#__categories` VALUES
+INSERT INTO `jos_categories` VALUES
 (1, 1, 0, 0, 5, 0, '', 'system', 'ROOT', 'root', '', '', 1, 0, '0000-00-00 00:00:00', 1, '{}', '', '', '', 0, '2009-10-18 16:07:09', 0, '0000-00-00 00:00:00', 0, '*'),
 (2, 3, 1, 1, 2, 1, 'uncategorised', 'com_articles', 'Uncategorised', 'uncategorised', '', '', 1, 0, '0000-00-00 00:00:00', 1, '{"target":"","image":""}', '', '', '{"page_title":"","author":"","robots":""}', 42, '2010-06-28 13:26:37', 0, '0000-00-00 00:00:00', 0, '*'),
 (3, 13, 1, 3, 4, 1, 'uncategorised', 'com_media', 'Uncategorised', 'uncategorised', '', '', 1, 0, '0000-00-00 00:00:00', 1, '{"target":"","image":""}', '', '', '{"page_title":"","author":"","robots":""}', 42, '2010-06-28 13:28:33', 0, '0000-00-00 00:00:00', 0, '*');
@@ -213,10 +213,10 @@ INSERT INTO `#__categories` VALUES
 # -------------------------------------------------------
 
 #
-# Table structure for table `#__extensions`
+# Table structure for table `jos_extensions`
 #
 
-CREATE TABLE `#__extensions` (
+CREATE TABLE `jos_extensions` (
   `extension_id` INT  NOT NULL AUTO_INCREMENT,
   `name` VARCHAR(100)  NOT NULL,
   `type` VARCHAR(20)  NOT NULL,
@@ -240,7 +240,7 @@ CREATE TABLE `#__extensions` (
   INDEX `extension`(`type`,`element`,`folder`,`client_id`)
 ) AUTO_INCREMENT=10000 CHARACTER SET utf8;
 
-INSERT INTO `#__extensions` (`extension_id`, `name`, `type`, `element`, `folder`, `client_id`, `enabled`, `access`, `protected`, `manifest_cache`, `params`, `custom_data`, `system_data`, `checked_out`, `checked_out_time`, `ordering`, `state`) VALUES
+INSERT INTO `jos_extensions` (`extension_id`, `name`, `type`, `element`, `folder`, `client_id`, `enabled`, `access`, `protected`, `manifest_cache`, `params`, `custom_data`, `system_data`, `checked_out`, `checked_out_time`, `ordering`, `state`) VALUES
 (1, 'com_admin', 'component', 'com_admin', '', 1, 1, 1, 1, '', '', '', '', 0, '0000-00-00 00:00:00', 0, 1),
 (2, 'com_articles', 'component', 'com_articles', '', 1, 1, 1, 1, '', '', '', '', 0, '0000-00-00 00:00:00', 0, 2),
 (3, 'com_cache', 'component', 'com_cache', '', 1, 1, 1, 1, '', '', '', '', 0, '0000-00-00 00:00:00', 0, 3),
@@ -262,7 +262,7 @@ INSERT INTO `#__extensions` (`extension_id`, `name`, `type`, `element`, `folder`
 (19, 'com_users', 'component', 'com_users', '', 1, 1, 0, 1, '', '{"allowUserRegistration":"1","new_usertype":"2","useractivation":"1","frontend_userparams":"1","mailSubjectPrefix":"","mailBodySuffix":""}', '', '', 0, '0000-00-00 00:00:00', 0, 19);
 
 # Libraries
-INSERT INTO `#__extensions` (`extension_id`, `name`, `type`, `element`, `folder`, `client_id`, `enabled`, `access`, `protected`, `manifest_cache`, `params`, `custom_data`, `system_data`, `checked_out`, `checked_out_time`, `ordering`, `state`) VALUES
+INSERT INTO `jos_extensions` (`extension_id`, `name`, `type`, `element`, `folder`, `client_id`, `enabled`, `access`, `protected`, `manifest_cache`, `params`, `custom_data`, `system_data`, `checked_out`, `checked_out_time`, `ordering`, `state`) VALUES
 (100, 'PHPMailer', 'library', 'phpmailer', '', 0, 1, 1, 1, '', '', '', '', 0, '0000-00-00 00:00:00', 0, 0),
 (101, 'SimplePie', 'library', 'simplepie', '', 0, 1, 1, 1, '', '', '', '', 0, '0000-00-00 00:00:00', 0, 0),
 (102, 'phputf8', 'library', 'phputf8', '', 0, 1, 1, 1, '', '', '', '', 0, '0000-00-00 00:00:00', 0, 0),
@@ -271,7 +271,7 @@ INSERT INTO `#__extensions` (`extension_id`, `name`, `type`, `element`, `folder`
 # Modules
 
 ## Site
-INSERT INTO `#__extensions` (`extension_id`, `name`, `type`, `element`, `folder`, `client_id`, `enabled`, `access`, `protected`, `manifest_cache`, `params`, `custom_data`, `system_data`, `checked_out`, `checked_out_time`, `ordering`, `state`) VALUES
+INSERT INTO `jos_extensions` (`extension_id`, `name`, `type`, `element`, `folder`, `client_id`, `enabled`, `access`, `protected`, `manifest_cache`, `params`, `custom_data`, `system_data`, `checked_out`, `checked_out_time`, `ordering`, `state`) VALUES
 (200, 'mod_articles', 'module', 'mod_articles', '', 0, 1, 1, 1, '', '', '', '', 0, '0000-00-00 00:00:00', 0, 0),
 (201, 'mod_breadcrumbs', 'module', 'mod_breadcrumbs', '', 0, 1, 1, 1, '', '', '', '', 0, '0000-00-00 00:00:00', 0, 0),
 (202, 'mod_custom', 'module', 'mod_custom', '', 0, 1, 1, 1, '', '', '', '', 0, '0000-00-00 00:00:00', 0, 0),
@@ -288,7 +288,7 @@ INSERT INTO `#__extensions` (`extension_id`, `name`, `type`, `element`, `folder`
 (213, 'mod_whosonline', 'module', 'mod_whosonline', '', 0, 1, 1, 0, '', '', '', '', 0, '0000-00-00 00:00:00', 0, 0);
 
 ## Administrator
-INSERT INTO `#__extensions` (`extension_id`, `name`, `type`, `element`, `folder`, `client_id`, `enabled`, `access`, `protected`, `manifest_cache`, `params`, `custom_data`, `system_data`, `checked_out`, `checked_out_time`, `ordering`, `state`) VALUES
+INSERT INTO `jos_extensions` (`extension_id`, `name`, `type`, `element`, `folder`, `client_id`, `enabled`, `access`, `protected`, `manifest_cache`, `params`, `custom_data`, `system_data`, `checked_out`, `checked_out_time`, `ordering`, `state`) VALUES
 (300, 'mod_custom', 'module', 'mod_custom', '', 1, 1, 1, 1, '', '', '', '', 0, '0000-00-00 00:00:00', 0, 0),
 (301, 'mod_feed', 'module', 'mod_feed', '', 1, 1, 1, 0, '', '', '', '', 0, '0000-00-00 00:00:00', 0, 0),
 (302, 'mod_latest', 'module', 'mod_latest', '', 1, 1, 1, 0, '', '', '', '', 0, '0000-00-00 00:00:00', 0, 0),
@@ -307,7 +307,7 @@ INSERT INTO `#__extensions` (`extension_id`, `name`, `type`, `element`, `folder`
 (315, 'mod_unread', 'module', 'mod_unread', '', 1, 1, 1, 1, '', '', '', '', 0, '0000-00-00 00:00:00', 0, 0);
 
 # Plug-ins
-INSERT INTO `#__extensions` (`extension_id`, `name`, `type`, `element`, `folder`, `client_id`, `enabled`, `access`, `protected`, `manifest_cache`, `params`, `custom_data`, `system_data`, `checked_out`, `checked_out_time`, `ordering`, `state`) VALUES
+INSERT INTO `jos_extensions` (`extension_id`, `name`, `type`, `element`, `folder`, `client_id`, `enabled`, `access`, `protected`, `manifest_cache`, `params`, `custom_data`, `system_data`, `checked_out`, `checked_out_time`, `ordering`, `state`) VALUES
 (400, 'plg_authentication_gmail', 'plugin', 'gmail', 'authentication', 0, 0, 1, 0, '', '{"applysuffix":"0","suffix":"","verifypeer":"1","user_blacklist":""}', '', '', 0, '0000-00-00 00:00:00', 1, 0),
 (401, 'plg_authentication_joomla', 'plugin', 'joomla', 'authentication', 0, 1, 1, 1, '', '{}', '', '', 0, '0000-00-00 00:00:00', 0, 0),
 (402, 'plg_authentication_ldap', 'plugin', 'ldap', 'authentication', 0, 0, 1, 0, '', '{"host":"","port":"389","use_ldapV3":"0","negotiate_tls":"0","no_referrals":"0","auth_method":"bind","base_dn":"","search_string":"","users_dn":"","username":"admin","password":"bobby7","ldap_fullname":"fullName","ldap_email":"mail","ldap_uid":"uid"}', '', '', 0, '0000-00-00 00:00:00', 3, 0),
@@ -346,7 +346,7 @@ INSERT INTO `#__extensions` (`extension_id`, `name`, `type`, `element`, `folder`
 
 # Templates
 
-INSERT INTO `#__extensions` (`extension_id`, `name`, `type`, `element`, `folder`, `client_id`, `enabled`, `access`, `protected`, `manifest_cache`, `params`, `custom_data`, `system_data`, `checked_out`, `checked_out_time`, `ordering`, `state`) VALUES
+INSERT INTO `jos_extensions` (`extension_id`, `name`, `type`, `element`, `folder`, `client_id`, `enabled`, `access`, `protected`, `manifest_cache`, `params`, `custom_data`, `system_data`, `checked_out`, `checked_out_time`, `ordering`, `state`) VALUES
 (500, 'atomic', 'template', 'atomic', '', 0, 1, 1, 0, '{"legacy":false,"name":"atomic","type":"template","creationDate":"10\\/10\\/09","author":"Ron Severdia","copyright":"Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.","authorEmail":"contact@kontentdesign.com","authorUrl":"http:\\/\\/www.kontentdesign.com","version":"1.6.0","description":"TPL_ATOMIC_XML_DESCRIPTION","group":""}', '{}', '', '', 0, '0000-00-00 00:00:00', 0, 0),
 (502, 'bluestork', 'template', 'bluestork', '', 1, 1, 1, 0, '{"legacy":false,"name":"bluestork","type":"template","creationDate":"07\\/02\\/09","author":"Ron Severdia","copyright":"Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.","authorEmail":"contact@kontentdesign.com","authorUrl":"http:\\/\\/www.kontentdesign.com","version":"1.6.0","description":"TPL_BLUESTORK_XML_DESCRIPTION","group":""}', '{"useRoundedCorners":"1","showSiteName":"0","textBig":"0","highContrast":"0"}', '', '', 0, '0000-00-00 00:00:00', 0, 0),
 (503, 'beez_20', 'template', 'beez_20', '', 0, 1, 1, 0, '{"legacy":false,"name":"beez_20","type":"template","creationDate":"25 November 2009","author":"Angie Radtke","copyright":"Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.","authorEmail":"a.radtke@derauftritt.de","authorUrl":"http:\\/\\/www.der-auftritt.de","version":"1.6.0","description":"TPL_BEEZ2_XML_DESCRIPTION","group":""}', '{"wrapperSmall":"53","wrapperLarge":"72","sitetitle":"","sitedescription":"","navposition":"center","templatecolor":"nature"}', '', '', 0, '0000-00-00 00:00:00', 0, 0),
@@ -354,20 +354,20 @@ INSERT INTO `#__extensions` (`extension_id`, `name`, `type`, `element`, `folder`
 (505, 'beez5', 'template', 'beez5', '', 0, 1, 1, 0, '{"legacy":false,"name":"beez5","type":"template","creationDate":"21 May 2010","author":"Angie Radtke","copyright":"Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.","authorEmail":"a.radtke@derauftritt.de","authorUrl":"http:\\/\\/www.der-auftritt.de","version":"1.6.0","description":"TPL_BEEZ5_XML_DESCRIPTION","group":""}', '{"wrapperSmall":"53","wrapperLarge":"72","sitetitle":"","sitedescription":"","navposition":"center","html5":"0"}', '', '', 0, '0000-00-00 00:00:00', 0, 0);
 
 # Languages
-INSERT INTO `#__extensions` (`extension_id`, `name`, `type`, `element`, `folder`, `client_id`, `enabled`, `access`, `protected`, `manifest_cache`, `params`, `custom_data`, `system_data`, `checked_out`, `checked_out_time`, `ordering`, `state`) VALUES
+INSERT INTO `jos_extensions` (`extension_id`, `name`, `type`, `element`, `folder`, `client_id`, `enabled`, `access`, `protected`, `manifest_cache`, `params`, `custom_data`, `system_data`, `checked_out`, `checked_out_time`, `ordering`, `state`) VALUES
 (600, 'English (United Kingdom)', 'language', 'en-GB', '', 0, 1, 1, 1, '', '', '', '', 0, '0000-00-00 00:00:00', 0, 0),
 (601, 'English (United Kingdom)', 'language', 'en-GB', '', 1, 1, 1, 1, '', '', '', '', 0, '0000-00-00 00:00:00', 0, 0);
 
-INSERT INTO `#__extensions` (`extension_id`, `name`, `type`, `element`, `folder`, `client_id`, `enabled`, `access`, `protected`, `manifest_cache`, `params`, `custom_data`, `system_data`, `checked_out`, `checked_out_time`, `ordering`, `state`) VALUES
+INSERT INTO `jos_extensions` (`extension_id`, `name`, `type`, `element`, `folder`, `client_id`, `enabled`, `access`, `protected`, `manifest_cache`, `params`, `custom_data`, `system_data`, `checked_out`, `checked_out_time`, `ordering`, `state`) VALUES
 (700, 'Joomla! CMS', 'file', 'joomla', '', 0, 1, 1, 1, '', '', '', '', 0, '0000-00-00 00:00:00', 0, 0);
 
 # -------------------------------------------------------
 
 #
-# Table structure for table `#__languages`
+# Table structure for table `jos_languages`
 #
 
-CREATE TABLE `#__languages` (
+CREATE TABLE `jos_languages` (
   `lang_id` int(11) unsigned NOT NULL auto_increment,
   `lang_code` char(7) NOT NULL,
   `title` varchar(50) NOT NULL,
@@ -382,22 +382,22 @@ CREATE TABLE `#__languages` (
   UNIQUE `idx_sef` (`sef`)
 )  DEFAULT CHARSET=utf8;
 
-INSERT INTO `#__languages` (`lang_id`,`lang_code`,`title`,`title_native`,`sef`,`image`,`description`,`metakey`,`metadesc`,`published`)
+INSERT INTO `jos_languages` (`lang_id`,`lang_code`,`title`,`title_native`,`sef`,`image`,`description`,`metakey`,`metadesc`,`published`)
 VALUES
 (1, 'en-GB', 'English (UK)', 'English (UK)', 'en', 'en', '', '', '', 1);
 
 #
-# Table structure for table `#__media`
+# Table structure for table `jos_media`
 #
 
-CREATE TABLE IF NOT EXISTS `#__media` (
+CREATE TABLE IF NOT EXISTS `jos_media` (
   `id` INT (11) UNSIGNED NOT NULL AUTO_INCREMENT COMMENT 'Primary Key',
   `catid` INT (11) NOT NULL COMMENT 'Category ID associated with the Primary Key',
 
   `title` VARCHAR (255) NOT NULL COMMENT 'Title',
   `alias` VARCHAR (255) NOT NULL COMMENT 'URL Alias',
 
-  `content_type` tinyint(3) NOT NULL DEFAULT '0' COMMENT 'Content Type: Links to #__molajo_configuration.option_id = 10 and component_option values matching ',
+  `content_type` tinyint(3) NOT NULL DEFAULT '0' COMMENT 'Content Type: Links to jos_molajo_configuration.option_id = 10 and component_option values matching ',
 
   `content_text` MEDIUMTEXT NULL COMMENT 'Content Primary Text Field, can include break to designate Introductory and Full text',
   `content_link` VARCHAR (2083) NULL COMMENT 'Content Link for Weblink or Newsfeed Field',
@@ -433,7 +433,7 @@ CREATE TABLE IF NOT EXISTS `#__media` (
   `checked_out` INTEGER UNSIGNED NOT NULL DEFAULT '0' COMMENT 'Checked out by User Id',
   `checked_out_time` DATETIME NOT NULL DEFAULT '0000-00-00 00:00:00' COMMENT 'Checked out Date and Time',
 
-  `asset_id` INTEGER UNSIGNED NOT NULL DEFAULT 0 COMMENT 'FK to the #__assets table.',
+  `asset_id` INTEGER UNSIGNED NOT NULL DEFAULT 0 COMMENT 'FK to the jos_assets table.',
   `access` INTEGER UNSIGNED NOT NULL DEFAULT 0 COMMENT 'View Level Access',
 
   `component_option` VARCHAR(50) NOT NULL COMMENT 'Component Option Value',
@@ -468,41 +468,41 @@ CREATE TABLE IF NOT EXISTS `#__media` (
 /* FIELDS */
 
 /* 010 MOLAJO_CONFIG_OPTION_ID_CONTENT_TYPES */
-INSERT INTO `#__molajo_configuration` (`component_option`, `option_id`, `option_value`, `option_value_literal`, `ordering`) VALUES
+INSERT INTO `jos_molajo_configuration` (`component_option`, `option_id`, `option_value`, `option_value_literal`, `ordering`) VALUES
 ('com_media', 10, '', '', 0),
 ('com_media', 10, 'medias', 'Medias', 1);
 
 /* VIEWS */
 
 /* 020 MOLAJO_CONFIG_OPTION_ID_VIEW_PAIRS */
-INSERT INTO `#__molajo_configuration` (`component_option`, `option_id`, `option_value`, `option_value_literal`, `ordering`) VALUES
+INSERT INTO `jos_molajo_configuration` (`component_option`, `option_id`, `option_value`, `option_value_literal`, `ordering`) VALUES
 ('com_media', 20, '', '', 0),
 ('com_media', 20, 'media', 'medias', 1);
 
 /* TABLE */
 
 /* 045 MOLAJO_CONFIG_OPTION_ID_TABLE */;
-INSERT INTO `#__molajo_configuration` (`component_option`, `option_id`, `option_value`, `option_value_literal`, `ordering`) VALUES
+INSERT INTO `jos_molajo_configuration` (`component_option`, `option_id`, `option_value`, `option_value_literal`, `ordering`) VALUES
 ('com_media', 45, '', '', 0),
 ('com_media', 45, '__media', '__media', 1);
 
 /* 050 MOLAJO_CONFIG_OPTION_ID_EDIT_LAYOUTS */;
-INSERT INTO `#__molajo_configuration` (`component_option`, `option_id`, `option_value`, `option_value_literal`, `ordering`) VALUES
+INSERT INTO `jos_molajo_configuration` (`component_option`, `option_id`, `option_value`, `option_value_literal`, `ordering`) VALUES
 ('com_media', 50, '', '', 0),
 ('com_media', 50, 'media', 'media', 1);
 
 /* 060 MOLAJO_CONFIG_OPTION_ID_DEFAULT_LAYOUT */;
-INSERT INTO `#__molajo_configuration` (`component_option`, `option_id`, `option_value`, `option_value_literal`, `ordering`) VALUES
+INSERT INTO `jos_molajo_configuration` (`component_option`, `option_id`, `option_value`, `option_value_literal`, `ordering`) VALUES
 ('com_media', 60, '', '', 0),
 ('com_media', 60, 'medias', 'medias', 1);
 
 #
-# Table structure for table `#__menu`
+# Table structure for table `jos_menu`
 #
 
-CREATE TABLE `#__menu` (
+CREATE TABLE `jos_menu` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `menutype` varchar(24) NOT NULL COMMENT 'The type of menu this item belongs to. FK to #__menu_types.menutype',
+  `menutype` varchar(24) NOT NULL COMMENT 'The type of menu this item belongs to. FK to jos_menu_types.menutype',
   `title` varchar(255) NOT NULL COMMENT 'The display title of the menu item.',
   `alias` varchar(255) NOT NULL COMMENT 'The SEF alias of the menu item.',
   `note` varchar(255) NOT NULL DEFAULT '',
@@ -512,9 +512,9 @@ CREATE TABLE `#__menu` (
   `published` tinyint(4) NOT NULL DEFAULT '0' COMMENT 'The published state of the menu link.',
   `parent_id` int(10) unsigned NOT NULL DEFAULT '1' COMMENT 'The parent menu item in the menu tree.',
   `level` int(10) unsigned NOT NULL DEFAULT '0' COMMENT 'The relative level in the tree.',
-  `component_id` int(10) unsigned NOT NULL DEFAULT '0' COMMENT 'FK to #__extensions.id',
+  `component_id` int(10) unsigned NOT NULL DEFAULT '0' COMMENT 'FK to jos_extensions.id',
   `ordering` int(11) NOT NULL DEFAULT '0' COMMENT 'The relative ordering of the menu item in the tree.',
-  `checked_out` int(10) unsigned NOT NULL DEFAULT '0' COMMENT 'FK to #__users.id',
+  `checked_out` int(10) unsigned NOT NULL DEFAULT '0' COMMENT 'FK to jos_users.id',
   `checked_out_time` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00' COMMENT 'The time the menu item was checked out.',
   `browserNav` tinyint(4) NOT NULL DEFAULT '0' COMMENT 'The click behaviour of the link.',
   `access` tinyint(3) unsigned NOT NULL DEFAULT '0' COMMENT 'The access level required to view the menu item.',
@@ -537,7 +537,7 @@ CREATE TABLE `#__menu` (
 )   DEFAULT CHARSET=utf8;
 
 
-INSERT INTO `#__menu` (`id`, `menutype`, `title`, `alias`, `note`, `path`, `link`, `type`, `published`, `parent_id`, `level`, `component_id`, `ordering`, `checked_out`, `checked_out_time`, `browserNav`, `access`, `img`, `template_style_id`, `params`, `lft`, `rgt`, `home`, `language`, `client_id`) VALUES
+INSERT INTO `jos_menu` (`id`, `menutype`, `title`, `alias`, `note`, `path`, `link`, `type`, `published`, `parent_id`, `level`, `component_id`, `ordering`, `checked_out`, `checked_out_time`, `browserNav`, `access`, `img`, `template_style_id`, `params`, `lft`, `rgt`, `home`, `language`, `client_id`) VALUES
 (1, '', 'Menu_Item_Root', 'root', '', '', '', '', 1, 0, 0, 0, 0, 0, '0000-00-00 00:00:00', 0, 0, '', 0, '', 0, 41, 0, '*', 0),
 (2, 'menu', 'com_messages', 'Messaging', '', 'Messaging', 'index.php?option=com_messages', 'component', 0, 1, 1, 15, 0, 0, '0000-00-00 00:00:00', 0, 0, 'class:messages', 0, '', 17, 22, 0, '*', 1),
 (3, 'menu', 'com_messages_add', 'New Private Message', '', 'Messaging/New Private Message', 'index.php?option=com_messages&task=message.add', 'component', 0, 10, 2, 15, 0, 0, '0000-00-00 00:00:00', 0, 0, 'class:messages-add', 0, '', 18, 19, 0, '*', 1),
@@ -549,10 +549,10 @@ INSERT INTO `#__menu` (`id`, `menutype`, `title`, `alias`, `note`, `path`, `link
 # -------------------------------------------------------
 
 #
-# Table structure for table `#__menu_types`
+# Table structure for table `jos_menu_types`
 #
 
-CREATE TABLE `#__menu_types` (
+CREATE TABLE `jos_menu_types` (
   `id` integer unsigned NOT NULL auto_increment,
   `menutype` varchar(24) NOT NULL,
   `title` varchar(48) NOT NULL,
@@ -561,13 +561,13 @@ CREATE TABLE `#__menu_types` (
   UNIQUE `idx_menutype` (`menutype`)
 )  DEFAULT CHARSET=utf8;
 
-INSERT INTO `#__menu_types` VALUES (1, 'mainmenu', 'Main Menu', 'The main menu for the site');
+INSERT INTO `jos_menu_types` VALUES (1, 'mainmenu', 'Main Menu', 'The main menu for the site');
 
 #
-# Table structure for table `#__modules`
+# Table structure for table `jos_modules`
 #
 
-CREATE TABLE `#__modules` (
+CREATE TABLE `jos_modules` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `title` varchar(100) NOT NULL DEFAULT '',
   `note` varchar(255) NOT NULL default '',
@@ -591,7 +591,7 @@ CREATE TABLE `#__modules` (
   KEY `idx_language` (`language`)
 )  DEFAULT CHARSET=utf8;
 
-INSERT INTO `#__modules` VALUES
+INSERT INTO `jos_modules` VALUES
 (1, 'Main Menu', '', '', 1, 'position-7', 0, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0000-00-00 00:00:00', 1, 'mod_menu', 1, 1, '{"menutype":"mainmenu","startLevel":"0","endLevel":"0","showAllChildren":"0","tag_id":"","class_sfx":"","window_open":"","layout":"","moduleclass_sfx":"_menu","cache":"1","cache_time":"900","cachemode":"itemid"}', 0, '*'),
 (2, 'Login', '', '', 1, 'login', 0, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0000-00-00 00:00:00', 1, 'mod_login', 1, 1, '', 1, '*'),
 (3, 'Popular Articles', '', '', 3, 'cpanel', 0, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0000-00-00 00:00:00', 1, 'mod_popular', 3, 1, '{"count":"5","catid":"","user_id":"0","layout":"_:default","moduleclass_sfx":"","cache":"0","automatic_title":"1"}', 1, '*'),
@@ -611,20 +611,20 @@ INSERT INTO `#__modules` VALUES
 # -------------------------------------------------------
 
 #
-# Table structure for table `#__modules_menu`
+# Table structure for table `jos_modules_menu`
 #
 
-CREATE TABLE `#__modules_menu` (
+CREATE TABLE `jos_modules_menu` (
   `moduleid` integer NOT NULL default '0',
   `menuid` integer NOT NULL default '0',
   PRIMARY KEY  (`moduleid`,`menuid`)
 )  DEFAULT CHARSET=utf8;
 
 #
-# Dumping data for table `#__modules_menu`
+# Dumping data for table `jos_modules_menu`
 #
 
-INSERT INTO `#__modules_menu` VALUES
+INSERT INTO `jos_modules_menu` VALUES
 (1,0),
 (2,0),
 (3,0),
@@ -642,10 +642,10 @@ INSERT INTO `#__modules_menu` VALUES
 # -------------------------------------------------------
 
 #
-# Table structure for table `#__schemas`
+# Table structure for table `jos_schemas`
 #
 
-CREATE TABLE `#__schemas` (
+CREATE TABLE `jos_schemas` (
   `extension_id` int(11) NOT NULL,
   `version_id` varchar(20) NOT NULL,
   PRIMARY KEY (`extension_id`, `version_id`)
@@ -653,10 +653,10 @@ CREATE TABLE `#__schemas` (
 # -------------------------------------------------------
 
 #
-# Table structure for table `#__session`
+# Table structure for table `jos_session`
 #
 
-CREATE TABLE `#__session` (
+CREATE TABLE `jos_session` (
   `session_id` varchar(32) NOT NULL default '',
   `client_id` tinyint(3) unsigned NOT NULL default '0',
   `guest` tinyint(4) unsigned default '1',
@@ -675,7 +675,7 @@ CREATE TABLE `#__session` (
 # -------------------------------------------------------
 
 # Update Sites
-CREATE TABLE  `#__updates` (
+CREATE TABLE  `jos_updates` (
   `update_id` int(11) NOT NULL auto_increment,
   `update_site_id` int(11) default '0',
   `extension_id` int(11) default '0',
@@ -692,7 +692,7 @@ CREATE TABLE  `#__updates` (
   PRIMARY KEY  (`update_id`)
 )  DEFAULT CHARSET=utf8 COMMENT='Available Updates';
 
-CREATE TABLE  `#__update_sites` (
+CREATE TABLE  `jos_update_sites` (
   `update_site_id` int(11) NOT NULL auto_increment,
   `name` varchar(100) default '',
   `type` varchar(20) default '',
@@ -701,26 +701,26 @@ CREATE TABLE  `#__update_sites` (
   PRIMARY KEY  (`update_site_id`)
 )  DEFAULT CHARSET=utf8 COMMENT='Update Sites';
 
-INSERT INTO `#__update_sites` VALUES
+INSERT INTO `jos_update_sites` VALUES
 (1, 'Molajo Core', 'collection', 'http://update.molajo.org/core/list.xml', 1),
 (2, 'Molajo Directory', 'collection', 'http://update.molajo.org/directory/list.xml', 1);
 
-CREATE TABLE `#__update_sites_extensions` (
+CREATE TABLE `jos_update_sites_extensions` (
   `update_site_id` INT DEFAULT 0,
   `extension_id` INT DEFAULT 0,
   PRIMARY KEY(`update_site_id`, `extension_id`)
 ) ENGINE = MYISAM CHARACTER SET utf8 COMMENT = 'Links extensions to update sites';
 
-INSERT INTO `#__update_sites_extensions` VALUES
+INSERT INTO `jos_update_sites_extensions` VALUES
 (1, 700),
 (2, 700);
 
 
 #
-# Table structure for table `#__template_styles`
+# Table structure for table `jos_template_styles`
 #
 
-CREATE TABLE IF NOT EXISTS `#__template_styles` (
+CREATE TABLE IF NOT EXISTS `jos_template_styles` (
   `id` integer unsigned NOT NULL AUTO_INCREMENT,
   `template` varchar(50) NOT NULL DEFAULT '',
   `client_id` tinyint(1) unsigned NOT NULL DEFAULT 0,
@@ -732,30 +732,30 @@ CREATE TABLE IF NOT EXISTS `#__template_styles` (
   KEY `idx_home` (`home`)
 )  DEFAULT CHARSET=utf8 ;
 
-INSERT INTO `#__template_styles` VALUES (2, 'bluestork', '1', '1', 'Bluestork - Default', '{"useRoundedCorners":"1","showSiteName":"0"}');
-INSERT INTO `#__template_styles` VALUES (3, 'atomic', '0', '0', 'Atomic - Default', '{}');
-INSERT INTO `#__template_styles` VALUES (4, 'beez_20', 0, 1, 'Beez2 - Default', '{"wrapperSmall":"53","wrapperLarge":"72","logo":"images\\/joomla_black.gif","sitetitle":"Joomla!","sitedescription":"Open Source Content Management","navposition":"left","templatecolor":"personal","html5":"0"}');
-INSERT INTO `#__template_styles` VALUES (5, 'hathor', '1', '0', 'Hathor - Default', '{"showSiteName":"0","colourChoice":"","boldText":"0"}');
-INSERT INTO `#__template_styles` VALUES (6, 'beez5', 0, 0, 'Beez5 - Default-Fruit Shop', '{"wrapperSmall":"53","wrapperLarge":"72","logo":"images\\/sampledata\\/fruitshop\\/fruits.gif","sitetitle":"Matuna Market ","sitedescription":"Fruit Shop Sample Site","navposition":"left","html5":"0"}');
+INSERT INTO `jos_template_styles` VALUES (2, 'bluestork', '1', '1', 'Bluestork - Default', '{"useRoundedCorners":"1","showSiteName":"0"}');
+INSERT INTO `jos_template_styles` VALUES (3, 'atomic', '0', '0', 'Atomic - Default', '{}');
+INSERT INTO `jos_template_styles` VALUES (4, 'beez_20', 0, 1, 'Beez2 - Default', '{"wrapperSmall":"53","wrapperLarge":"72","logo":"images\\/joomla_black.gif","sitetitle":"Joomla!","sitedescription":"Open Source Content Management","navposition":"left","templatecolor":"personal","html5":"0"}');
+INSERT INTO `jos_template_styles` VALUES (5, 'hathor', '1', '0', 'Hathor - Default', '{"showSiteName":"0","colourChoice":"","boldText":"0"}');
+INSERT INTO `jos_template_styles` VALUES (6, 'beez5', 0, 0, 'Beez5 - Default-Fruit Shop', '{"wrapperSmall":"53","wrapperLarge":"72","logo":"images\\/sampledata\\/fruitshop\\/fruits.gif","sitetitle":"Matuna Market ","sitedescription":"Fruit Shop Sample Site","navposition":"left","html5":"0"}');
 
 # -------------------------------------------------------
 #
-# Table structure for table `#__user_usergroup_map`
+# Table structure for table `jos_user_usergroup_map`
 #
 
-CREATE TABLE IF NOT EXISTS `#__user_usergroup_map` (
-  `user_id` integer unsigned NOT NULL default '0' COMMENT 'Foreign Key to #__users.id',
-  `group_id` integer unsigned NOT NULL default '0' COMMENT 'Foreign Key to #__usergroups.id',
+CREATE TABLE IF NOT EXISTS `jos_user_usergroup_map` (
+  `user_id` integer unsigned NOT NULL default '0' COMMENT 'Foreign Key to jos_users.id',
+  `group_id` integer unsigned NOT NULL default '0' COMMENT 'Foreign Key to jos_usergroups.id',
   PRIMARY KEY  (`user_id`,`group_id`)
 )  DEFAULT CHARSET=utf8;
 
 # -------------------------------------------------------
 
 #
-# Table structure for table `#__usergroups`
+# Table structure for table `jos_usergroups`
 #
 
-CREATE TABLE IF NOT EXISTS `#__usergroups` (
+CREATE TABLE IF NOT EXISTS `jos_usergroups` (
   `id` integer unsigned NOT NULL auto_increment COMMENT 'Primary Key',
   `parent_id` integer unsigned NOT NULL default '0' COMMENT 'Adjacency List Reference Id',
   `lft` integer NOT NULL default '0' COMMENT 'Nested set lft.',
@@ -768,7 +768,7 @@ CREATE TABLE IF NOT EXISTS `#__usergroups` (
   KEY `idx_usergroup_nested_set_lookup` USING BTREE (`lft`,`rgt`)
 )  DEFAULT CHARSET=utf8;
 
-INSERT INTO `#__usergroups` (`id` ,`parent_id` ,`lft` ,`rgt` ,`title`)
+INSERT INTO `jos_usergroups` (`id` ,`parent_id` ,`lft` ,`rgt` ,`title`)
 VALUES
 (1, 0, 1, 2, 'Public'),
 	(2, 1, 3, 4, 'Guest'),
@@ -778,10 +778,10 @@ VALUES
 # -------------------------------------------------------
 
 #
-# Table structure for table `#__users`
+# Table structure for table `jos_users`
 #
 
-CREATE TABLE `#__users` (
+CREATE TABLE `jos_users` (
   `id` integer NOT NULL auto_increment,
   `name` varchar(255) NOT NULL default '',
   `username` varchar(150) NOT NULL default '',
@@ -803,10 +803,10 @@ CREATE TABLE `#__users` (
 )  DEFAULT CHARSET=utf8;
 
 #
-# Table structure for table `#__viewlevels`
+# Table structure for table `jos_viewlevels`
 #
 
-CREATE TABLE IF NOT EXISTS `#__viewlevels` (
+CREATE TABLE IF NOT EXISTS `jos_viewlevels` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT 'Primary Key',
   `title` varchar(100) NOT NULL DEFAULT '',
   `ordering` int(11) NOT NULL DEFAULT '0',
@@ -816,10 +816,10 @@ CREATE TABLE IF NOT EXISTS `#__viewlevels` (
 )   DEFAULT CHARSET=utf8;
 
 #
-# Dumping data for table `#__viewlevels`
+# Dumping data for table `jos_viewlevels`
 #
 
-INSERT INTO `#__viewlevels` (`id`, `title`, `ordering`, `rules`) VALUES
+INSERT INTO `jos_viewlevels` (`id`, `title`, `ordering`, `rules`) VALUES
 (1, 'Public', 0, '[1]'),
 (2, 'Registered', 1, '[6,2,8]'),
 (3, 'Special', 2, '[6,3,8]');
