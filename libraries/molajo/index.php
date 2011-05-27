@@ -8,6 +8,11 @@
  */
 defined('MOLAJO') or die;
 
+/** php version check */
+if (version_compare(PHP_VERSION, '5.3', '<')) {
+	die('Your host needs to use PHP 5.3 or higher to run Molajo.');
+}
+
 /** defines */
 require_once MOLAJO_LIBRARY.'/includes/defines.php';
 
@@ -16,22 +21,33 @@ require_once MOLAJO_LIBRARY.'/includes/joomla.php';
 require_once MOLAJO_LIBRARY.'/includes/molajo.php';
 JDEBUG ? $_PROFILER->mark('afterLoad') : null;
 
-/** application */
+/** initialize */
 $app = JFactory::getApplication(MOLAJO_CLIENT);
-$app->initialise(array(
-	'language' => $app->getUserState('application.lang', 'lang')
-));
+
+if (MOLAJO_CLIENT == 'administrator') {
+    $app->initialise(array(
+        'language' => $app->getUserState('application.lang', 'lang')
+    ));
+} else {
+    $app->initialise();
+}
 JDEBUG ? $_PROFILER->mark('afterInitialise') : null;
 
-/** route */
-$app->route();
-JDEBUG ? $_PROFILER->mark('afterRoute') : null;
+/** route application */
+if (MOLAJO_CLIENT == 'installation') {
+} else {
+    $app->route();
+    JDEBUG ? $_PROFILER->mark('afterRoute') : null;
+}
 
-/** dispatch */
-$app->dispatch();
-JDEBUG ? $_PROFILER->mark('afterDispatch') : null;
+/** dispatch application */
+if (MOLAJO_CLIENT == 'installation') {
+} else {
+    $app->dispatch();
+    JDEBUG ? $_PROFILER->mark('afterDispatch') : null;
+}
 
-/** render */
+/** render application */
 $app->render();
 JDEBUG ? $_PROFILER->mark('afterRender') : null;
 

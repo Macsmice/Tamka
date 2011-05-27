@@ -395,11 +395,14 @@ if ($debug) {
                     $tagPos	= preg_match($pattern, $items[$i]->content_text);
 
                     if ($tagPos == 0) {
-                        $items[$i]->introtext = $items[$i]->content_text;
-                        $items[$i]->fulltext  = '';
+                        $introtext = $items[$i]->content_text;
+                        $fulltext  = '';
                     } else {
-                        list($items[$i]->introtext, $items[$i]->fulltext) = preg_split($pattern, $items[$i]->content_text, 2);
+                        list($introtext, $fulltext) = preg_split($pattern, $items[$i]->content_text, 2);
                     }
+
+                    $items[$i]->introtext = $introtext;
+                    $items[$i]->fulltext = $fulltext;
 
                     /** some content plugins expect column named text */
                     if ($this->params->get('show_intro','1') == '1') {
@@ -408,6 +411,12 @@ if ($debug) {
                         $items[$i]->text = $items[$i]->fulltext;
                     } else {
                         $items[$i]->text = $items[$i]->introtext;
+                    }
+
+                    if ($items[$i]->created_by_alias == '') {
+                        $items[$i]->display_author_name = $items[$i]->author_name;
+                    } else {
+                        $items[$i]->display_author_name = $items[$i]->created_by_alias;
                     }
 
                     /** Perform JSON to array conversion... **/

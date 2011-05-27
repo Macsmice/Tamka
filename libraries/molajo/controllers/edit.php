@@ -9,7 +9,7 @@
 defined('MOLAJO') or die;
 
 /**
- * Single Controller
+ * Edit Controller
  *
  * Handles the standard single-item save, delete, and cancel tasks
  *

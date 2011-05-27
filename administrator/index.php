@@ -10,8 +10,9 @@ define('MOLAJO_CLIENT', 'administrator');
 /**
  * BEGIN: Common code for all clients
  *
- * JPATH_BASE (JPATH_ADMINISTRATOR, JPATH_INSTALLATION, JPATH_SITE)
- * JPATH_ROOT is the root path for the Joomla install
+ * JPATH_BASE (same as JPATH_ADMINISTRATOR, JPATH_INSTALLATION, JPATH_SITE)
+ * JPATH_ROOT is the root path for the Joomla install regardless of BASE
+ *
  */
 define('MOLAJO', 1);
 define('DS', DIRECTORY_SEPARATOR);

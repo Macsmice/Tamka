@@ -147,6 +147,7 @@ class MolajoController extends JController
 
         /** catid **/
         $this->catid = JRequest::getInt('catid');
+
         if ((int) $this->catid == 0) {
             $this->catid = 0;
         }
@@ -192,8 +193,10 @@ class MolajoController extends JController
         }
 
         /** authorisation **/
-        $results = $this->checkTaskAuthorisation($task, $this->id, $this->catid, $this->table);
+        $results = MolajoController::checkTaskAuthorisation($task);
         if ($results === false) {
+            echo 'dfasdfasfd';
+            die();
             return false;
         }
 

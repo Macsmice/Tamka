@@ -86,7 +86,9 @@ abstract class ModMenuHelper
 
 			if ($component->parent_id == 1) {
 				// Only add this top level if it is authorised and enabled.
-				if ($authCheck == false || ($authCheck && $user->authorise('core.manage', $component->element))) {
+				if ($authCheck == false
+                    || ($authCheck
+                        && $user->authorise('core.manage', $component->element))) {
 					// Root level.
 					$result[$component->id] = $component;
 					if (!isset($result[$component->id]->submenu)) {

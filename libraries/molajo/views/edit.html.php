@@ -11,7 +11,7 @@ defined('MOLAJO') or die;
 /**
  *  MolajoViewEdit
  *
- *  Single Content Item
+ *  Edit View
  *
  * @package	Molajo
  * @subpackage	Single View

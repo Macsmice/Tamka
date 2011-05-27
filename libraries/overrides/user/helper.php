@@ -189,6 +189,8 @@ abstract class JUserHelper
 
 	/**
 	 * Gets the user profile information
+     *
+     * Molajo Hack:  [#25431] JUserHelper::getProfile does not return a profile Amy Stephen
 	 */
 	function getProfile($userId = 0)
 	{
@@ -197,7 +199,7 @@ abstract class JUserHelper
 			$userId	= $user->id;
 		}
 		else {
-			$user	= JFactory::getUser((int) $userId);
+			$userId	= JFactory::getUser((int) $userId);
 		}
 
 		// Get the dispatcher and load the user's plugins.
@@ -207,7 +209,7 @@ abstract class JUserHelper
 		$data = new JObject;
 
 		// Trigger the data preparation event.
-		$results = $dispatcher->trigger('onPrepareUserProfileData', array($userId, &$data));
+		$results = $dispatcher->trigger('onContentPrepareData', array($userId, &$data));
 
 		return $data;
 	}

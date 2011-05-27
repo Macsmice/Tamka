@@ -21,8 +21,8 @@ class JConfig {
 	/* Site Settings */
 	public $offline = '0';
 	public $offline_message = 'This site is down for maintenance.<br /> Please check back again soon.';
-	public $sitename = 'Joomla!';				// Name of Joomla site
-	public $editor = 'tinymce';
+	public $sitename = 'Molajo';				// Name of Molajo site
+	public $editor = 'aloha';
 	public $list_limit = '20';
 	public $root_user = '42';
 	public $access = '1';
@@ -39,7 +39,7 @@ class JConfig {
 	public $secret = 'FBVtggIk5lAzEU9H'; 		// Change this to something more secure
 	public $gzip = '0';
 	public $error_reporting = '-1';
-	public $helpurl = 'http://help.joomla.org/proxy/index.php?option=com_help&amp;keyref=Help{major}{minor}:{keyref}';
+	public $helpurl = 'http://molajo.org';
 	public $ftp_host = '';
 	public $ftp_port = '';
 	public $ftp_user = '';
@@ -79,8 +79,8 @@ class JConfig {
 	public $debug_lang = '0';
 
 	/* Meta Settings */
-	public $MetaDesc = 'Joomla! - the dynamic portal engine and content management system';
-	public $MetaKeys = 'joomla, Joomla';
+	public $MetaDesc = 'Molajo - a powerful web application development environment built on the Joomla! Framework';
+	public $MetaKeys = 'Molajo';
 	public $MetaTitle = '1';
 	public $MetaAuthor = '1';
 

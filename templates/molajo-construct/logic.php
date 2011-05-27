@@ -194,7 +194,7 @@ endif;
 $itemId = JRequest::getInt('Itemid', 0);
 
 #------------------------------- Article ID -------------------------------#
-$articleId = 0;                     /** amy: initialized */
+
 if ($view == 'article')
 $articleId = JRequest::getInt('id');
 

@@ -50,7 +50,9 @@ error_reporting(E_ALL);
 /*
  * Check for existing configuration file.
  */
-if (file_exists(JPATH_CONFIGURATION.'/configuration.php') && (filesize(JPATH_CONFIGURATION.'/configuration.php') > 10) && !file_exists(JPATH_INSTALLATION.'/index.php')) {
+if (file_exists(JPATH_CONFIGURATION.'/configuration.php')
+    && (filesize(JPATH_CONFIGURATION.'/configuration.php') > 10)
+    && !file_exists(JPATH_INSTALLATION.'/index.php')) {
 	header('Location: ../index.php');
 	exit();
 }
