@@ -154,13 +154,12 @@ class JInstallationModelDatabase extends JModel
 				}
 			}
 
+            /**
+             * Molajo Hack: molajo.sql
+             */
 			// Set the appropriate schema script based on UTF-8 support.
 			$type = $options->db_type;
-			if ($utfSupport) {
-				$schema = 'sql/'.(($type == 'mysqli') ? 'mysql' : $type).'/joomla.sql';
-			} else {
-				$schema = 'sql/'.(($type == 'mysqli') ? 'mysql' : $type).'/joomla_backward.sql';
-			}
+			$schema = 'sql/'.(($type == 'mysqli') ? 'mysql' : $type).'/molajo.sql';
 
 			// Attempt to import the database schema.
 			if (!$this->populateDatabase($db, $schema)) {
