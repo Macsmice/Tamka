@@ -152,6 +152,7 @@ class JAdministrator extends JApplication
 			$document->setDescription($this->getCfg('MetaDesc'));
 
 			$contents = JComponentHelper::renderComponent($component);
+
 			$document->setBuffer($contents, 'component');
 
 			// Trigger the onAfterDispatch event.
@@ -310,9 +311,10 @@ class JAdministrator extends JApplication
 		. ' WHERE user_id = ' . (int) $userid
 		. ' AND cfg_name = "auto_purge"'
 		;
+
 		$db->setQuery($query);
 		$config = $db->loadObject();
-
+ 
 		// check if auto_purge value set
 		if (is_object($config) and $config->cfg_name == 'auto_purge') {
 			$purge	= $config->cfg_value;
