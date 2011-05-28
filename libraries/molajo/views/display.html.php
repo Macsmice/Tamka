@@ -18,10 +18,14 @@ defined('MOLAJO') or die;
 class MolajoViewDisplay extends JView
 {
     /** model query results */
+    protected $contextObject;
     protected $state;
-    protected $items;
-    protected $userToolbarButtonPermissions;
+    protected $queryResults;
     protected $pagination;
+    protected $offset;
+
+    /** toolbar */
+    protected $userToolbarButtonPermissions;
 
     /** blog variables */
 	protected $category;
@@ -32,7 +36,6 @@ class MolajoViewDisplay extends JView
 	protected $columns = 1;
 
     /** layout variables  **/
-    protected $print;
     protected $layoutHelper;
     protected $renderedOutput;
     protected $item;
@@ -64,17 +67,38 @@ class MolajoViewDisplay extends JView
     /**
      * display
      *
-     * View for Display View, no Task
+     * View for Display View that uses no forms
      *
      * @param null $tpl
      * @return void
      */
     public function display($tpl = null)
     {
+//        $this->setState('filter_amy', 'stephen');
+        $this->state            = $this->get('State');
+        $this->queryResults     = $this->get('Items');
+        $this->pagination       = $this->get('Pagination');
+
+        $this->contextObject    = $this->state->get('context.object');
+        var_dump($this->contextObject);
+        echo 'is this option? '.$this->contextObject['option'];
+
+        die();
+//		$this->category	    = $this->get('Category');
+//		$this->children	    = $this->get('Children');
+//		$this->parent		= $this->get('Parent');
+
+        /** error handling **/
+        if (count($errors = $this->get('Errors'))) {
+            JError::raiseError(500, implode("\n", $errors));
+            return false;
+        }
+
+
         /** parameters */
         if (JFactory::getApplication()->getName() == 'site') {
             $this->params = JFactory::getApplication()->getParams();
-            $this->_mergeParams ($this->item, $this->params, JRequest::getCmd('view'));
+//            $this->_mergeParams ();
         } else {
             $this->params = JComponentHelper::getParams(JRequest::getCmd('option'));
         }
@@ -82,81 +106,14 @@ class MolajoViewDisplay extends JView
         /** user object */
         $this->user = JFactory::getUser();
 
-        /** prepare data */
-        if (JRequest::getVar('id') == 0) {
-            $this->listView ();
-        } else {
-            $this->itemView ();
-        }
-        
 		/** Escape Pageclass Suffix */
 		$this->pageclass_sfx = htmlspecialchars($this->params->get('pageclass_sfx'));
 
         if (JFactory::getApplication()->getName() == 'site') {
-            $documentHelper = new MolajoDocumentHelper ();
-            $documentHelper->prepareDocument($this->params, $this->item, $this->document, JRequest::getCmd('option'), JRequest::getCmd('view'));
+//            $documentHelper = new MolajoDocumentHelper ();
+//            $documentHelper->prepareDocument($this->params, $this->item, $this->document, JRequest::getCmd('option'), JRequest::getCmd('view'));
         } 
 
-        /** layout **/
-        parent::display($tpl);
-    }
-
-    /**
-     * itemView
-     *
-     * Layout for a Single Content Item
-     *
-     * @return bool
-     */
-    public function itemView()
-    {
-        $this->state    = $this->get('State');
-        $this->items     = $this->get('Items');
-
-        /** turn $this->items into $this->item for single item layout */
-        foreach ($this->items as $count=>$this->item) {}
-
-        /** link */
-        $this->item->readmore_link = $this->_createLink($this->item);
-
-        /** trigger events */
-        $this->_triggerEvents (JRequest::getCmd('option').'.'.JRequest::getCmd('single_view'), $this->item, $this->params, $offset, $pluginType='content');
-
-        $this->print = JRequest::getBool('print');
-
-//        $offset = $this->state->get('list.offset');
-
-        // Check the view access to the article (the model has already computed the values).
-//        if ($this->params->get('access-view') != true
-//            && (($this->params->get('show_noauth') != true
-//                 &&  $user->get('guest') ))) {
-//                JError::raiseWarning(403, JText::_('JERROR_ALERTNOAUTHOR'));
-//                return;
-//        }
-        return;
-    }
-
-    /**
-     * listView
-     *
-     * @param null $tpl
-     * @return bool
-     */
-    public function listView ()
-    {
-//		$this->category	    = $this->get('Category');
-//		$this->children	    = $this->get('Children');
-//		$this->parent		= $this->get('Parent');
-
-        $this->state        = $this->get('State');
-        $this->items        = $this->get('Items');
-        $this->pagination   = $this->get('Pagination');
-
-        /** error handling **/
-        if (count($errors = $this->get('Errors'))) {
-            JError::raiseError(500, implode("\n", $errors));
-            return false;
-        }
 
         /** page heading, toolbar buttons and submenu **/
         if (($this->getLayout() == 'modal') || (!JRequest::getCmd('format') == 'html')) {
@@ -175,28 +132,32 @@ class MolajoViewDisplay extends JView
         }
 
         $this->itemCount = 0;
+
+        /** layout **/
+        $this->layoutHelper = new MolajoLayoutHelper();
+        parent::display($tpl);
     }
 
     /**
      * _mergeParams
      *
-     * @param  $item
+     * @param  $this->queryResults
      * @return void
      */
-    private function _mergeParams ($item, $params, $viewName)
+    private function _mergeParams ()
     {
 		// Merge article params. If this is single-article view, menu params override article params
 		// Otherwise, article params override menu item params
 		$active	= JFactory::getApplication()->getMenu()->getActive();
-		$temp	= clone ($params);
+		$temp	= clone ($this->params);
 
 		// Check to see which parameters should take priority
 		if ($active) {
 			$currentLink = $active->link;
 			// If the current view is the active item and an article view for this article, then the menu item params take priority
-			if (strpos($currentLink, 'view='.$viewName) && (strpos($currentLink, '&id='.(string) $item->id))) {
+			if ((int) $this->queryResults->id == 0) {
 				// Menu item params take priority over content params
-				$params->merge($temp);
+				$this->params->merge($temp);
 
 				// Load layout from active query (in case it is an alternative menu item)
 				if (isset($active->query['layout'])) {
@@ -206,58 +167,60 @@ class MolajoViewDisplay extends JView
 			} else {
 				// Current view is not a single article, so the article params take priority here
 				// Merge the menu item params with the article params so that the article params take priority
-				$temp->merge($params);
-				$params = $temp;
+				$temp->merge($this->params);
+				$this->params = $temp;
 			}
 
 		} else {
 			// Merge so that item params take priority
-			$temp->merge($params);
-			$params = $temp;
+			$temp->merge($this->params);
+			$this->params = $temp;
 		}
     }
 
     /**
      * _createLink
      *
-     * @param  $item
+     * @param  $this->queryResults
      * @return The
      */
-    private function _createLink ($item)
+    private function _createLink ()
     {
         $class = ucfirst(JRequest::getCmd('default_view')).'RouteHelper';
         $routerHelper = new $class ();
         $method = 'get'.ucfirst(JRequest::getCmd('single_view')).'Route';
-        return JRoute::_($routerHelper->$method ($item->id, $item->catid, $item));
+        return JRoute::_($routerHelper->$method ($this->item->id, $this->item->catid, $this->item));
     }
 
     /**
      * _triggerEvents
      *
      * @param  $context
-     * @param  $item
+     * @param  $this->queryResults
      * @param  $params
      * @param  $offset
      * @param string $pluginType
      * @return void
      */
-    private function _triggerEvents ($context, $item, $params, $offset, $pluginType='content')
+    private function _triggerEvents ()
     {
+
 		$dispatcher	= JDispatcher::getInstance();
 		JPluginHelper::importPlugin('content');
 
-		$results = $dispatcher->trigger('onContentPrepare', array (JRequest::getCmd('option').'.'.JRequest::getCmd('single_view'), $item, $params, $offset));
+        $context = JRequest::getCmd('option').'.'.JRequest::getCmd('single_view');
 
-        $item->event = new stdClass();
+		$results = $dispatcher->trigger('onContentPrepare', array ($context, $this->queryResults, $this->params, $this->offset));
+        $this->queryResults->event = new stdClass();
 
-		$results = $dispatcher->trigger('onContentAfterTitle', array($context, $item, $params, $offset));
-		$item->event->afterDisplayTitle = trim(implode("\n", $results));
+		$results = $dispatcher->trigger('onContentAfterTitle', array($context, $this->queryResults, $this->params, $this->offset));
+		$this->queryResults->event->afterDisplayTitle = trim(implode("\n", $results));
 
-		$results = $dispatcher->trigger('onContentBeforeDisplay', array($context, $item, $params, $offset));
-		$item->event->beforeDisplayContent = trim(implode("\n", $results));
+		$results = $dispatcher->trigger('onContentBeforeDisplay', array($context, $this->queryResults, $this->params, $this->offset));
+		$this->queryResults->event->beforeDisplayContent = trim(implode("\n", $results));
 
-		$results = $dispatcher->trigger('onContentAfterDisplay', array($context, $item, $params, $offset));
-		$item->event->afterDisplayContent = trim(implode("\n", $results));
+		$results = $dispatcher->trigger('onContentAfterDisplay', array($context, $this->queryResults, $this->params, $this->offset));
+		$this->queryResults->event->afterDisplayContent = trim(implode("\n", $results));
 
         return;
     }

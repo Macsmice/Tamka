@@ -129,14 +129,14 @@ class MolajoResponsesComments {
         }
         $published = null;
         if (isset($content->publish_up)) {
-            $published = MolajoHelperDate::convertCCYYMMDD ($content->publish_up);
+            $published = MolajoDateHelper::convertCCYYMMDD ($content->publish_up);
         } else {
             if (isset($content->created)) {
-                $published = MolajoHelperDate::convertCCYYMMDD ($content->created);
+                $published = MolajoDateHelper::convertCCYYMMDD ($content->created);
             }
         }
         if ($published) {
-            $daysSincePublished = MolajoHelperDate::differenceDays (date('Y-m-d'), $published);
+            $daysSincePublished = MolajoDateHelper::differenceDays (date('Y-m-d'), $published);
         } else {
             $daysSincePublished = 0;
         }

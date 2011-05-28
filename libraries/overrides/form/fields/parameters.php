@@ -54,7 +54,7 @@ class JFormFieldParameters extends JFormField
 	protected function getParameterSet($parameter_type, $path)
 	{
         if ($path == '' || $path == null) {
-            $path = MOLAJO_LAYOUT_PARAMETERS;
+            $path = MOLAJO_PARAMETERS;
         }
 
         JFile::makeSafe($parameter_type);

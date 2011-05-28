@@ -11,28 +11,11 @@ defined('MOLAJO') or die;
 /**
  * Molajo Layout Helper
  *
- * Step 1. The Component View Layout File (ex. com_component/view/viewname/tmpl/default.php)
- *      Calls the Molajo Layout Helper to:
- *
- *   1. Set the name of the Driver Folder using the method setLayoutDriver
- *
- *   2. Set the name of the Layout Folder using the method setLayout
- *
- *   3. Retrieve the Path of the Driver File which is determined by
- *      searching for the driver.php file in this order:
+ * The Component View Layout File (ex. com_component/view/viewname/tmpl/default.php)
+ *      calls to retrieve the path of the Layout Folder searching in this order:
  *      a. current template
  *      b. component
  *      c. core
- *   4. Using the path, issues a require_once for the driver.php file
- *
- * Step 2. The Driver file includes the Layout File(s).
- *
- * Warning: The Template Layout File cannot be named the same as the Driver Layout File
- *   due to the sequence of inclusion checking (template, component, core) will result in loop
- *
- */
-/**
- * Molajo Layout Helper
  *
  * @package	Molajo
  * @subpackage	Helper
@@ -40,103 +23,59 @@ defined('MOLAJO') or die;
  */
 class MolajoLayoutHelper
 {
-   /**
-     * $layoutDriverFolderName
-     * @var string
-     */
-    public $layoutDriverFolderName;
-
     /**
-     * $layoutFolderName
-     * @var string
-     */
-    public $layoutFolderName;
-
-    /**
-     * setLayoutDriver
-     *
-     * Location of the Folder containing the Layout Driver Files
-     *
-     * @param string $option
-     */
-    public function setLayoutDriver ($option) {
-        $this->layoutDriverFolderName = $option;
-    }
-
-    /**
-     * setLayout
-     *
-     * Location of the Folder containing the Layout Files
-     *
-     * @param string $option
-     */
-    public function setLayout ($option) {
-        $this->layoutFolderName = $option;
-    }
-
-    /**
-     * getPath
-     *
-     * looks for file in paths
-     *
-     * @param  $layout
-     * @param bool $error
+     * driver
+     * @param  $folder
+     * @param  $option
+     * @param  $view
      * @return bool|string
      */
-    public function getPath ($layout, $error=true)
+    public function driver ($folder, $option, $view, $driver='/driver.php')
     {
-        /** template **/
+        /** driver must have a slash */
+        if (substr($driver, 0, 1) == '/') {
+        } else {
+            $driver = '/'.$driver;
+        }
+        
+        /** path: template **/
         $template = JFactory::getApplication()->getTemplate();
-
-        /** layout **/
-        if ($layout == '') {
-            $layout = JRequest::getVar('layout').'.php';
-        }
-        if ($layout == '') {
-            $layout = 'default.php';
-        }
+        $templatePath = JPATH_THEMES.'/'.$template.'/html/layouts/';
 
         /** path: component **/
         if (MOLAJO_CLIENT == 'site') {
-            $bPath = JPATH_ROOT.'/components/'.JRequest::getVar('option').'/views/'.JRequest::getVar('view').'/tmpl/';
+            $componentPath = JPATH_ROOT.'/components/'.$option.'/views/'.$view.'/tmpl/';
         } else {
-            $bPath = JPATH_ROOT.'/'.MOLAJO_CLIENT.'/components/'.JRequest::getVar('option').'/views/'.JRequest::getVar('view').'/tmpl/';
+            $componentPath = JPATH_ROOT.'/'.MOLAJO_CLIENT.'/components/'.$option.'/views/'.$view.'/tmpl/';
         }
 
-        /** path: template **/
-        $tPath = JPATH_THEMES.'/'.$template.'/html/'.JRequest::getVar('view').'/'.JRequest::getVar('view').'/';
+        /** path: core **/
+        $corePath = MOLAJO_LAYOUTS.'/';
 
-        /** path: driver or layout **/
-        if (substr($layout, 0, 6) == 'driver') {
-            $mPath = MOLAJO_LAYOUT_DRIVERS.$this->layoutDriverFolderName.'/';
-        } else {
-            $mPath = MOLAJO_LAYOUTS.$this->layoutFolderName.'/';
-        }
-
-        $layoutPath = '';
+        $folderPath = '';
 
         /** template **/
-        if (file_exists($tPath.$layout)) {
-            $layoutPath = $tPath.$layout;
+        if (file_exists($templatePath.$folder.$driver)) {
+            return $templatePath.$folder.$driver;
 
         /** component **/
-        } else if (file_exists($bPath.$layout)) {
-            $layoutPath =$bPath.$layout;
+        } else if (file_exists($componentPath.$folder)) {
+            return $componentPath.$folder.$driver;
 
         /** molajao library **/
-        } else if (file_exists($mPath.$layout)) {
-            $layoutPath = $mPath.$layout;
+        } else if (file_exists($corePath.$folder)) {
+            return $corePath.$folder.$driver;
 
         /** error: layout not available **/
         } else if ($error == true) {
-            JFactory::getApplication()->enqueueMessage(JText::_(strtoupper(JRequest::getVar('option')).'_INVALID_LAYOUT_FILENAME').': '.$mPath.$layout, 'error');
-            $this->errorMessage = JText::_(strtoupper(JRequest::getVar('option')).'_INVALID_LAYOUT_FILENAME').': '.$mPath.$layout;
-            $layoutPath = $mPath.'notfound.php';
+            JFactory::getApplication()->enqueueMessage(JText::_(strtoupper($option).'_INVALID_LAYOUT_FILENAME').': '.$corePath.$folder, 'error');
+            $this->errorMessage = JText::_(strtoupper($option).'_INVALID_LAYOUT_FILENAME').': '.$corePath.$folder;
+            $folderPath = $corePath.'notfound.php';
 
         } else {
             return false;
         }
 
-        return $layoutPath;
+        return $folderPath;
     }
 }

@@ -49,78 +49,34 @@ class protectAkismet
                         $mainframe->enqueueMessage(JText::_('Comment identified as Spam by Akismet.'));
                         $published = 2;
                 }
+ *
+ *  <b>Usage:</b>
+ *  <code>
+ *    $akismet = new Akismet('http://www.example.com/blog/', 'aoeu1aoue');
+ *    $akismet->setCommentAuthor($name);
+ *    $akismet->setCommentAuthorEmail($email);
+ *    $akismet->setCommentAuthorURL($url);
+ *    $akismet->setCommentContent($comment);
+ *    $akismet->setPermalink('http://www.example.com/blog/alex/someurl/');
+ *    if($akismet->isCommentSpam())
+ *      // store the comment but mark it as spam (in case of a mis-diagnosis)
+ *    else
+ *      // store the comment normally
+ *  </code>
+ *
+ *  Optionally you may wish to check if your WordPress API key is valid as in the example below.
+ *
+ * <code>
+ *   $akismet = new Akismet('http://www.example.com/blog/', 'aoeu1aoue');
+ *
+ *   if($akismet->isKeyValid()) {
+ *     // api key is okay
+ *   } else {
+ *     // api key is invalid
+ *   }
+ * </code>
+ *
 
-	/**
-	 * 	3 - Mollom
-	 */
-		} else if ($spamProtectionOption == '3') {
-			tamkaimport('tamka.spam.mollom.mollom');
-			$session =& JFactory::getSession();			
-			
-			$mollompublickey = $tamkaLibraryPluginParams->get( 'mollompublickey' );
-			$mollomprivatekey = $tamkaLibraryPluginParams->get( 'mollomprivatekey' );			
-
-			Mollom::setPublicKey($mollompublickey);
-			Mollom::setPrivateKey($mollomprivatekey);
-			$servers = Mollom::getServerList();
-			Mollom::setServerList($servers);
-			
-//			$mollom_challenge_response = $session->get('mollom_challenge_response', false, 'com_responses');
-			$session->set('mollom_challenge_response', false, 'com_responses');
-
-//			if ($mollom_challenge_response) {
-//				if (Mollom::checkCaptcha(null, $mollomresponse) == true) {
-					// echo 'the answer is correct, you may proceed!';
-//					global $mainframe;
-//					$mainframe->enqueueMessage(JText::_('Good answer'));
-//				} else {
-//					global $mainframe;
-//					$mainframe->enqueueMessage(JText::_('Incorrect Captcha value. Please try, again.'));
-//					$session->set('mollom_challenge_response', true, 'com_responses');					
-//					$published = 3;					
-//				}
-//			} else {
-				
-				$feedback = Mollom::checkContent(null, null, 
-					$session->get('comment_body', null, 'com_responses'), 
-					$session->get('comment_author_name', null, 'com_responses'), 
-					$session->get('comment_author_email', null, 'com_responses'), 
-					$session->get('component_url', null, 'com_responses'));
-				
-					if (in_array($feedback['spam'], array('unsure', 'unknown'))) {
-//						$session->set('mollom_challenge_response', true, 'com_responses');
-						
-					} else if ($feedback['spam'] == 'spam') {
-						global $mainframe;
-						$mainframe->enqueueMessage(JText::_('Comment identified as Spam by Mollom'));
-						$published = 3;
-					} else {
-		//				echo 'must be ham ' . $feedback['spam'];
-					}
-			}
-		}
-	}
-
-/**
- * 
- * 	Function: invokeBadWordCheck
- * 		Strip out Bad Words
- * 
- */					
-	function invokeBadWordCheck ($cleanString)  	
-	{		
-	/**
-	 * 	Retrieve User Group Parameter for Auto Publish 
-	 */
-		$tamkaLibraryPlugin 	=& JPluginHelper::getPlugin( 'system', 'tamka');
-		$tamkaLibraryPluginParams = new JParameter($tamkaLibraryPlugin->params);	
-		
-	/**
-	 * 	Filter content through array of Bad Words
-	 */
-		$badWords = explode(",", $tamkaLibraryPluginParams->def('badword', ''));
-		return str_replace($badWords, '', $cleanString);	
-			
 	}
 }	
 ?>

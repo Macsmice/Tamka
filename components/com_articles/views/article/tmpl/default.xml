@@ -12,15 +12,16 @@
     </layout>
 
 	<!-- Add fields to the request variables for the layout. -->
+
+	<!-- Add fields to the request variables for the layout. -->
 	<fields name="request">
 		<fieldset name="request"
-			addfieldpath="/libraries/overrides/form/fields">
+			addfieldpath="/administrator/components/com_articles/models/fields">
 
-			<field name="id"
-                type="modal_item"
-				label="MOLAJO_CHOOSE_ITEM_LABEL"
-                extension="com_articles"
-				description="COM_ARTICLES_FIELD_SELECT_ARTICLE_LABEL"
+			<field name="id" type="modal_article"
+				label="COM_CONTENT_FIELD_SELECT_ARTICLE_LABEL"
+				required="true"
+				description="COM_CONTENT_FIELD_SELECT_ARTICLE_DESC"
 			/>
 		</fieldset>
 	</fields>

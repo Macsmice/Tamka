@@ -1,15 +1,15 @@
 <?php
 /**
- * @version     $id: multiple.php
+ * @version     $id: display.php
  * @package     Molajo
- * @subpackage  Multiple Model
+ * @subpackage  Display Model
  * @copyright   Copyright (C) 2011 Amy Stephen. All rights reserved.
  * @license     GNU General Public License Version 2, or later http://www.gnu.org/licenses/gpl.html
  */
 defined('MOLAJO') or die;
 
 /**
- * Component Model Multiple Items
+ * Component Model for Dispaly
  *
  * MolajoModelDisplay extends JModel extends JObject
  *
@@ -36,12 +36,20 @@ class MolajoModelDisplay extends JModel
     protected $query = null;
 
     /**
-     * $parameterFilterFieldName
+     * $dispatcher
+     *
+     * @var    string
+     * @since  1.6
+     */
+    protected $dispatcher = null;
+
+    /**
+     * $filterFieldName
      *
      * @var		string
      * @since	1.6
      */
-    protected $parameterFilterFieldName = null;
+    protected $filterFieldName = null;
 
     /**
      * Internal memory based cache array of data.
@@ -52,13 +60,31 @@ class MolajoModelDisplay extends JModel
     protected $cache = array();
 
     /**
-     * Context string for the model type.  This is used to handle uniqueness
-     * when dealing with the getStoreId() method and caching data structures.
+     * Context string for the model for uniqueness with caching data structures.
      *
      * @var		string
      * @since	1.6
      */
     protected $context = null;
+
+    /**
+     * Context object for use with plugins
+     *
+     * @var		string
+     * @since	1.6
+     */
+    protected $context_object = array();
+
+    /**
+     * Use instead of request variables for HMVC
+     *
+     * @var		string
+     * @since	1.6
+     */
+    protected $option = null;
+    protected $view = null;
+    protected $model = null;
+    protected $layout = null;
 
     /**
      * Valid filter fields or ordering.
@@ -105,10 +131,18 @@ class MolajoModelDisplay extends JModel
         parent::__construct($config);
 
         $this->context = strtolower(JRequest::getVar('option').'.'.$this->getName());
-        $this->params = JComponentHelper::getParams(JRequest::getVar('option'));
-        $this->parameterFieldName = JRequest::getCmd('filterFieldName', 'config_manager_list_filters');
+
+        $this->option = JRequest::getCmd('option');
+        $this->view = JRequest::getCmd('view');
+        $this->model = $this->getName();
+        $this->layout = JRequest::getCmd('layout');
+
+        $this->params = JComponentHelper::getParams(JRequest::getCmd('option'));
+        $this->filterFieldName = JRequest::getCmd('filterFieldName', 'config_manager_list_filters');
         $this->molajoConfig = new MolajoModelConfiguration();
         $this->molajoField  = new MolajoField();
+        $this->dispatcher	= JDispatcher::getInstance();
+		JPluginHelper::importPlugin('query');
     }
 
     /**
@@ -150,6 +184,8 @@ class MolajoModelDisplay extends JModel
         foreach ($fields as $fieldname => $value) {
             $this->tableFieldList[] = $fieldname;
         }
+
+        $this->dispatcher->trigger('onQueryPopulateState', array ($this->context_object, $this->state, $this->params));
     }
 
     /**
@@ -180,7 +216,7 @@ class MolajoModelDisplay extends JModel
         /** selected filters **/
         for ($i=1; $i < 1000; $i++) {
 
-            $filterName = $this->params->def($this->parameterFieldName.$i);
+            $filterName = $this->params->def($this->filterFieldName.$i);
 
             /** end of filter processing **/
             if ($filterName == null) { break; }
@@ -260,6 +296,19 @@ class MolajoModelDisplay extends JModel
         }
         $this->setState('list.direction', $value);
 
+        /** context object **/
+        $this->setState('request.option', $this->option);
+        $this->setState('request.view', $this->view);
+        $this->setState('request.model', $this->model);
+        $this->setState('request.option', $this->layout);
+
+        $this->context_object = array('option'  => $this->option,
+                                      'view'    => $this->view,
+                                      'model'   => $this->model,
+                                      'layout'  => $this->layout);
+
+        $this->setState('context.object', $this->context_object);
+
         return;
     }
 
@@ -311,37 +360,73 @@ class MolajoModelDisplay extends JModel
     }
 
     /**
+     * Method to set model state variables
+     *
+     * @param   string  $property	The name of the property
+     * @param   mixed   $value		The value of the property to set
+     *
+     * @return  mixed   The previous value of the property
+     * @since   11.1
+     */
+    public function setState($property, $value = null)
+    {
+        return $this->state->set($property, $value);
+    }
+
+    /**
      * getItems
      *
-     * Method to get a list of content and convert JSON fields to arrays
+     * - set filters (before)
+     *      - triggers onQueryPopulateState event, passing in the full filter set
+     *
+     * - create query (called from View)
+     *      - triggers onQueryBeforeQuery event, passing in the Query object
+     *
+     * - run query
+     *      - triggers onQueryAfterQuery event, passing in the full query resultset
+     *
+     * - loops through the recordset
+     *
+     *      - triggers onQueryBeforeItem event, passing in the new item in the recordset
+     *
+     *      - creates 'added value' fields, like author, permanent URL, etc.
+     *
+     *      - remove items due to post query examination
+     *
+     *      - triggers onQueryAfterItem event, passing in the current item with added value fields
+     *
+     * - loop complete
+     *      - triggers onQueryComplete event, passing in the resultset, less items removed, with augmented data
+     *
+     *      - Returns resultset to the View
      *
      * @return	mixed	An array of objects on success, false on failure.
      * @since	1.6
      */
     public function getItems()
     {
-$debug = false;
-
-if ($debug) {
-    echo 'in getItems';
-}
-        /** session key for caching resultset **/
+        /** create query **/
         $store = $this->getStoreId();
         if (empty($this->cache[$store])) {
+
         } else {
             return $this->cache[$store];
         }
 
-        /** query **/
         $query	= $this->getListQueryCache();
 
-        /** query results **/
-        $items = $this->_getList($query, $this->getStart(), $this->getState('list.limit'));
+        /** run query **/
+		$this->_db->setQuery($query, $this->getStart(), $this->getState('list.limit'));
+		$items = $this->_db->loadObjectList();
 
+        /** error handling */
         if ($this->_db->getErrorNum()) {
             $this->setError($this->_db->getErrorMsg());
             return false;
         }
+
+        /** pass query results to event */
+        $this->dispatcher->trigger('onQueryAfterQuery', array($this->context_object, $items, $this->params));
 
         /** publish dates **/
         $nullDate = $this->_db->Quote($this->_db->getNullDate());
@@ -349,25 +434,25 @@ if ($debug) {
 
         /** retrieve names of json fields for this type of content **/
         $jsonFields = $this->molajoConfig->getOptionList (MOLAJO_CONFIG_OPTION_ID_JSON_FIELDS);
-if ($debug) {
-    var_dump($jsonFields);
-}
+
         /** ACL **/
         $aclClass = ucfirst(JRequest::getCmd('default_view')).'ACL';
 
-        /** process query results **/
+        /** process resultset */
         if (count($items) > 0) {
 
             for ($i=0; $i < count($items); $i++) {
 
-                $remove = false;
+                $keep = true;
+
+                $this->dispatcher->trigger('onQueryBeforeItem', array($this->context_object, $items[$i], $this->params, $keep));
 
                 /** category is archived, so item should be too **/
                 if ($items[$i]->minimum_state_category < $items[$i]->state && $items[$i]->state > MOLAJO_STATE_VERSION) {
                     $items[$i]->state = $items[$i]->minimum_state_category;
                     /** recheck the new status against query filter **/
                     if ($this->getState('filter.state') > $items[$i]->state) {
-                        $remove = true;
+                        $keep = false;
                     }
                 }
 
@@ -377,68 +462,106 @@ if ($debug) {
                     /** recheck the new status against query filter **/
                     if ($this->getState('filter.state') == MOLAJO_STATE_ARCHIVED || $this->getState('filter.state') =='*') {
                     } else {
-                        $remove = true;
+                        $keep = false;
                     }
                 }
 
-                /** check publish dates **/
-//        $query->where('(a.publish_up = ' . $nullDate . ' OR a.publish_up <= ' . $nowDate . ')');
-//        $query->where('(a.publish_down = ' . $nullDate . ' OR a.publish_down >= ' . $nowDate . ')');
+                /** split into intro text and full text */
+                $pattern = '#<hr\s+id=("|\')system-readmore("|\')\s*\/*>#i';
+                $tagPos	= preg_match($pattern, $items[$i]->content_text);
 
-                /** remove item overridden by category and no longer valid for criteria **/
-                if ($remove === true) {
-                    unset($items[$i]);
+                if ($tagPos == 0) {
+                    $introtext = $items[$i]->content_text;
+                    $fulltext  = '';
                 } else {
+                    list($introtext, $fulltext) = preg_split($pattern, $items[$i]->content_text, 2);
+                }
 
-                    /** split into intro text and full text */
-                    $pattern = '#<hr\s+id=("|\')system-readmore("|\')\s*\/*>#i';
-                    $tagPos	= preg_match($pattern, $items[$i]->content_text);
+                $items[$i]->introtext = $introtext;
+                $items[$i]->fulltext = $fulltext;
 
-                    if ($tagPos == 0) {
-                        $introtext = $items[$i]->content_text;
-                        $fulltext  = '';
-                    } else {
-                        list($introtext, $fulltext) = preg_split($pattern, $items[$i]->content_text, 2);
+                /** some content plugins expect column named text */
+                if ($this->params->get('show_intro','1') == '1') {
+                    $items[$i]->text = $items[$i]->introtext.' '.$items[$i]->fulltext;
+                } else if ($items[$i]->fulltext) {
+                    $items[$i]->text = $items[$i]->fulltext;
+                } else {
+                    $items[$i]->text = $items[$i]->introtext;
+                }
+
+                if ($items[$i]->created_by_alias == '') {
+                    $items[$i]->display_author_name = $items[$i]->author_name;
+                } else {
+                    $items[$i]->display_author_name = $items[$i]->created_by_alias;
+                }
+
+                $items[$i]->slug		= $items[$i]->alias ? ($items[$i]->id.':'.$items[$i]->alias) : $items[$i]->id;
+                $items[$i]->catslug		= $items[$i]->category_alias ? ($items[$i]->category_id.':'.$items[$i]->category_alias) : $items[$i]->category_id;
+//                $items[$i]->parent_slug	= $items[$i]->category_alias ? ($items[$i]->parent_id.':'.$items[$i]->parent_alias) : $items[$i]->parent_id;
+
+                // TODO: Change based on shownoauth
+//                $items[$i]->readmore_link = JRoute::_(ContentHelperRoute::getArticleRoute($items[$i]->slug, $items[$i]->catslug));
+
+                /** trigger events */
+//                $this->_triggerEvents();
+
+                if (isset($items[$i]->created)) {
+                    $items[$i]->created_date = date($items[$i]->created);
+                    $items[$i]->created_ccyymmdd = MolajoDateHelper::convertCCYYMMDD ($items[$i]->created);
+                    $items[$i]->created_n_days_ago = MolajoDateHelper::differenceDays (date('Y-m-d'), $items[$i]->created_ccyymmdd);
+                    $items[$i]->created_ccyymmdd = str_replace('-', '', $items[$i]->created_ccyymmdd);
+                }  else {
+                    $items[$i]->created_n_days_ago = '';
+                    $items[$i]->created_ccyymmdd = '';
+                }
+
+                if (isset($items[$i]->modified)) {
+                    $items[$i]->modified_ccyymmdd = MolajoDateHelper::convertCCYYMMDD ($items[$i]->modified);
+                    $items[$i]->modified_n_days_ago = MolajoDateHelper::differenceDays (date('Y-m-d'), $items[$i]->modified_ccyymmdd);
+                    $items[$i]->modified_ccyymmdd = str_replace('-', '', $items[$i]->modified_ccyymmdd);
+                }  else {
+                    $items[$i]->modified_n_days_ago = '';
+                    $items[$i]->modified_ccyymmdd = '';
+                }
+
+                if (isset($items[$i]->publish_up)) {
+                    $items[$i]->published_ccyymmdd = MolajoDateHelper::convertCCYYMMDD ($items[$i]->publish_up);
+                    $items[$i]->published_n_days_ago = MolajoDateHelper::differenceDays (date('Y-m-d'), $items[$i]->published_ccyymmdd);
+                    $items[$i]->published_ccyymmdd = str_replace('-', '', $items[$i]->published_ccyymmdd);
+                }  else {
+                    $items[$i]->published_n_days_ago = '';
+                    $items[$i]->published_ccyymmdd = '';
+                }
+                
+                /** Perform JSON to array conversion... **/
+                foreach ($jsonFields as $field) {
+                    $attribute = $field->value;
+                    if (property_exists($items[$i], $attribute)) {
+                        $registry = new JRegistry;
+                        $registry->loadJSON($items[$i]->$attribute);
+                        $items[$i]->$attribute = $registry->toArray();
                     }
+                }
 
-                    $items[$i]->introtext = $introtext;
-                    $items[$i]->fulltext = $fulltext;
+                /** acl-append item-specific task permissions **/
+                $results = $aclClass::getUserItemPermissions (JRequest::getCmd('option'), JRequest::getCmd('single_view'), JRequest::getVar('task'), $items[$i]->id, $items[$i]->category_id, $items[$i]);
+                if ($results === false) {
+                    $keep = false;
+                }
 
-                    /** some content plugins expect column named text */
-                    if ($this->params->get('show_intro','1') == '1') {
-                        $items[$i]->text = $items[$i]->introtext.' '.$items[$i]->fulltext;
-                    } else if ($items[$i]->fulltext) {
-                        $items[$i]->text = $items[$i]->fulltext;
-                    } else {
-                        $items[$i]->text = $items[$i]->introtext;
-                    }
-
-                    if ($items[$i]->created_by_alias == '') {
-                        $items[$i]->display_author_name = $items[$i]->author_name;
-                    } else {
-                        $items[$i]->display_author_name = $items[$i]->created_by_alias;
-                    }
-
-                    /** Perform JSON to array conversion... **/
-                    foreach ($jsonFields as $field) {
-                        $attribute = $field->value;
-                        if (property_exists($items[$i], $attribute)) {
-                            $registry = new JRegistry;
-                            $registry->loadJSON($items[$i]->$attribute);
-                            $items[$i]->$attribute = $registry->toArray();
-                        }
-                    }
-//Event OnContentQueryItem
-     
-                    /** acl-append item-specific task permissions **/
-                    $results = $aclClass::getUserItemPermissions (JRequest::getCmd('option'), JRequest::getCmd('single_view'), JRequest::getVar('task'), $items[$i]->id, $items[$i]->category_id, $items[$i]);
-                    if ($results === false) {
-                        JFactory::getApplication()->enqueueMessage(JText::_('MOLAJO_ACL_ERROR_ACTION_NOT_PERMITTED').' '.$this->getTask(), 'warning');
-                        return false;
-                    }
+                $this->dispatcher->trigger('onQueryAfterItem', array($this->context_object, $items[$i], $this->params, $keep));
+var_dump($items[$i]);
+                /** remove item overridden by category and no longer valid for criteria **/
+                if ($keep === true) {
+                } else {
+                    echo 'ooops';
+                    unset($items[$i]);
                 }
             }
         }
+
+        /** final event for queryset */
+        $this->dispatcher->trigger('onQueryComplete', array($this->context_object, $items, $this->params));
 
         /** place query results in cache **/
         $this->cache[$store] = $items;
@@ -467,66 +590,31 @@ if ($debug) {
             $this->query = $this->getListQuery();
         }
 
-        //OnContentBeforeQuery
-
         return $this->query;
-    }
-
-    /**
-     * getStoreId
-     *
-     * Method to get a unique store id based on model configuration state.
-     *
-     * @param	string		$id	A prefix for the store id.
-     *
-     * @return	string		A store id.
-     * @since	1.6
-     */
-    protected function getStoreId ($id = '')
-    {
-        $id = ':'.$this->getState('filter.search');
-
-        for ($i=1; $i < 1000; $i++) {
-            $temp = $this->params->def($this->parameterFieldName.$i);
-            $filterName = substr($temp, 0, stripos($temp, ';'));
-            $filterDataType = substr($temp, stripos($temp, ';') + 1, 1);
-            if ($filterName == null) {
-                break;
-            } else {
-                $id .= ':'.$this->getState('filter.'.$filterName);
-            }
-        }
-
-        $id .= ':'.$this->getState('filter.layout');
-
-        $id .= ':'.$this->getState('list.start');
-        $id .= ':'.$this->getState('list.limit');
-        $id .= ':'.$this->getState('list.ordering');
-        $id .= ':'.$this->getState('list.direction');
-
-        return md5($this->context.':'.$id);
     }
 
     /**
      * getListQuery
      *
-     * Get the master query for retrieving a list of items subject to the model state.
+     * Build query for retrieving a list of items subject to the model state.
      *
      * @return	JDatabaseQuery
      * @since	1.6
      */
     function getListQuery()
     {
-        $db = $this->getDbo();
-        $this->query = $db->getQuery(true);
+        /** retrieve JDatabaseQuery object */
+        $this->query = $this->_db->getQuery(true);
         
         /** Process each field that is 1) required 2) selected for display and 3) selected as a filter **/
         $fieldArray = array();
 
-        /** load all available columns into select list and check for filters **/
+        /** load all available columns into select list **/
         foreach ($this->tableFieldList as $fieldName) {
             $this->setQueryParts ($fieldName, false);
         }
+
+        /** process search filter */
         $this->setQueryParts ('search', false);
 
         /** primary table **/
@@ -543,7 +631,7 @@ if ($debug) {
             $subQuery = ' SELECT parent.id, MIN(parent.published) AS published ';
             $subQuery .= ' FROM #__categories AS cat ';
             $subQuery .= ' JOIN #__categories AS parent ON cat.lft BETWEEN parent.lft AND parent.rgt ';
-            $subQuery .= ' WHERE parent.extension = '.$db->quote(JRequest::getVar('option'));
+            $subQuery .= ' WHERE parent.extension = '.$this->_db->quote(JRequest::getVar('option'));
             $subQuery .= '   AND cat.published > '.MOLAJO_STATE_VERSION;
             $subQuery .= '   AND parent.published > '.MOLAJO_STATE_VERSION;
             $subQuery .= ' GROUP BY parent.id ';
@@ -554,21 +642,24 @@ if ($debug) {
             $subQuery = ' SELECT parent.id, MAX(parent.published) AS published ';
             $subQuery .= ' FROM #__categories AS cat ';
             $subQuery .= ' JOIN #__categories AS parent ON cat.lft BETWEEN parent.lft AND parent.rgt ';
-            $subQuery .= ' WHERE parent.extension = '.$db->quote(JRequest::getVar('option'));
+            $subQuery .= ' WHERE parent.extension = '.$this->_db->quote(JRequest::getVar('option'));
             $subQuery .= ' GROUP BY parent.id ';
         $this->query->join(' LEFT OUTER', '('.$subQuery.') AS maximumState ON maximumState.id = c.id ');
  
-        /** view access for user **/
+        /** set view access criteria for site visitor **/
         $aclClass = ucfirst(strtolower(JRequest::getVar('default_view'))).'ACL';
         $aclClass::getQueryParts ($this->query, 'user', '');
 
-        /** ordering and direction **/
+        /** set ordering and direction **/
         $orderCol	= $this->state->get('list.ordering', 'a.title');
         $orderDirn	= $this->state->get('list.direction', 'asc');
         if ($orderCol == 'a.ordering' || $orderCol == 'category_title') {
             $orderCol = 'category_title '.$orderDirn.', a.ordering';
         }
-        $this->query->order($db->getEscaped($orderCol.' '.$orderDirn));
+        $this->query->order($this->_db->getEscaped($orderCol.' '.$orderDirn));
+
+        /** pass query object to event */
+        $this->dispatcher->trigger('onQueryBeforeQuery', $this->query);
 
         return $this->query;
     }
@@ -613,18 +704,20 @@ if ($debug) {
      */
     public function getTotal()
     {
-        /** get total id **/
+        /** cache **/
         $store = $this->getStoreId('getTotal');
-
-        /** if available, load from cache **/
         if (empty($this->cache[$store])) {
+
         } else {
             return $this->cache[$store];
         }
 
-        /** get total of items **/
-        $query = $this->getListQueryCache();
-        $total = (int) $this->_getListCount((string) $query);
+        /** get total of items returned from the last query **/
+		$this->_db->setQuery($this->getListQueryCache());
+		$this->_db->query();
+
+		$total = (int) $this->_db->getNumRows();
+
         if ($this->_db->getErrorNum()) {
             $this->setError($this->_db->getErrorMsg());
             return false;
@@ -647,11 +740,10 @@ if ($debug) {
      */
     public function getStart()
     {
-        /** get start id **/
+        /** cache **/
         $store = $this->getStoreId('getStart');
-
-        /** if available, load from cache **/
         if (empty($this->cache[$store])) {
+
         } else {
             return $this->cache[$store];
         }
@@ -672,6 +764,41 @@ if ($debug) {
     }
 
     /**
+     * getStoreId
+     *
+     * Method to get a unique store id based on model configuration state.
+     *
+     * @param	string		$id	A prefix for the store id.
+     *
+     * @return	string		A store id.
+     * @since	1.6
+     */
+    protected function getStoreId ($id = '')
+    {
+        $id = ':'.$this->getState('filter.search');
+
+        for ($i=1; $i < 1000; $i++) {
+            $temp = $this->params->def($this->filterFieldName.$i);
+            $filterName = substr($temp, 0, stripos($temp, ';'));
+            $filterDataType = substr($temp, stripos($temp, ';') + 1, 1);
+            if ($filterName == null) {
+                break;
+            } else {
+                $id .= ':'.$this->getState('filter.'.$filterName);
+            }
+        }
+
+        $id .= ':'.$this->getState('filter.layout');
+
+        $id .= ':'.$this->getState('list.start');
+        $id .= ':'.$this->getState('list.limit');
+        $id .= ':'.$this->getState('list.ordering');
+        $id .= ':'.$this->getState('list.direction');
+
+        return md5($this->context.':'.$id);
+    }
+
+    /**
      * getAuthors
      *
      * Build a list of authors
@@ -682,18 +809,18 @@ if ($debug) {
     public function getAuthors()
     {
         $componentTable = '#'.JRequest::getCmd('component_table');
-        $db = $this->getDbo();
-        $this->query = $db->getQuery(true);
+
+        $this->query = $this->_db->getQuery(true);
 
         $this->query->select('u.id AS value, u.name AS text');
         $this->query->from('#__users AS u');
-        $this->query->join('INNER', $db->namequote($componentTable).' AS c ON c.created_by = u.id');
+        $this->query->join('INNER', $this->_db->namequote($componentTable).' AS c ON c.created_by = u.id');
         $this->query->group('u.id');
         $this->query->order('u.name');
 
-        $db->setQuery($this->query->__toString());
+        $this->_db->setQuery($this->query->__toString());
 
-        return $db->loadObjectList();
+        return $this->_db->loadObjectList();
     }
 
     /**
@@ -758,27 +885,26 @@ if ($debug) {
      */
     public function getMonths($columnName, $table = null)
     {
-        $db = $this->getDbo();
-        $this->query = $db->getQuery(true);
+        $this->query = $this->_db->getQuery(true);
 
-        $this->query->select('DISTINCT CONCAT(SUBSTRING(a.'.$db->namequote($columnName).', 1, 4),
-                                            SUBSTRING(a.'.$db->namequote($columnName).', 6, 2)) AS value,
-                                            SUBSTRING(a.'.$db->namequote($columnName).', 1, 7) AS text');
+        $this->query->select('DISTINCT CONCAT(SUBSTRING(a.'.$this->_db->namequote($columnName).', 1, 4),
+                                            SUBSTRING(a.'.$this->_db->namequote($columnName).', 6, 2)) AS value,
+                                            SUBSTRING(a.'.$this->_db->namequote($columnName).', 1, 7) AS text');
 
         if ($table == null) {
             $this->queryTable = '#'.JRequest::getCmd('component_table');
         } else {
             $this->queryTable = $table;
         }
-        $this->query->from($db->namequote($this->queryTable).' AS a');
-        $this->query->group('SUBSTRING(a.'.$db->namequote($columnName).', 1, 4),
-                                            SUBSTRING(a.'.$db->namequote($columnName).', 6, 2),
-                                            SUBSTRING(a.'.$db->namequote($columnName).', 1, 7)');
-        $this->query->order('SUBSTRING(a.'.$db->namequote($columnName).', 1, 7)');
+        $this->query->from($this->_db->namequote($this->queryTable).' AS a');
+        $this->query->group('SUBSTRING(a.'.$this->_db->namequote($columnName).', 1, 4),
+                                            SUBSTRING(a.'.$this->_db->namequote($columnName).', 6, 2),
+                                            SUBSTRING(a.'.$this->_db->namequote($columnName).', 1, 7)');
+        $this->query->order('SUBSTRING(a.'.$this->_db->namequote($columnName).', 1, 7)');
 
-        $db->setQuery($this->query->__toString());
+        $this->_db->setQuery($this->query->__toString());
 
-        return $db->loadObjectList();
+        return $this->_db->loadObjectList();
     }
 
     /**
@@ -796,20 +922,20 @@ if ($debug) {
     public function getOptionList($field1, $field2, $showKey = false, $showKeyFirst = false, $table  = null)
     {
         $this->params = JComponentHelper::getParams(JRequest::getVar('option'));   
-        $db = $this->getDbo();
-        $this->query = $db->getQuery(true);
+
+        $this->query = $this->_db->getQuery(true);
 
         /** select **/
         if ($showKey == true) {
             if ($showKeyFirst == true) {
-                $fieldArray2 = 'CONCAT('.$db->namequote($field1).', ": ",'.$db->namequote($field2).' )';
+                $fieldArray2 = 'CONCAT('.$this->_db->namequote($field1).', ": ",'.$this->_db->namequote($field2).' )';
             } else {
-                $fieldArray2 = 'CONCAT('.$db->namequote($field2).', " (",'.$db->namequote($field1).', ")")';
+                $fieldArray2 = 'CONCAT('.$this->_db->namequote($field2).', " (",'.$this->_db->namequote($field1).', ")")';
             }
         } else {
              $fieldArray2 = $field2;
         }
-        $this->query->select('DISTINCT '.$db->namequote($field1).' AS value, '.$fieldArray2.' as text');
+        $this->query->select('DISTINCT '.$this->_db->namequote($field1).' AS value, '.$fieldArray2.' as text');
 
         /** from **/
         if ($table == null) {
@@ -817,14 +943,14 @@ if ($debug) {
         } else {
             $this->queryTable = $table;
         }
-        $this->query->from($db->namequote($this->queryTable).' AS a');
+        $this->query->from($this->_db->namequote($this->queryTable).' AS a');
 
         /** where **/
-        $this->parameterFieldName = JRequest::getCmd('filterFieldName', 'config_manager_list_filters').'_query_filters';
+        $this->filterFieldName = JRequest::getCmd('filterFieldName', 'config_manager_list_filters').'_query_filters';
 
         for ($i=1; $i < 1000; $i++) {
 
-            $filterName = $this->params->def($this->parameterFieldName.$i);
+            $filterName = $this->params->def($this->filterFieldName.$i);
 
             /** end of filter processing **/
             if ($filterName == null) { break; }
@@ -851,8 +977,8 @@ if ($debug) {
         }
 
         /** run query and return results **/
-        $db->setQuery($this->query->__toString());
-        return $db->loadObjectList();
+        $this->_db->setQuery($this->query->__toString());
+        return $this->_db->loadObjectList();
     }
 
     /**
@@ -895,33 +1021,32 @@ if ($debug) {
      */
     public function validateValue($columnName, $value, $valueType, $table = null)
     {
-        $db = $this->getDbo();
-        $this->query = $db->getQuery(true);
+        $this->query = $this->_db->getQuery(true);
 
-        $this->query->select('DISTINCT '.$db->namequote($columnName).' as value');
+        $this->query->select('DISTINCT '.$this->_db->namequote($columnName).' as value');
 
         if ($table == null) {
-            $this->query->from($db->namequote('#'.JRequest::getCmd('component_table')));
+            $this->query->from($this->_db->namequote('#'.JRequest::getCmd('component_table')));
         } else {
-            $this->query->from($db->namequote($table));
+            $this->query->from($this->_db->namequote($table));
         }
 
         if ($valueType == 'numeric') {
-            $this->query->where($db->namequote($columnName).' = '.(int) $value);
+            $this->query->where($this->_db->namequote($columnName).' = '.(int) $value);
         } else {
-            $this->query->where($db->namequote($columnName).' = '.$db->quote($value));
+            $this->query->where($this->_db->namequote($columnName).' = '.$this->_db->quote($value));
         }
 
-        $db->setQuery($this->query->__toString());
+        $this->_db->setQuery($this->query->__toString());
 
-        if (!$results = $db->loadObjectList()) {
-            JFactory::getApplication()->enqueueMessage($db->getErrorMsg(), 'error');
+        if (!$results = $this->_db->loadObjectList()) {
+            JFactory::getApplication()->enqueueMessage($this->_db->getErrorMsg(), 'error');
             return false;
         }
 
         if (count($results) > 0) {
-            foreach ($results as $count => $item) {
-                $singleValue = $item->value;
+            foreach ($results as $count => $result) {
+                $singleValue = $result->value;
             }
             return true;
         }
@@ -941,24 +1066,23 @@ if ($debug) {
      */
     public function checkCategories ($categoryArray)
     {
-        $db = $this->getDbo();
-        $this->query = $db->getQuery(true);
+        $this->query = $this->_db->getQuery(true);
 
         $this->query->select('DISTINCT id');
-        $this->query->from($db->namequote('#__categories'));
+        $this->query->from($this->_db->namequote('#__categories'));
 
         /** category array **/
         JArrayHelper::toInteger($categoryArray);
         if (empty($categoryArray)) {
             return;
         }
-        $this->query->where($db->namequote('id').' IN ('.$categoryArray.')');
-        $this->query->where($db->namequote('extension').' = '.$db->quote(JRequest::getVar('option')));
+        $this->query->where($this->_db->namequote('id').' IN ('.$categoryArray.')');
+        $this->query->where($this->_db->namequote('extension').' = '.$this->_db->quote(JRequest::getVar('option')));
 
-        $db->setQuery($this->query->__toString());
+        $this->_db->setQuery($this->query->__toString());
 
-        if (!$results = $db->loadObjectList()) {
-            JFactory::getApplication()->enqueueMessage($db->getErrorMsg(), 'error');
+        if (!$results = $this->_db->loadObjectList()) {
+            JFactory::getApplication()->enqueueMessage($this->_db->getErrorMsg(), 'error');
             return false;
         }
 
@@ -1010,11 +1134,11 @@ if ($debug) {
         }
 
         /** 2: selected for display **/
-        $this->parameterFieldName = JRequest::getCmd('selectFieldName', 'config_manager_grid_column');
+        $this->filterFieldName = JRequest::getCmd('selectFieldName', 'config_manager_grid_column');
 
         for ($i=1; $i < 1000; $i++) {
 
-            $fieldName = $this->params->get($this->parameterFieldName.$i);
+            $fieldName = $this->params->get($this->filterFieldName.$i);
 
             /** end of filter processing **/
             if ($fieldName == null) { break; }
@@ -1032,11 +1156,11 @@ if ($debug) {
         }
 
         /** 3: selected as a filter **/
-        $this->parameterFieldName = JRequest::getCmd('filterFieldName', 'config_manager_list_filters');
+        $this->filterFieldName = JRequest::getCmd('filterFieldName', 'config_manager_list_filters');
 
         for ($i=1; $i < 1000; $i++) {
 
-            $fieldName = $this->params->def($this->parameterFieldName.$i);
+            $fieldName = $this->params->def($this->filterFieldName.$i);
 
             /** end of filter processing **/
             if ($fieldName == null) { break; }

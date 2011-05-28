@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<access component="com_things">
+	<section name="component">
+		<action name="core.admin" title="MOLAJO_ADMIN" description="MOLAJO_ADMIN_COMPONENT_DESC" />
+        <action name="core.manage" title="MOLAJO_MANAGE" description="MOLAJO_MANAGE_COMPONENT_DESC" />
+	    <action name="core.view" title="MOLAJO_VIEW" description="MOLAJO_ACCESS_VIEW_DESC" />
+        <action name="core.create" title="MOLAJO_CREATE" description="MOLAJO_ACCESS_CREATE_STATE_DESC" />
+		<action name="core.delete" title="MOLAJO_DELETE" description="MOLAJO_ACCESS_DELETE_DESC" />
+		<action name="core.edit" title="MOLAJO_EDIT" description="MOLAJO_ACCESS_EDIT_DESC" />
+		<action name="core.edit.state" title="MOLAJO_EDIT_STATE" description="MOLAJO_ACCESS_EDIT_STATE_DESC" />
+		<action name="core.edit.own" title="MOLAJO_EDIT_OWN" description="MOLAJO_ACCESS_EDIT_OWN_STATE_DESC" />
+ 	</section>
+	<section name="category">
+        <action name="core.view" title="MOLAJO_VIEW" description="MOLAJO_ACCESS_VIEW_DESC" />
+        <action name="core.create" title="MOLAJO_CREATE" description="MOLAJO_ACCESS_CREATE_STATE_DESC" />
+        <action name="core.delete" title="MOLAJO_DELETE" description="MOLAJO_ACCESS_DELETE_DESC" />
+        <action name="core.edit" title="MOLAJO_EDIT" description="MOLAJO_ACCESS_EDIT_DESC" />
+        <action name="core.edit.state" title="MOLAJO_EDIT_STATE" description="MOLAJO_ACCESS_EDIT_STATE_DESC" />
+        <action name="core.edit.own" title="MOLAJO_EDIT_OWN" description="MOLAJO_ACCESS_EDIT_OWN_STATE_DESC" />
+ 	</section>
+	<section name="thing">
+        <action name="core.view" title="MOLAJO_VIEW" description="MOLAJO_ACCESS_VIEW_DESC" />
+        <action name="core.delete" title="MOLAJO_DELETE" description="MOLAJO_ACCESS_DELETE_DESC" />
+        <action name="core.edit" title="MOLAJO_EDIT" description="MOLAJO_ACCESS_EDIT_DESC" />
+        <action name="core.edit.state" title="MOLAJO_EDIT_STATE" description="MOLAJO_ACCESS_EDIT_STATE_DESC" />
+        <action name="core.edit.own" title="MOLAJO_EDIT_OWN" description="MOLAJO_ACCESS_EDIT_OWN_STATE_DESC" />
+	</section>
+</access>

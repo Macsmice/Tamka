@@ -255,10 +255,10 @@ abstract class JModel extends JObject
 		} else  if (empty($this->event_clean_cache)) {
 			$this->event_clean_cache = 'onContentCleanCache';
 		}
-
 	}
 
 	/**
+     * amy - not used
 	 * Gets an array of objects from the results of database query.
 	 *
 	 * @param   string   $query       The query.
@@ -428,6 +428,8 @@ abstract class JModel extends JObject
 	}
 
 	/**
+     * amy - not used
+     *
 	 * Method to set model state variables
 	 *
 	 * @param   string  $property	The name of the property

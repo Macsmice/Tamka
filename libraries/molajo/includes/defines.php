@@ -26,7 +26,7 @@ define('JPATH_LIBRARIES',		JPATH_ROOT.'/libraries');
 
 /** overrides */
 define('OVERRIDES_LIBRARY',		JPATH_ROOT.'/libraries/overrides');
- 
+
 /** Configuration Fields **/
 define('MOLAJO_CONFIG_OPTION_ID_FIELDS', 1);
 define('MOLAJO_CONFIG_OPTION_ID_EDITSTATE_FIELDS', 2);
@@ -91,9 +91,7 @@ if (isset($_SERVER["REQUEST_URI"])) {
 define('MOLAJO_CURRENT_URL', strtolower($currentURL));
 
 /** Layouts: Drivers, Layouts, and Parameters */
-$temp = MOLAJO_LIBRARY.'/views/drivers/';
-define('MOLAJO_LAYOUT_DRIVERS', $temp);
-$temp = MOLAJO_LIBRARY.'/views/layouts/';
+$temp = MOLAJO_LIBRARY.'/layouts';
 define('MOLAJO_LAYOUTS', $temp);
-$temp = MOLAJO_LIBRARY.'/views/parameters/';
-define('MOLAJO_LAYOUT_PARAMETERS', $temp);
+$temp = MOLAJO_LIBRARY.'/parameters';
+define('MOLAJO_PARAMETERS', $temp);

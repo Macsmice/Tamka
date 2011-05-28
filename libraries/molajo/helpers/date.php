@@ -8,7 +8,7 @@
  */
 defined('MOLAJO') or die();
 
-class MolajoHelperDate {
+class MolajoDateHelper {
 
     /**
      * convertCCYYMMDD
@@ -51,7 +51,7 @@ class MolajoHelperDate {
      * $dateComponents = getdate();
      * $month = $dateComponents['mon'];
      * $year = $dateComponents['year'];
-     * echo MolajoHelperDate::buildCalendar ($month,$year,$dateArray);
+     * echo MolajoDateHelper::buildCalendar ($month,$year,$dateArray);
      */
     function buildCalendar ($month, $year, $dateArray)
     {

@@ -11,28 +11,6 @@ class ProtectRecaptcha
 {
 
 
-/**
- * 	Function: checkBan
- * 		Check if User's IP, Email, or URL has been banned
- */		
-	function checkBan ($userip, $useremail, $useruri) 
-	{
-		
-	/**
-	 * 	Retrieve Library Parameters
-	 */
-		$tamkaLibraryPlugin 	=& JPluginHelper::getPlugin( 'system', 'tamka');
-		$tamkaLibraryPluginParams = new JParameter($tamkaLibraryPlugin->params);	
-		
-	/**
-	 * 	Retrieve Ban Parameters 
-	 */
-		$banned_ips = explode(",", $tamkaLibraryPluginParams->def('banips', ''));
-		$banned_emails = explode(",", $tamkaLibraryPluginParams->def('banemails', ''));
-		$banned_uris = explode(",", $tamkaLibraryPluginParams->def('banuris', ''));
-
-        }
-
         function invokeSpamProtectionCheck ($comment_captcha,
 									$referer,
 									$recaptcha_challenge_field,

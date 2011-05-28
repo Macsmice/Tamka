@@ -11,5 +11,4 @@ defined('MOLAJO') or die;
 $this->layoutHelper = new MolajoLayoutHelper();
 $this->layoutHelper->setLayoutDriver ('item');
 $this->layoutHelper->setLayout ('item');
-
 require $this->layoutHelper->getPath ('driver.php');

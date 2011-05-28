@@ -24,36 +24,7 @@ class ProtectMollom
 			return 0;
 		}
 		
-	/**
-	 * 	2 - Akismet
-	 */
-					
-		require_once Akismet.class.php;
-			
-    		$akismetkey = $tamkaLibraryPluginParams->get( 'akismetkey' );
-
-                $uri	= &JFactory::getURI();
-                $url	= $uri->toString(array('scheme', 'user', 'pass', 'host', 'port', 'path'));
-                $akismet = new Akismet($url, $akismetkey);
-			
-                $session =& JFactory::getSession();
-
-                $akismet->setCommentAuthor($session->get('comment_author_name', null, 'com_responses'));
-                $akismet->setCommentAuthorEmail($session->get('comment_author_email', null, 'com_responses'));
-                $akismet->setCommentAuthorURL($session->get('comment_author_url', null, 'com_responses'));
-                $akismet->setCommentContent($session->get('comment_body', null, 'com_responses'));
-                $akismet->setPermalink($session->get('component_url', null, 'com_responses'));
-			
-                if ($akismet->isCommentSpam()) {
-                        global $mainframe;
-                        $mainframe->enqueueMessage(JText::_('Comment identified as Spam by Akismet.'));
-                        $published = 2;
-                }
-
-	/**
-	 * 	3 - Mollom
-	 */
-		} else if ($spamProtectionOption == '3') {
+if ($spamProtectionOption == '3') {
 			tamkaimport('tamka.spam.mollom.mollom');
 			$session =& JFactory::getSession();			
 			
@@ -101,26 +72,5 @@ class ProtectMollom
 		}
 	}
 
-/**
- * 
- * 	Function: invokeBadWordCheck
- * 		Strip out Bad Words
- * 
- */					
-	function invokeBadWordCheck ($cleanString)  	
-	{		
-	/**
-	 * 	Retrieve User Group Parameter for Auto Publish 
-	 */
-		$tamkaLibraryPlugin 	=& JPluginHelper::getPlugin( 'system', 'tamka');
-		$tamkaLibraryPluginParams = new JParameter($tamkaLibraryPlugin->params);	
-		
-	/**
-	 * 	Filter content through array of Bad Words
-	 */
-		$badWords = explode(",", $tamkaLibraryPluginParams->def('badword', ''));
-		return str_replace($badWords, '', $cleanString);	
-			
-	}
 }	
 ?>

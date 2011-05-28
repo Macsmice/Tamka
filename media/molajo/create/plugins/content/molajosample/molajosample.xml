@@ -2,7 +2,7 @@
 <extension version="1.6" type="plugin" group="system" method="upgrade">
     <name>PLG_CONTENT_MOLAJOSAMPLE_PLUGIN</name>
     <author>Amy Stephen</author>
-    <creationDate>March 2011</creationDate>
+    <creationDate>June 2011</creationDate>
     <copyright>Copyright (C) 2011 Amy Stephen. All rights reserved.</copyright>
     <license>GNU General Public License version 2 or later http://www.gnu.org/licenses/gpl.html</license>
     <authorEmail>AmyStephen@gmail.com</authorEmail>

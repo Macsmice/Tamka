@@ -19,6 +19,7 @@ require_once MOLAJO_LIBRARY.'/includes/defines.php';
 /** load frameworks */
 require_once MOLAJO_LIBRARY.'/includes/joomla.php';
 require_once MOLAJO_LIBRARY.'/includes/molajo.php';
+require_once MOLAJO_LIBRARY.'/includes/other.php';
 JDEBUG ? $_PROFILER->mark('afterLoad') : null;
 
 /** initialize */
