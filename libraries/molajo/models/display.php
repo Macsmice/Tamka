@@ -322,6 +322,7 @@ class MolajoModelDisplay extends JModel
 
         /** request variables **/
         $this->setState('request.application', MOLAJO_APPLICATION);
+        $this->setState('request.extension', 'component');
         $this->setState('request.option', $this->option);
         $this->setState('request.view', $this->view);
         $this->setState('request.model', $this->model);
@@ -507,6 +508,9 @@ class MolajoModelDisplay extends JModel
                 } else {
                     $items[$i]->text = $items[$i]->introtext;
                 }
+
+                /** text snippet */
+                $items[$i]->snippet = substr($items[$i]->text, 0, $this->params->get('layout_text_snippet_length', 200));
 
                 if ($items[$i]->created_by_alias == '') {
                     $items[$i]->display_author_name = $items[$i]->author_name;

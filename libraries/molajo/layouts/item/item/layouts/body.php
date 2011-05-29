@@ -8,6 +8,6 @@
  */
 defined('MOLAJO') or die;
 ?>
-<div class="item-body<?php echo $this->options->get('page_class_suffix', ''); ?>">
-<?php echo $this->row->text; ?>
+<div class="item-body">
+    <?php echo $this->row->text; ?>
 </div>

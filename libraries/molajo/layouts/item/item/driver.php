@@ -16,4 +16,4 @@ $this->option->get('layout.loadComponentJS') = true;
 $this->option->get('layout.loadLayoutCSS') = true;
 $this->option->get('layout.loadLayoutJS') = true;
 */
-require_once MOLAJO_LAYOUTS.'/item_driver.php';
+require_once MOLAJO_LAYOUTS.'/_system/item_driver.php';
