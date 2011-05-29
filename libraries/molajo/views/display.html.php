@@ -18,11 +18,10 @@ defined('MOLAJO') or die;
 class MolajoViewDisplay extends JView
 {
     /** model query results */
-    protected $contextObject;
     protected $state;
     protected $queryResults;
-    protected $pagination;
-    protected $offset;
+    protected $queryItem;
+    protected $queryParameters;
 
     /** toolbar */
     protected $userToolbarButtonPermissions;
@@ -37,20 +36,18 @@ class MolajoViewDisplay extends JView
 
     /** layout variables  **/
     protected $layoutHelper;
-    protected $renderedOutput;
     protected $item;
-    protected $params;
-    protected $filterName;
-    protected $filterValue;
-    protected $optionsArray;
-    protected $selectedValue;
-    protected $itemCount;
+
     protected $listOrder;
     protected $listDirn;
     protected $saveOrder;
     protected $ordering;
-    protected $columnspan;
-    protected $results;
+
+    /** layout working fields */
+    protected $tempArray;
+    protected $tempSelected;
+    protected $tempCount;
+    protected $tempColumnCount;
 
     /**
      * __construct
@@ -79,9 +76,9 @@ class MolajoViewDisplay extends JView
         $this->queryResults     = $this->get('Items');
         $this->pagination       = $this->get('Pagination');
 
-        $this->contextObject    = $this->state->get('context.object');
-        var_dump($this->contextObject);
-        echo 'is this option? '.$this->contextObject['option'];
+        $this->option    = $this->state->get('request.option');
+        var_dump($this->state);
+        echo 'is this option? '.$this->option;
 
         die();
 //		$this->category	    = $this->get('Category');
@@ -107,7 +104,7 @@ class MolajoViewDisplay extends JView
         $this->user = JFactory::getUser();
 
 		/** Escape Pageclass Suffix */
-		$this->pageclass_sfx = htmlspecialchars($this->params->get('pageclass_sfx'));
+		$this->options->get('page_class_suffix', '') = htmlspecialchars($this->params->get('pageclass_sfx'));
 
         if (JFactory::getApplication()->getName() == 'site') {
 //            $documentHelper = new MolajoDocumentHelper ();
@@ -131,7 +128,7 @@ class MolajoViewDisplay extends JView
             MolajoSubmenuHelper::add();
         }
 
-        $this->itemCount = 0;
+        $this->tempCount = 0;
 
         /** layout **/
         $this->layoutHelper = new MolajoLayoutHelper();

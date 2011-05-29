@@ -9,7 +9,7 @@
 defined('MOLAJO') or die; ?>
 <tfoot>
     <tr>
-        <td colspan="<?php echo $this->columnspan; ?>">
+        <td colspan="<?php echo $this->tempColumnCount; ?>">
             <?php echo $this->pagination->getListFooter(); ?>
         </td>
     </tr>

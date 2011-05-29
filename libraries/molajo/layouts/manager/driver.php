@@ -18,16 +18,16 @@ JHTML::_('script','system/multiselect.js', false, true);
 
 /** custom icons, button bar items, grid icons, css **/
 $document =& JFactory::getDocument();
-$document->addStyleSheet('../media/'.JRequest::getVar('option').'/css/administrator.css');
+$document->addStyleSheet('../media/'.$this->options->get('component_option').'/css/administrator.css');
 
 /** Parameters **/
-$this->params = JComponentHelper::getParams(JRequest::getVar('option'));
+$this->options = JComponentHelper::getParams($this->options->get('component_option'));
 
 /** list variables **/
-$this->listOrder = $this->state->get('list.ordering');
-$this->listDirn = $this->state->get('list.direction');
-$listOrder = $this->escape($this->state->get('list.ordering'));
-$listDirn = $this->escape($this->state->get('list.direction'));
+$this->listOrder = $this->queryState->get('list.ordering');
+$this->listDirn = $this->queryState->get('list.direction');
+$listOrder = $this->escape($this->queryState->get('list.ordering'));
+$listDirn = $this->escape($this->queryState->get('list.direction'));
 $this->saveOrder    = $this->listOrder == 'a.ordering';
 
 /** generate output **/

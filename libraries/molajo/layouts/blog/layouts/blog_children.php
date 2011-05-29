@@ -16,7 +16,7 @@ $class = ' class="first"';
 	<ul>
 	<?php foreach($this->children[$this->category->id] as $id => $child) : ?>
 		<?php
-		if ($this->params->get('show_empty_categories') || $child->numitems || count($child->getChildren())) :
+		if ($this->options->get('show_empty_categories') || $child->numitems || count($child->getChildren())) :
 			if (!isset($this->children[$this->category->id][$id + 1])) :
 				$class = ' class="last"';
 			endif;
@@ -27,7 +27,7 @@ $class = ' class="first"';
 				<?php echo $this->escape($child->title); ?></a>
 			</span>
 
-			<?php if ($this->params->get('show_subcat_desc') == 1) :?>
+			<?php if ($this->options->get('show_subcat_desc') == 1) :?>
 			<?php if ($child->description) : ?>
 				<div class="category-desc">
 					<?php echo JHtml::_('content.prepare', $child->description); ?>
@@ -35,7 +35,7 @@ $class = ' class="first"';
 			<?php endif; ?>
             <?php endif; ?>
 
-			<?php if ( $this->params->get('show_cat_num_articles',1)) : ?>
+			<?php if ( $this->options->get('show_cat_num_articles',1)) : ?>
 			<dl>
 				<dt>
 					<?php echo JText::_('COM_CONTENT_NUM_ITEMS') ; ?>

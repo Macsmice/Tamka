@@ -15,7 +15,7 @@ require $this->layoutHelper->getPath ('table_body_row_column_first.php');
 
 /** loop through columns **/
 for ($i=1; $i < 1000; $i++) {
-    $this->columnName = $this->params->def('config_manager_grid_column'.$i);
+    $this->columnName = $this->options->def('config_manager_grid_column'.$i);
     if ($this->columnName == null) {
         break;
     } else if ($this->columnName == '0') {
@@ -32,7 +32,7 @@ for ($i=1; $i < 1000; $i++) {
             if (class_exists($fieldClassName)) {
                 $MolajoFieldClass = new $fieldClassName();
                 if (method_exists($MolajoFieldClass, 'render')) {
-                    $results = $MolajoFieldClass::render ($layout='admin', $this->item, $this->itemCount);
+                    $results = $MolajoFieldClass::render ($layout='admin', $this->row, $this->tempCount);
                     if ($results == false) {
                     } else {
                         $this->render = $results;
@@ -50,7 +50,7 @@ for ($i=1; $i < 1000; $i++) {
                 $this->render['data_type'] = true;
                 $this->render['column_name'] = $this->columnName;
                 $columnName = $this->columnName;
-                $this->render['print_value'] = $this->escape($this->item->$columnName);
+                $this->render['print_value'] = $this->escape($this->row->$columnName);
                 $this->render['link_value'] = false;
             }
             /** render **/

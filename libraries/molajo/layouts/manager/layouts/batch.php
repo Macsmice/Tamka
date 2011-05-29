@@ -14,10 +14,10 @@ defined('MOLAJO') or die; ?>
         <fieldset id="batch-choose-action" class="combo">
             <select name="batch_catid" class="inputbox" id="batch-category-id">
                 <option value=""><?php echo JText::_('MOLAJO_BATCH_CATEGORY_LABEL') ?></option>
-                    <?php if (JRequest::getCmd('option') == 'com_categories') { ?>
-                        <?php echo JHtml::_('select.options', JHtml::_('category.categories', JRequest::getCmd('option'), array('published' => 1)));?>
+                    <?php if ($this->options->get('component_option') == 'com_categories') { ?>
+                        <?php echo JHtml::_('select.options', JHtml::_('category.categories', $this->options->get('component_option'), array('published' => 1)));?>
                     <?php } else { ?>
-                        <?php echo JHtml::_('select.options', JHtml::_('category.options', JRequest::getCmd('option')), 'value', 'text', $this->state->get('filter.batch_category_id'));?>
+                        <?php echo JHtml::_('select.options', JHtml::_('category.options', $this->options->get('component_option')), 'value', 'text', $this->queryState->get('filter.batch_category_id'));?>
                     <?php } ?>
             </select>
 

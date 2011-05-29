@@ -8,40 +8,38 @@
  */
 defined('MOLAJO') or die;
 
-/** document **/
-$document =& JFactory::getDocument();
-
-/** standard site-wide layout css and js */
-if (JFile::exists(JPATH_BASE.'/media/molajo/css/template.css')) {
-    $document->addStyleSheet(JURI::base().'/media/molajo/css/template.css');
-}
-if ($document->direction == 'rtl') {
-    if (JFile::exists(JPATH_BASE.'/media/molajo/css/template_rtl.css')) {
-        $document->addStyleSheet(JURI::base().'/media/molajo/css/template_rtl.css');
-    }
-}
-if (JFile::exists(JPATH_BASE.'/media/molajo/js/template.js')) {
-    $document->addScript(JURI::base().'/media/molajo/js/template.js');
-}
-
+/** css and js: */
 /** component specific css and js - media/com_componentname/css[js]/viewname.css[js] **/
-if (JFile::exists(JPATH_BASE.'/media/'.JRequest::getCmd('option').'/css/'.JRequest::getCmd('view').'.css')) {
-    $document->addStyleSheet(JURI::base().'media/'.JRequest::getCmd('option').'/css/'.JRequest::getCmd('view').'.css');
-}
-if (JFile::exists(JPATH_BASE.'/media/'.JRequest::getCmd('option').'/js/'.JRequest::getCmd('view').'.js')) {
-    $document->addScript(JURI::base().'media/'.JRequest::getCmd('option').'/js/'.JRequest::getCmd('view').'.js');
-}
-/** layout header **/
+require_once MOLAJO_LAYOUTS.'/standard.php';
 
-/** table body row **/
-foreach ($this->queryResults as $this->item) {
-    $this->itemCount++;    
-    if ($this->itemCount == 1) {
-        include $this->layoutHelper->getPath ('defaults.php');
+/** first content event **/
+// echo JHtml::_('content.prepare', $this->category->description);
+//echo $this->recordset->event->afterDisplayContent;
+
+/** process recordset **/
+foreach ($this->recordset as $this->row) {
+    $this->tempCount++;
+
+    /** header - beginning of layout */
+    if ($this->tempCount == 1) {
+        if (file_exists(dirname(__FILE__).'/layouts/header.php')) {
+            include dirname(__FILE__).'/layouts/header.php';
+        }
+
+        echo $this->row->event->afterDisplayTitle;
+
+        echo $this->row->event->beforeDisplayContent;
     }
-    include $this->layoutHelper->getPath ('defaults.php');
+
+    /** body - once for each row in the recordset */
+    if (file_exists(dirname(__FILE__).'/layouts/body.php')) {
+        include dirname(__FILE__).'/layouts/body.php';
+    }
 }
 
-/** layout footer **/
+/** footer - end of layout */
+if (file_exists(dirname(__FILE__).'/layouts/footer.php')) {
+    include dirname(__FILE__).'/layouts/footer.php';
+}
 
-echo $this->queryResults->event->afterDisplayContent;
+echo $this->row->event->afterDisplayContent;

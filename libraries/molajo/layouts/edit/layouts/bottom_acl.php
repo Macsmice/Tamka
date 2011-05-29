@@ -8,7 +8,7 @@
  */
 defined('MOLAJO') or die;
 
-if ($this->item->canEditstate === true) {
+if ($this->row->canEditstate === true) {
     echo '<div class="width-100 fltlft">';
     echo JHtml::_('sliders.start', 'permissions-sliders-'.$this->slider_id, array('useCookie'=>1));
     echo JHtml::_('sliders.panel', JText::_('MOLAJO_FIELDSET_RULES'), 'access-rules'); ?>

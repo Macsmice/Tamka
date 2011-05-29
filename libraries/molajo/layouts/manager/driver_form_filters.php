@@ -12,7 +12,7 @@ defined('MOLAJO') or die;
 $anyFilters = false;
 
 /** search **/
-if ($this->params->def('config_manager_list_search', 1) == '1') {
+if ($this->options->def('config_manager_list_search', 1) == '1') {
     if ($anyFilters == false) {
         $anyFilters = true;
         require $this->layoutHelper->getPath ('form_filter_begin.php');
@@ -28,7 +28,7 @@ $loadFilterArray = array();
 
 /** loop thru filter options **/
 for ($i=1; $i < 1000; $i++) {
-    $this->fieldName = $this->params->def('config_manager_list_filters'.$i);
+    $this->fieldName = $this->options->def('config_manager_list_filters'.$i);
 
     /** encountered end of filters **/
     if ($this->fieldName == null) {
@@ -36,7 +36,7 @@ for ($i=1; $i < 1000; $i++) {
         $this->fieldName = 'title';
         if (in_array($this->fieldName, $loadFilterArray)) {
             break;
-        } else if ($this->state->get('filter.state') == MOLAJO_STATE_VERSION) {
+        } else if ($this->queryState->get('filter.state') == MOLAJO_STATE_VERSION) {
             // forces in the title list for the version restore layout
         } else {
             break;
@@ -78,10 +78,10 @@ for ($i=1; $i < 1000; $i++) {
         }
 
         /** option array values **/
-        $this->optionsArray = $MolajoField->getOptions();
+        $this->tempArray = $MolajoField->getOptions();
 
         /** selected value **/
-        $this->selectedValue = $this->state->get('filter.'.$this->fieldName);
+        $this->tempSelected = $this->queryState->get('filter.'.$this->fieldName);
 
         /** render field filter **/
         require $this->layoutHelper->getPath ('form_filter_field.php');

@@ -10,5 +10,5 @@ defined('MOLAJO') or die;
 ?>
 <div class="width-60 fltlft">
         <fieldset class="adminform">
-                <legend><?php echo ($this->slider_id == 0) ? JText::_('MOLAJO_NEW_'.strtoupper(JRequest::getVar('view'))) : JText::sprintf(strtoupper(JRequest::getVar('option')).'_EDIT_'.strtoupper(JRequest::getVar('view')), $this->slider_id); ?></legend>
+                <legend><?php echo ($this->slider_id == 0) ? JText::_('MOLAJO_NEW_'.strtoupper(JRequest::getVar('view'))) : JText::sprintf(strtoupper($this->options->get('component_option')).'_EDIT_'.strtoupper(JRequest::getVar('view')), $this->slider_id); ?></legend>
 

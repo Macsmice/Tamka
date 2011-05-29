@@ -11,7 +11,7 @@ defined('MOLAJO') or die;
 /** loop through columns **/
 $count = 0;
 for ($i=1; $i < 1000; $i++) {
-    $this->columnName = $this->params->def($this->section.$i);
+    $this->columnName = $this->options->def($this->section.$i);
     if ($this->columnName == null) {
         break;
     } else if ($this->columnName == '0') {

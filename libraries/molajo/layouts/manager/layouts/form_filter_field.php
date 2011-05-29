@@ -10,5 +10,5 @@ defined('MOLAJO') or die;
 ?>
 <select name="filter_<?php echo strtolower($this->fieldName); ?>" class="inputbox" onchange="this.form.submit()">
     <option value=""><?php echo JText::_('MOLAJO_SELECT_'.strtoupper($this->fieldName)); ?></option>
-    <?php echo JHtml::_('select.options', $this->optionsArray, 'value', 'text', $this->selectedValue); ?>
+    <?php echo JHtml::_('select.options', $this->tempArray, 'value', 'text', $this->selectedValue); ?>
 </select>

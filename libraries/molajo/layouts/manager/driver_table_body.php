@@ -12,8 +12,8 @@ defined('MOLAJO') or die;
 require $this->layoutHelper->getPath ('table_body_begin.php');
 
 /** table body row **/
-foreach ($this->items as $this->item) {
-    $this->itemCount++;
+foreach ($this->recordset as $this->row) {
+    $this->tempCount++;
     require $this->layoutHelper->getPath ('driver_table_body_row.php');
 }
 

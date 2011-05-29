@@ -15,35 +15,35 @@ JHtml::_('behavior.tooltip');
 JHtml::core();
 
 // Create some shortcuts.
-$params		= &$this->item->params;
-$n			= count($this->items);
-$listOrder	= $this->escape($this->state->get('list.ordering'));
-$listDirn	= $this->escape($this->state->get('list.direction'));
+$params		= &$this->row->params;
+$n			= count($this->recordset);
+$listOrder	= $this->escape($this->queryState->get('list.ordering'));
+$listDirn	= $this->escape($this->queryState->get('list.direction'));
 ?>
 
-<?php if (empty($this->items)) : ?>
+<?php if (empty($this->recordset)) : ?>
 
-	<?php if ($this->params->get('show_no_articles',1)) : ?>
+	<?php if ($this->options->get('show_no_articles',1)) : ?>
 	<p><?php echo JText::_('COM_CONTENT_NO_ARTICLES'); ?></p>
 	<?php endif; ?>
 
 <?php else : ?>
 
 <form action="<?php echo JFilterOutput::ampReplace(JFactory::getURI()->toString()); ?>" method="post" name="adminForm" id="adminForm">
-	<?php if ($this->params->get('show_headings') || $this->params->get('filter_field') != 'hide' || $this->params->get('show_pagination_limit')) :?>
+	<?php if ($this->options->get('show_headings') || $this->options->get('filter_field') != 'hide' || $this->options->get('show_pagination_limit')) :?>
 	<fieldset class="filters">
-		<?php if ($this->params->get('filter_field') != 'hide') :?>
+		<?php if ($this->options->get('filter_field') != 'hide') :?>
 		<legend class="hidelabeltxt">
 			<?php echo JText::_('JGLOBAL_FILTER_LABEL'); ?>
 		</legend>
 
 		<div class="filter-search">
-			<label class="filter-search-lbl" for="filter-search"><?php echo JText::_('COM_CONTENT_'.$this->params->get('filter_field').'_FILTER_LABEL').'&#160;'; ?></label>
-			<input type="text" name="filter-search" id="filter-search" value="<?php echo $this->escape($this->state->get('list.filter')); ?>" class="inputbox" onchange="document.adminForm.submit();" title="<?php echo JText::_('COM_CONTENT_FILTER_SEARCH_DESC'); ?>" />
+			<label class="filter-search-lbl" for="filter-search"><?php echo JText::_('COM_CONTENT_'.$this->options->get('filter_field').'_FILTER_LABEL').'&#160;'; ?></label>
+			<input type="text" name="filter-search" id="filter-search" value="<?php echo $this->escape($this->queryState->get('list.filter')); ?>" class="inputbox" onchange="document.adminForm.submit();" title="<?php echo JText::_('COM_CONTENT_FILTER_SEARCH_DESC'); ?>" />
 		</div>
 		<?php endif; ?>
 
-		<?php if ($this->params->get('show_pagination_limit')) : ?>
+		<?php if ($this->options->get('show_pagination_limit')) : ?>
 		<div class="display-limit">
 			<?php echo JText::_('JGLOBAL_DISPLAY_NUM'); ?>&#160;
 			<?php echo $this->pagination->getLimitBox(); ?>
@@ -58,26 +58,26 @@ $listDirn	= $this->escape($this->state->get('list.direction'));
 	<?php endif; ?>
 
 	<table class="category">
-		<?php if ($this->params->get('show_headings')) :?>
+		<?php if ($this->options->get('show_headings')) :?>
 		<thead>
 			<tr>
 				<th class="list-title" id="tableOrdering">
 					<?php  echo JHtml::_('grid.sort', 'JGLOBAL_TITLE', 'a.title', $listDirn, $listOrder) ; ?>
 				</th>
 
-				<?php if ($date = $this->params->get('list_show_date')) : ?>
+				<?php if ($date = $this->options->get('list_show_date')) : ?>
 				<th class="list-date" id="tableOrdering2">
 					<?php echo JHtml::_('grid.sort', 'COM_CONTENT_'.$date.'_DATE', 'a.created', $listDirn, $listOrder); ?>
 				</th>
 				<?php endif; ?>
 
-				<?php if ($this->params->get('list_show_author',1)) : ?>
+				<?php if ($this->options->get('list_show_author',1)) : ?>
 				<th class="list-author" id="tableOrdering3">
 					<?php echo JHtml::_('grid.sort', 'JAUTHOR', 'author', $listDirn, $listOrder); ?>
 				</th>
 				<?php endif; ?>
 
-				<?php if ($this->params->get('list_show_hits',1)) : ?>
+				<?php if ($this->options->get('list_show_hits',1)) : ?>
 				<th class="list-hits" id="tableOrdering4">
 					<?php echo JHtml::_('grid.sort', 'JGLOBAL_HITS', 'a.hits', $listDirn, $listOrder); ?>
 				</th>
@@ -88,8 +88,8 @@ $listDirn	= $this->escape($this->state->get('list.direction'));
 
 		<tbody>
 
-		<?php foreach ($this->items as $i => $article) : ?>
-			<?php if ($this->items[$i]->state == 0) : ?>
+		<?php foreach ($this->recordset as $i => $article) : ?>
+			<?php if ($this->recordset[$i]->state == 0) : ?>
 				<tr class="system-unpublished cat-list-row<?php echo $i % 2; ?>">
 			<?php else: ?>
 				<tr class="cat-list-row<?php echo $i % 2; ?>" >
@@ -109,19 +109,19 @@ $listDirn	= $this->escape($this->state->get('list.direction'));
 						<?php endif; ?>
 					</td>
 
-					<?php if ($this->params->get('list_show_date')) : ?>
+					<?php if ($this->options->get('list_show_date')) : ?>
 					<td class="list-date">
 						<?php echo JHtml::_('date',$article->displayDate, $this->escape(
-						$this->params->get('date_format', JText::_('DATE_FORMAT_LC3')))); ?>
+						$this->options->get('date_format', JText::_('DATE_FORMAT_LC3')))); ?>
 					</td>
 					<?php endif; ?>
 
-					<?php if ($this->params->get('list_show_author',1) && !empty($article->author )) : ?>
+					<?php if ($this->options->get('list_show_author',1) && !empty($article->author )) : ?>
 					<td class="list-author">
 						<?php $author =  $article->author ?>
 						<?php $author = ($article->created_by_alias ? $article->created_by_alias : $author);?>
 
-						<?php if (!empty($article->contactid ) &&  $this->params->get('link_author') == true):?>
+						<?php if (!empty($article->contactid ) &&  $this->options->get('link_author') == true):?>
 							<?php echo JHtml::_(
 									'link',
 									JRoute::_('index.php?option=com_contact&view=contact&id='.$article->contactid),
@@ -134,7 +134,7 @@ $listDirn	= $this->escape($this->state->get('list.direction'));
 					</td>
 					<?php endif; ?>
 
-					<?php if ($this->params->get('list_show_hits',1)) : ?>
+					<?php if ($this->options->get('list_show_hits',1)) : ?>
 					<td class="list-hits">
 						<?php echo $article->hits; ?>
 					</td>
@@ -168,11 +168,11 @@ $listDirn	= $this->escape($this->state->get('list.direction'));
 <?php  endif; ?>
 
 <?php // Add pagination links ?>
-<?php if (!empty($this->items)) : ?>
-	<?php if (($this->params->def('show_pagination', 2) == 1  || ($this->params->get('show_pagination') == 2)) && ($this->pagination->get('pages.total') > 1)) : ?>
+<?php if (!empty($this->recordset)) : ?>
+	<?php if (($this->options->def('show_pagination', 2) == 1  || ($this->options->get('show_pagination') == 2)) && ($this->pagination->get('pages.total') > 1)) : ?>
 	<div class="pagination">
 
-		<?php if ($this->params->def('show_pagination_results', 1)) : ?>
+		<?php if ($this->options->def('show_pagination_results', 1)) : ?>
 		 	<p class="counter">
 				<?php echo $this->pagination->getPagesCounter(); ?>
 			</p>

@@ -73,7 +73,7 @@ class MolajoModelDisplay extends JModel
      * @var		string
      * @since	1.6
      */
-    protected $context_object = array();
+    protected $request_variables = array();
 
     /**
      * Use instead of request variables for HMVC
@@ -83,8 +83,12 @@ class MolajoModelDisplay extends JModel
      */
     protected $option = null;
     protected $view = null;
+    protected $default_view = null;
+    protected $single_view = null;
     protected $model = null;
     protected $layout = null;
+    protected $task = null;
+    protected $component_table = null;
 
     /**
      * Valid filter fields or ordering.
@@ -130,17 +134,22 @@ class MolajoModelDisplay extends JModel
     {
         parent::__construct($config);
 
-        $this->context = strtolower(JRequest::getVar('option').'.'.$this->getName());
+        $this->context = strtolower($this->option.'.'.$this->getName());
 
         $this->option = JRequest::getCmd('option');
         $this->view = JRequest::getCmd('view');
+        $this->default_view = JRequest::getCmd('default_view');
+        $this->single_view = JRequest::getCmd('single_view');
         $this->model = $this->getName();
         $this->layout = JRequest::getCmd('layout');
+        $this->component_table = JRequest::getCmd('component_table');
+        $this->task = JRequest::getCmd('task');
 
-        $this->params = JComponentHelper::getParams(JRequest::getCmd('option'));
+        $this->params = JComponentHelper::getParams($this->option);
         $this->filterFieldName = JRequest::getCmd('filterFieldName', 'config_manager_list_filters');
         $this->molajoConfig = new MolajoModelConfiguration();
         $this->molajoField  = new MolajoField();
+
         $this->dispatcher	= JDispatcher::getInstance();
 		JPluginHelper::importPlugin('query');
     }
@@ -171,10 +180,10 @@ class MolajoModelDisplay extends JModel
         }
 
         /** layout **/
-        $this->setState('layout', JRequest::getCmd('layout'));
-        if (trim(JRequest::getVar('layout', '')) == '') {
+        $this->setState('layout', $this->layout);
+        if (trim($this->layout) == '') {
         } else {
-            $this->context .= '.'.JRequest::getVar('layout');
+            $this->context .= '.'.$this->layout;
         }
         /** extract actual column names from table for use verifying select list (below) and ordering values **/
         $table	= $this->getTable();
@@ -185,7 +194,7 @@ class MolajoModelDisplay extends JModel
             $this->tableFieldList[] = $fieldname;
         }
 
-        $this->dispatcher->trigger('onQueryPopulateState', array ($this->context_object, $this->state, $this->params));
+        $this->dispatcher->trigger('onQueryPopulateState', array ($this->request_variables, $this->state, $this->params));
     }
 
     /**
@@ -238,10 +247,10 @@ class MolajoModelDisplay extends JModel
         }
 
         /** layout **/
-        $this->setState('layout', JRequest::getCmd('layout'));
-        if (trim(JRequest::getVar('layout', '')) == '') {
+        $this->setState('layout', $this->layout);
+        if ($this->layout == '') {
         } else {
-            $this->context .= '.'.JRequest::getVar('layout');
+            $this->context .= '.'.$this->layout;
         }
 
         /** extract actual column names from table for use verifying select list (below) and ordering values **/
@@ -300,14 +309,9 @@ class MolajoModelDisplay extends JModel
         $this->setState('request.option', $this->option);
         $this->setState('request.view', $this->view);
         $this->setState('request.model', $this->model);
-        $this->setState('request.option', $this->layout);
-
-        $this->context_object = array('option'  => $this->option,
-                                      'view'    => $this->view,
-                                      'model'   => $this->model,
-                                      'layout'  => $this->layout);
-
-        $this->setState('context.object', $this->context_object);
+        $this->setState('request.layout', $this->layout);
+        $this->request_variables = array('option'  => $this->option, 'view' => $this->view, 'model' => $this->model, 'layout' => $this->layout);
+        $this->setState('request.variables', $this->request_variables);
 
         return;
     }
@@ -321,7 +325,6 @@ class MolajoModelDisplay extends JModel
      */
     protected function populateItemState ()
     {
-        JRequest::setVar('filter_Id', (int) JRequest::getInt('id'));
         $loadFilterArray[] = 'id';
         $this->processFilter('id');
     }
@@ -426,7 +429,7 @@ class MolajoModelDisplay extends JModel
         }
 
         /** pass query results to event */
-        $this->dispatcher->trigger('onQueryAfterQuery', array($this->context_object, $items, $this->params));
+        $this->dispatcher->trigger('onQueryAfterQuery', array($this->request_variables, $items, $this->params));
 
         /** publish dates **/
         $nullDate = $this->_db->Quote($this->_db->getNullDate());
@@ -436,7 +439,7 @@ class MolajoModelDisplay extends JModel
         $jsonFields = $this->molajoConfig->getOptionList (MOLAJO_CONFIG_OPTION_ID_JSON_FIELDS);
 
         /** ACL **/
-        $aclClass = ucfirst(JRequest::getCmd('default_view')).'ACL';
+        $aclClass = ucfirst($this->default_view).'ACL';
 
         /** process resultset */
         if (count($items) > 0) {
@@ -445,7 +448,7 @@ class MolajoModelDisplay extends JModel
 
                 $keep = true;
 
-                $this->dispatcher->trigger('onQueryBeforeItem', array($this->context_object, $items[$i], $this->params, $keep));
+                $this->dispatcher->trigger('onQueryBeforeItem', array($this->request_variables, $items[$i], $this->params, $keep));
 
                 /** category is archived, so item should be too **/
                 if ($items[$i]->minimum_state_category < $items[$i]->state && $items[$i]->state > MOLAJO_STATE_VERSION) {
@@ -544,24 +547,23 @@ class MolajoModelDisplay extends JModel
                 }
 
                 /** acl-append item-specific task permissions **/
-                $results = $aclClass::getUserItemPermissions (JRequest::getCmd('option'), JRequest::getCmd('single_view'), JRequest::getVar('task'), $items[$i]->id, $items[$i]->category_id, $items[$i]);
+                $results = $aclClass::getUserItemPermissions ($this->option, $this->single_view, $this->task, $items[$i]->id, $items[$i]->category_id, $items[$i]);
                 if ($results === false) {
                     $keep = false;
                 }
 
-                $this->dispatcher->trigger('onQueryAfterItem', array($this->context_object, $items[$i], $this->params, $keep));
-var_dump($items[$i]);
+                $this->dispatcher->trigger('onQueryAfterItem', array($this->request_variables, $items[$i], $this->params, $keep));
+
                 /** remove item overridden by category and no longer valid for criteria **/
                 if ($keep === true) {
                 } else {
-                    echo 'ooops';
                     unset($items[$i]);
                 }
             }
         }
 
         /** final event for queryset */
-        $this->dispatcher->trigger('onQueryComplete', array($this->context_object, $items, $this->params));
+        $this->dispatcher->trigger('onQueryComplete', array($this->request_variables, $items, $this->params));
 
         /** place query results in cache **/
         $this->cache[$store] = $items;
@@ -618,7 +620,7 @@ var_dump($items[$i]);
         $this->setQueryParts ('search', false);
 
         /** primary table **/
-        $this->query->from('#'.JRequest::getCmd('component_table').' AS a');
+        $this->query->from('#'.$this->component_table.' AS a');
 
         /** parent category **/
         $this->query->select('c.id AS category_id, c.title AS category_title, c.path AS category_route, c.alias AS category_alias');
@@ -631,7 +633,7 @@ var_dump($items[$i]);
             $subQuery = ' SELECT parent.id, MIN(parent.published) AS published ';
             $subQuery .= ' FROM #__categories AS cat ';
             $subQuery .= ' JOIN #__categories AS parent ON cat.lft BETWEEN parent.lft AND parent.rgt ';
-            $subQuery .= ' WHERE parent.extension = '.$this->_db->quote(JRequest::getVar('option'));
+            $subQuery .= ' WHERE parent.extension = '.$this->_db->quote($this->option);
             $subQuery .= '   AND cat.published > '.MOLAJO_STATE_VERSION;
             $subQuery .= '   AND parent.published > '.MOLAJO_STATE_VERSION;
             $subQuery .= ' GROUP BY parent.id ';
@@ -642,12 +644,12 @@ var_dump($items[$i]);
             $subQuery = ' SELECT parent.id, MAX(parent.published) AS published ';
             $subQuery .= ' FROM #__categories AS cat ';
             $subQuery .= ' JOIN #__categories AS parent ON cat.lft BETWEEN parent.lft AND parent.rgt ';
-            $subQuery .= ' WHERE parent.extension = '.$this->_db->quote(JRequest::getVar('option'));
+            $subQuery .= ' WHERE parent.extension = '.$this->_db->quote($this->option);
             $subQuery .= ' GROUP BY parent.id ';
         $this->query->join(' LEFT OUTER', '('.$subQuery.') AS maximumState ON maximumState.id = c.id ');
  
         /** set view access criteria for site visitor **/
-        $aclClass = ucfirst(strtolower(JRequest::getVar('default_view'))).'ACL';
+        $aclClass = ucfirst(strtolower($this->default_view)).'ACL';
         $aclClass::getQueryParts ($this->query, 'user', '');
 
         /** set ordering and direction **/
@@ -808,7 +810,7 @@ var_dump($items[$i]);
      */
     public function getAuthors()
     {
-        $componentTable = '#'.JRequest::getCmd('component_table');
+        $componentTable = '#'.$this->component_table;
 
         $this->query = $this->_db->getQuery(true);
 
@@ -892,7 +894,7 @@ var_dump($items[$i]);
                                             SUBSTRING(a.'.$this->_db->namequote($columnName).', 1, 7) AS text');
 
         if ($table == null) {
-            $this->queryTable = '#'.JRequest::getCmd('component_table');
+            $this->queryTable = '#'.$this->component_table;
         } else {
             $this->queryTable = $table;
         }
@@ -921,7 +923,7 @@ var_dump($items[$i]);
      */
     public function getOptionList($field1, $field2, $showKey = false, $showKeyFirst = false, $table  = null)
     {
-        $this->params = JComponentHelper::getParams(JRequest::getVar('option'));   
+        $this->params = JComponentHelper::getParams($this->option);   
 
         $this->query = $this->_db->getQuery(true);
 
@@ -939,7 +941,7 @@ var_dump($items[$i]);
 
         /** from **/
         if ($table == null) {
-            $this->queryTable = '#'.JRequest::getCmd('component_table');
+            $this->queryTable = '#'.$this->component_table;
         } else {
             $this->queryTable = $table;
         }
@@ -1026,7 +1028,7 @@ var_dump($items[$i]);
         $this->query->select('DISTINCT '.$this->_db->namequote($columnName).' as value');
 
         if ($table == null) {
-            $this->query->from($this->_db->namequote('#'.JRequest::getCmd('component_table')));
+            $this->query->from($this->_db->namequote('#'.$this->component_table));
         } else {
             $this->query->from($this->_db->namequote($table));
         }
@@ -1077,7 +1079,7 @@ var_dump($items[$i]);
             return;
         }
         $this->query->where($this->_db->namequote('id').' IN ('.$categoryArray.')');
-        $this->query->where($this->_db->namequote('extension').' = '.$this->_db->quote(JRequest::getVar('option')));
+        $this->query->where($this->_db->namequote('extension').' = '.$this->_db->quote($this->option));
 
         $this->_db->setQuery($this->query->__toString());
 
@@ -1106,7 +1108,7 @@ var_dump($items[$i]);
     */
     public function getTable($type='', $prefix='', $config = array())
     {
-        return JTable::getInstance($type=ucfirst(JRequest::getCmd('single_view')), $prefix=ucfirst(JRequest::getVar('default_view').'Table'), $config);
+        return JTable::getInstance($type=ucfirst($this->single_view), $prefix=ucfirst($this->default_view.'Table'), $config);
     }
 
     /**

@@ -9,8 +9,8 @@
 defined('MOLAJO') or die;
 ?>
 <td class="center nowrap" width="2%" valign="top">
-    <?php if (($this->item->canEdit && ((int) $this->item->state < 2))
-                || $this->item->canCheckin || $this->item->canEditState || $this->item->canDelete ) {
-            echo JHtml::_('grid.id', $this->itemCount, $this->item->id);
+    <?php if (($this->row->canEdit && ((int) $this->row->state < 2))
+                || $this->row->canCheckin || $this->row->canEditState || $this->row->canDelete ) {
+            echo JHtml::_('grid.id', $this->tempCount, $this->row->id);
     } ?>
 </td>

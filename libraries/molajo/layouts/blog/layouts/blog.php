@@ -13,17 +13,17 @@ defined('_JEXEC') or die;
 JHtml::addIncludePath(JPATH_COMPONENT.'/helpers');
 
 ?>
-<div class="blog<?php echo $this->pageclass_sfx;?>">
-<?php if ($this->params->get('show_page_heading', 1)) : ?>
+<div class="blog<?php echo $this->options->get('page_class_suffix', '');?>">
+<?php if ($this->options->get('show_page_heading', 1)) : ?>
 	<h1>
-		<?php echo $this->escape($this->params->get('page_heading')); ?>
+		<?php echo $this->escape($this->options->get('page_heading')); ?>
 	</h1>
 	<?php endif; ?>
 
-	<?php if ($this->params->get('show_category_title', 1) OR $this->params->get('page_subheading')) : ?>
+	<?php if ($this->options->get('show_category_title', 1) OR $this->options->get('page_subheading')) : ?>
 	<h2>
-		<?php echo $this->escape($this->params->get('page_subheading')); ?>
-		<?php if ($this->params->get('show_category_title')) : ?>
+		<?php echo $this->escape($this->options->get('page_subheading')); ?>
+		<?php if ($this->options->get('show_category_title')) : ?>
 			<span class="subheading-category"><?php echo $this->category->title;?></span>
 		<?php endif; ?>
 	</h2>
@@ -32,12 +32,12 @@ JHtml::addIncludePath(JPATH_COMPONENT.'/helpers');
 
 
 
-<?php if ($this->params->get('show_description', 1) || $this->params->def('show_description_image', 1)) : ?>
+<?php if ($this->options->get('show_description', 1) || $this->options->def('show_description_image', 1)) : ?>
 	<div class="category-desc">
-	<?php if ($this->params->get('show_description_image') && $this->category->getParams()->get('image')) : ?>
+	<?php if ($this->options->get('show_description_image') && $this->category->getParams()->get('image')) : ?>
 		<img src="<?php echo $this->category->getParams()->get('image'); ?>"/>
 	<?php endif; ?>
-	<?php if ($this->params->get('show_description') && $this->category->description) : ?>
+	<?php if ($this->options->get('show_description') && $this->category->description) : ?>
 		<?php echo JHtml::_('content.prepare', $this->category->description); ?>
 	<?php endif; ?>
 	<div class="clr"></div>
@@ -52,7 +52,7 @@ JHtml::addIncludePath(JPATH_COMPONENT.'/helpers');
 	<?php foreach ($this->lead_items as &$item) : ?>
 		<div class="leading-<?php echo $leadingcount; ?><?php echo $item->state == 0 ? ' system-unpublished' : null; ?>">
 			<?php
-				$this->item = &$item;
+				$this->row = &$item;
 				echo $this->loadTemplate('item');
 			?>
 		</div>
@@ -79,7 +79,7 @@ JHtml::addIncludePath(JPATH_COMPONENT.'/helpers');
 	<?php endif; ?>
 	<div class="item column-<?php echo $rowcount;?><?php echo $item->state == 0 ? ' system-unpublished' : null; ?>">
 		<?php
-			$this->item = &$item;
+			$this->row = &$item;
 			echo $this->loadTemplate('item');
 		?>
 	</div>
@@ -110,9 +110,9 @@ JHtml::addIncludePath(JPATH_COMPONENT.'/helpers');
 		</div>
 	<?php endif; ?>
 
-<?php if (($this->params->def('show_pagination', 1) == 1  || ($this->params->get('show_pagination') == 2)) && ($this->pagination->get('pages.total') > 1)) : ?>
+<?php if (($this->options->def('show_pagination', 1) == 1  || ($this->options->get('show_pagination') == 2)) && ($this->pagination->get('pages.total') > 1)) : ?>
 		<div class="pagination">
-						<?php  if ($this->params->def('show_pagination_results', 1)) : ?>
+						<?php  if ($this->options->def('show_pagination_results', 1)) : ?>
 						<p class="counter">
 								<?php echo $this->pagination->getPagesCounter(); ?>
 						</p>

@@ -16,14 +16,14 @@ require $this->layoutHelper->getPath ('table_head_row_begin.php');
 require $this->layoutHelper->getPath ('table_head_column_first.php');
 
 /** loop thru header columns **/
-$this->columnspan = 1;
+$this->tempColumnCount = 1;
 for ($i=1; $i < 1000; $i++) {
-    $this->columnName = $this->params->def('config_manager_grid_column'.$i, 0);
+    $this->columnName = $this->options->def('config_manager_grid_column'.$i, 0);
     if ($this->columnName == null) {
         break;
     } else if ($this->columnName == '0') {
     } else {
-        $this->columnspan++;
+        $this->tempColumnCount++;
         /** see if column exists, if not use default handler **/
         $results = $this->layoutHelper->getPath (strtolower('table_head_column_'.$this->columnName.'.php'), 0);
         if ($results == false) {

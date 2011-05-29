@@ -6,9 +6,10 @@
  * @copyright   Copyright (C) 2011 Individual Molajo Contributors. All rights reserved.
  * @license     GNU General Public License Version 2, or later http://www.gnu.org/licenses/gpl.html
  */
-defined('MOLAJO') or die;
-?>
-<div class="item-page<?php echo $this->options->get('page_class_suffix', ''); ?>">
+defined('MOLAJO') or die;?>
+<div class="item<?php echo $this->options->get('page_class_suffix', ''); ?>">
+
+<div class="item-header<?php echo $this->options->get('page_class_suffix', ''); ?>">
 
 <h2>
 <?php echo $this->escape($this->row->title); ?>
@@ -17,29 +18,18 @@ defined('MOLAJO') or die;
 <?php if ($this->row->canEdit) : ?>
 <ul class="actions">
     <li class="edit-icon">
-        <?php echo JHtml::_('icon.edit', $this->row, $this->options); ?>
+        <?php //echo JHtml::_('icon.edit', $this->row, $this->options); ?>
     </li>
 </ul>
 <?php endif; ?>
 
 <ul class="subheading">
-
     <dd class="published">
-        <?php echo JText::sprintf('MOLAJO_PUBLISHED_DATE', JHtml::_('date',$this->row->publish_up, JText::_('DATE_FORMAT_LC2'))); ?>
+        <?php echo JText::_('MOLAJO_PUBLISHED_DATE').' '.$this->row->created_ccyymmdd; ?>
     </dd>
-
     <dd class="author">
-        <?php echo JText::sprintf('MOLAJO_WRITTEN_BY', $this->row->display_author_name); ?>
+        <?php echo JText::_('MOLAJO_WRITTEN_BY').' '.$this->row->display_author_name; ?>
     </dd>
-
 </ul>
-
-
-
-<?php if (isset ($this->row->toc)) : ?>
-	<?php echo $this->row->toc; ?>
-<?php endif; ?>
-        
-<?php echo $this->row->text; ?>
 
 </div>

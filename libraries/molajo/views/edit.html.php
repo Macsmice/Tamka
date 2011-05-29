@@ -96,7 +96,7 @@ class MolajoViewEdit extends JView
         }
 
 		//Escape strings for HTML output
-		$this->pageclass_sfx = htmlspecialchars($this->params->get('pageclass_sfx'));
+		$this->options->get('page_class_suffix', '') = htmlspecialchars($this->params->get('pageclass_sfx'));
 
         if (JFactory::getApplication()->getName() == 'site') {
             $documentHelper = new MolajoDocumentHelper ();

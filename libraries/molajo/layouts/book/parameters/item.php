@@ -8,16 +8,16 @@
  */
 defined('MOLAJO') or die;
 ?>
-<div class="item-page<?php echo $this->pageclass_sfx?>">
+<div class="item-page<?php echo $this->options->get('page_class_suffix', ''); ?>">
 
 <h2>
-<?php echo $this->escape($this->item->title); ?>
+<?php echo $this->escape($this->row->title); ?>
 </h2>
 
-<?php if ($this->item->canEdit) : ?>
+<?php if ($this->row->canEdit) : ?>
 <ul class="actions">
     <li class="edit-icon">
-        <?php echo JHtml::_('icon.edit', $this->item, $this->params); ?>
+        <?php echo JHtml::_('icon.edit', $this->row, $this->options); ?>
     </li>
 </ul>
 <?php endif; ?>
@@ -25,25 +25,25 @@ defined('MOLAJO') or die;
 <ul class="subheading">
 
     <dd class="published">
-        <?php echo JText::sprintf('MOLAJO_PUBLISHED_DATE', JHtml::_('date',$this->item->publish_up, JText::_('DATE_FORMAT_LC2'))); ?>
+        <?php echo JText::sprintf('MOLAJO_PUBLISHED_DATE', JHtml::_('date',$this->row->publish_up, JText::_('DATE_FORMAT_LC2'))); ?>
     </dd>
 
     <dd class="author">
-        <?php echo JText::sprintf('MOLAJO_WRITTEN_BY', $this->item->display_author_name); ?>
+        <?php echo JText::sprintf('MOLAJO_WRITTEN_BY', $this->row->display_author_name); ?>
     </dd>
 
 </ul>
 
 <?php /** Recommend omitting afterDisplayTitle */
-echo $this->item->event->afterDisplayTitle; ?>
+echo $this->row->event->afterDisplayTitle; ?>
 
 <?php /** Recommend omitting beforeDisplayContent */
-echo $this->item->event->beforeDisplayContent; ?>
+echo $this->row->event->beforeDisplayContent; ?>
 
-<?php if (isset ($this->item->toc)) : ?>
-	<?php echo $this->item->toc; ?>
+<?php if (isset ($this->row->toc)) : ?>
+	<?php echo $this->row->toc; ?>
 <?php endif; ?>
         
-<?php echo $this->item->text; ?>
+<?php echo $this->row->text; ?>
 
 </div>

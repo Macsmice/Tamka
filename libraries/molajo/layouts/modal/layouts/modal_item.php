@@ -12,16 +12,16 @@ defined('JPATH_PLATFORM') or die;
 
 $function	= JRequest::getCmd('function', 'jSelect');
 
-$listOrder	= $this->escape($this->state->get('list.ordering'));
-$listDirn	= $this->escape($this->state->get('list.direction'));
+$listOrder	= $this->escape($this->queryState->get('list.ordering'));
+$listDirn	= $this->escape($this->queryState->get('list.direction'));
 ?>
-<form action="<?php echo JRoute::_('index.php?option='.JRequest::getVar('option').'&view='.JRequest::getVar('view').$function); ?>" method="post" name="adminForm" id="adminForm">
+<form action="<?php echo JRoute::_('index.php?option='.$this->options->get('component_option').'&view='.JRequest::getVar('view').$function); ?>" method="post" name="adminForm" id="adminForm">
 	<fieldset class="filter clearfix">
 		<div class="left">
 			<label for="filter_search">
 				<?php echo JText::_('JSearch_Filter_Label'); ?>
 			</label>
-			<input type="text" name="filter_search" id="filter_search" value="<?php echo $this->escape($this->state->get('filter.search')); ?>" size="30" title="<?php echo JText::_('MOLAJO_FILTER_SEARCH_DESC'); ?>" />
+			<input type="text" name="filter_search" id="filter_search" value="<?php echo $this->escape($this->queryState->get('filter.search')); ?>" size="30" title="<?php echo JText::_('MOLAJO_FILTER_SEARCH_DESC'); ?>" />
 
 			<button type="submit">
 				<?php echo JText::_('JSEARCH_FILTER_SUBMIT'); ?></button>
@@ -32,12 +32,12 @@ $listDirn	= $this->escape($this->state->get('list.direction'));
 		<div class="right">
 			<select name="filter_published" class="inputbox" onchange="this.form.submit()">
 				<option value=""><?php echo JText::_('JOPTION_SELECT_PUBLISHED');?></option>
-				<?php echo JHtml::_('select.options', JHtml::_('jgrid.publishedOptions'), 'value', 'text', $this->state->get('filter.published'), true);?>
+				<?php echo JHtml::_('select.options', JHtml::_('jgrid.publishedOptions'), 'value', 'text', $this->queryState->get('filter.published'), true);?>
 			</select>
 
 			<select name="filter_category_id" class="inputbox" onchange="this.form.submit()">
 				<option value=""><?php echo JText::_('JOPTION_SELECT_CATEGORY');?></option>
-				<?php echo JHtml::_('select.options', JHtml::_('category.options', 'com_articles'), 'value', 'text', $this->state->get('filter.category_id'));?>
+				<?php echo JHtml::_('select.options', JHtml::_('category.options', 'com_articles'), 'value', 'text', $this->queryState->get('filter.category_id'));?>
 			</select>
 
 		</div>
@@ -71,7 +71,7 @@ $listDirn	= $this->escape($this->state->get('list.direction'));
 			</tr>
 		</tfoot>
 		<tbody>
-		<?php foreach ($this->items as $i => $item) : ?>
+		<?php foreach ($this->recordset as $i => $item) : ?>
 			<tr class="row<?php echo $i % 2; ?>">
 				<td>
 					<a class="pointer" onclick="if (window.parent) window.parent.<?php echo $function;?>('<?php echo $item->id; ?>', '<?php echo $this->escape(addslashes($item->title)); ?>', '<?php echo $this->escape($item->catid); ?>');">
