@@ -43,10 +43,10 @@ class MolajoLayoutHelper
         $templatePath = JPATH_THEMES.'/'.$template.'/html/layouts/';
 
         /** path: component **/
-        if (MOLAJO_CLIENT == 'site') {
+        if (MOLAJO_APPLICATION == 'site') {
             $componentPath = JPATH_ROOT.'/components/'.$option.'/views/'.$view.'/tmpl/';
         } else {
-            $componentPath = JPATH_ROOT.'/'.MOLAJO_CLIENT.'/components/'.$option.'/views/'.$view.'/tmpl/';
+            $componentPath = JPATH_ROOT.'/'.MOLAJO_APPLICATION.'/components/'.$option.'/views/'.$view.'/tmpl/';
         }
 
         /** path: core **/

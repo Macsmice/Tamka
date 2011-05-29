@@ -5,7 +5,7 @@
  * @copyright   Copyright (C) 2011 Amy Stephen. All rights reserved.
  * @license     GNU General Public License Version 2, or later http://www.gnu.org/licenses/gpl.html
  */
-define('MOLAJO_CLIENT', 'site');
+define('MOLAJO_APPLICATION', 'site');
 /**
  * BEGIN: Common code for all clients
  *
@@ -25,7 +25,7 @@ if (file_exists(dirname(__FILE__).'/defines.php')) {
 define('JPATH_BASE', dirname(__FILE__));
 
 /** JPATH_ROOT - base for the website ex /Users/amystephen/Sites/molajo */
-if (MOLAJO_CLIENT == 'site') {
+if (MOLAJO_APPLICATION == 'site') {
     define('JPATH_ROOT', JPATH_BASE);
 } else {
     $parts = explode(DS, JPATH_BASE);

@@ -23,9 +23,9 @@ require_once MOLAJO_LIBRARY.'/includes/other.php';
 JDEBUG ? $_PROFILER->mark('afterLoad') : null;
 
 /** initialize */
-$app = JFactory::getApplication(MOLAJO_CLIENT);
+$app = JFactory::getApplication(MOLAJO_APPLICATION);
 
-if (MOLAJO_CLIENT == 'administrator') {
+if (MOLAJO_APPLICATION == 'administrator') {
     $app->initialise(array(
         'language' => $app->getUserState('application.lang', 'lang')
     ));
@@ -35,14 +35,14 @@ if (MOLAJO_CLIENT == 'administrator') {
 JDEBUG ? $_PROFILER->mark('afterInitialise') : null;
 
 /** route application */
-if (MOLAJO_CLIENT == 'installation') {
+if (MOLAJO_APPLICATION == 'installation') {
 } else {
     $app->route();
     JDEBUG ? $_PROFILER->mark('afterRoute') : null;
 }
 
 /** dispatch application */
-if (MOLAJO_CLIENT == 'installation') {
+if (MOLAJO_APPLICATION == 'installation') {
 } else {
     $app->dispatch();
     JDEBUG ? $_PROFILER->mark('afterDispatch') : null;

@@ -14,14 +14,14 @@ defined('MOLAJO') or die;
 
 /** installation check */
 define('INSTALL_CHECK', false);
-if (MOLAJO_CLIENT == 'installation'
+if (MOLAJO_APPLICATION == 'installation'
     || INSTALL_CHECK === false) {
 } else {
     if (!file_exists(JPATH_CONFIGURATION.'/configuration.php')
         || (filesize(JPATH_CONFIGURATION.'/configuration.php') < 10)
         || file_exists(JPATH_INSTALLATION.'/index.php')) {
 
-        if (MOLAJO_CLIENT == 'site') {
+        if (MOLAJO_APPLICATION == 'site') {
             $redirect = substr($_SERVER['REQUEST_URI'],0,strpos($_SERVER['REQUEST_URI'],'index.php')).'installation/index.php';
         } else {
             $redirect = '../installation/index.php';
@@ -66,7 +66,7 @@ JLoader::register('JText', JPATH_PLATFORM.'/joomla/methods.php');
 JLoader::register('JRoute', JPATH_PLATFORM.'/joomla/methods.php');
 
 /** configuration and debugging */
-if (MOLAJO_CLIENT == 'installation') {
+if (MOLAJO_APPLICATION == 'installation') {
     define('JDEBUG', false);
 } else {
 
@@ -157,7 +157,7 @@ jimport('overrides.plugin.helper');
 /** User */
 jimport('overrides.user.helper');
 /** toolbar */
-if (MOLAJO_CLIENT == 'administrator') {
+if (MOLAJO_APPLICATION == 'administrator') {
     require_once JPATH_BASE.'/includes/helper.php';
 }
 require_once OVERRIDES_LIBRARY.'/includes/toolbar.php';

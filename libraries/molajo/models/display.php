@@ -183,7 +183,7 @@ class MolajoModelDisplay extends JModel
             $this->params = JFactory::getApplication()->getParams();
 //            $this->_mergeParams ();
         } else {
-            $this->params = JComponentHelper::getParams(JRequest::getCmd('option'));
+            $this->params = JComponentHelper::getParams($this->option);
         }
 		$this->options->get('page_class_suffix', '') = htmlspecialchars($this->params->get('pageclass_sfx'));
 
@@ -320,12 +320,13 @@ class MolajoModelDisplay extends JModel
         }
         $this->setState('list.direction', $value);
 
-        /** context object **/
+        /** request variables **/
+        $this->setState('request.application', MOLAJO_APPLICATION);
         $this->setState('request.option', $this->option);
         $this->setState('request.view', $this->view);
         $this->setState('request.model', $this->model);
         $this->setState('request.layout', $this->layout);
-        $this->request_variables = array('option'  => $this->option, 'view' => $this->view, 'model' => $this->model, 'layout' => $this->layout);
+        $this->request_variables = array('application' => MOLAJO_APPLICATION, 'option'  => $this->option, 'view' => $this->view, 'model' => $this->model, 'layout' => $this->layout);
         $this->setState('request.variables', $this->request_variables);
 
         return;
@@ -426,7 +427,7 @@ class MolajoModelDisplay extends JModel
         /** create query **/
         $store = $this->getStoreId();
         if (empty($this->cache[$store])) {
-
+            
         } else {
             return $this->cache[$store];
         }
