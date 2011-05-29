@@ -52,30 +52,21 @@ class MolajoLayoutHelper
         /** path: core **/
         $corePath = MOLAJO_LAYOUTS.'/';
 
-        $folderPath = '';
-
         /** template **/
         if (file_exists($templatePath.$folder.$driver)) {
-            return $templatePath.$folder.$driver;
+            return $templatePath.$folder;
 
         /** component **/
         } else if (file_exists($componentPath.$folder)) {
-            return $componentPath.$folder.$driver;
+            return $componentPath.$folder;
 
         /** molajao library **/
         } else if (file_exists($corePath.$folder)) {
-            return $corePath.$folder.$driver;
-
-        /** error: layout not available **/
-        } else if ($error == true) {
-            JFactory::getApplication()->enqueueMessage(JText::_(strtoupper($option).'_INVALID_LAYOUT_FILENAME').': '.$corePath.$folder, 'error');
-            $this->errorMessage = JText::_(strtoupper($option).'_INVALID_LAYOUT_FILENAME').': '.$corePath.$folder;
-            $folderPath = $corePath.'notfound.php';
-
-        } else {
-            return false;
+            return $corePath.$folder;
         }
 
-        return $folderPath;
+        JFactory::getApplication()->enqueueMessage(JText::_(strtoupper($option).'_INVALID_LAYOUT_FILENAME').': '.$corePath.$folder, 'error');
+        $this->errorMessage = JText::_(strtoupper($option).'_INVALID_LAYOUT_FILENAME').': '.$corePath.$folder;
+        return false;
     }
 }

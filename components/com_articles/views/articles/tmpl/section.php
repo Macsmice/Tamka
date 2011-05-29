@@ -1,15 +1,16 @@
 <?php
 /**
- * @version     $id: section.php
+ * @version     $id: layout.php
  * @package     Molajo
- * @subpackage  Section Layout
- * @copyright   Copyright (C) 2011 Individual Molajo Contributors. All rights reserved.
+ * @subpackage  Layout Helper
+ * @copyright   Copyright (C) 2011 Amy Stephen. All rights reserved.
  * @license     GNU General Public License Version 2, or later http://www.gnu.org/licenses/gpl.html
  */
 defined('MOLAJO') or die;
 
-$this->layoutHelper = new MolajoLayoutHelper();
-$this->layoutHelper->setLayoutDriver ('section');
-$this->layoutHelper->setLayout ('section');
-
-require $this->layoutHelper->getPath ('driver.php');
+$this->layoutFolder = $this->layoutHelper->driver ('section', $this->option, $this->view, '/driver.php');
+if ($this->layoutFolder === false) {
+    return false;
+} else {
+    include $this->layoutFolder.'/driver.php';
+}

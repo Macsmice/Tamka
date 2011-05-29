@@ -25,11 +25,11 @@ defined('MOLAJO') or die;
 <ul class="subheading">
 
     <dd class="published">
-        <?php echo JText::sprintf('MOLAJO_LITERAL_PUBLISHED_DATE', JHtml::_('date',$this->row->publish_up, JText::_('DATE_FORMAT_LC2'))); ?>
+        <?php echo JText::sprintf('MOLAJO_PUBLISHED_DATE', JHtml::_('date',$this->row->publish_up, JText::_('DATE_FORMAT_LC2'))); ?>
     </dd>
 
     <dd class="author">
-        <?php echo JText::sprintf('MOLAJO_LITERAL_WRITTEN_BY', $this->row->display_author_name); ?>
+        <?php echo JText::sprintf('MOLAJO_WRITTEN_BY', $this->row->display_author_name); ?>
     </dd>
 
 </ul>

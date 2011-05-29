@@ -8,4 +8,4 @@
  */
 defined('MOLAJO') or die;
 ?>
-<form action="<?php echo JRoute::_('index.php?option='.$this->options->get('component_option').'&view='.JRequest::getVar('view')); ?>" method="post" name="adminForm" id="adminForm">
+<form action="<?php echo JRoute::_('index.php?option='.$this->options->get('component_option').'&view='.$this->options->get('component_view')); ?>" method="post" name="adminForm" id="adminForm">

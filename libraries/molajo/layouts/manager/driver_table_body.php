@@ -13,7 +13,7 @@ require $this->layoutHelper->getPath ('table_body_begin.php');
 
 /** table body row **/
 foreach ($this->recordset as $this->row) {
-    $this->tempCount++;
+    $this->rowCount++;
     require $this->layoutHelper->getPath ('driver_table_body_row.php');
 }
 

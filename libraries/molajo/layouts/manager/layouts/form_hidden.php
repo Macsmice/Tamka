@@ -10,7 +10,7 @@ defined('MOLAJO') or die; ?>
 <input type="hidden" name="task" value="" />
 <input type="hidden" name="boxchecked" value="0" />
 <input type="hidden" name="filterFieldName" value="config_manager_list_filters" />
-<input type="hidden" name="format" value="<?php echo JRequest::getCmd('format'); ?>" />
+<input type="hidden" name="format" value="<?php echo $this->options->get('component_format'); ?>" />
 <input type="hidden" name="filter_order" value="<?php echo $this->listOrder; ?>" />
 <input type="hidden" name="filter_order_Dir" value="<?php echo $this->listDirn; ?>" />
 <?php echo JHtml::_('form.token'); ?>

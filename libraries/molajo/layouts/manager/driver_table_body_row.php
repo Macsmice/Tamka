@@ -32,7 +32,7 @@ for ($i=1; $i < 1000; $i++) {
             if (class_exists($fieldClassName)) {
                 $MolajoFieldClass = new $fieldClassName();
                 if (method_exists($MolajoFieldClass, 'render')) {
-                    $results = $MolajoFieldClass::render ($layout='admin', $this->row, $this->tempCount);
+                    $results = $MolajoFieldClass::render ($layout='admin', $this->row, $this->rowCount);
                     if ($results == false) {
                     } else {
                         $this->render = $results;

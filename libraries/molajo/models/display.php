@@ -88,6 +88,7 @@ class MolajoModelDisplay extends JModel
     protected $model = null;
     protected $layout = null;
     protected $task = null;
+    protected $format = null;
     protected $component_table = null;
 
     /**
@@ -144,6 +145,7 @@ class MolajoModelDisplay extends JModel
         $this->layout = JRequest::getCmd('layout');
         $this->component_table = JRequest::getCmd('component_table');
         $this->task = JRequest::getCmd('task');
+        $this->format = JRequest::getCmd('format');
 
         $this->params = JComponentHelper::getParams($this->option);
         $this->filterFieldName = JRequest::getCmd('filterFieldName', 'config_manager_list_filters');
@@ -166,6 +168,7 @@ class MolajoModelDisplay extends JModel
 
     /**
      * populateState
+     *
      * Method to auto-populate the model state.
      *
      * @return	void
@@ -173,6 +176,18 @@ class MolajoModelDisplay extends JModel
      */
     protected function populateState ($ordering = 'ordering', $direction = 'ASC')
     {
+        // for the site
+
+        /** parameters */
+        if (JFactory::getApplication()->getName() == 'site') {
+            $this->params = JFactory::getApplication()->getParams();
+//            $this->_mergeParams ();
+        } else {
+            $this->params = JComponentHelper::getParams(JRequest::getCmd('option'));
+        }
+		$this->options->get('page_class_suffix', '') = htmlspecialchars($this->params->get('pageclass_sfx'));
+
+
         if (JRequest::getInt('id') == 0) {
             $this->populateStateMultiple ($ordering, $direction);
         } else {
@@ -431,7 +446,7 @@ class MolajoModelDisplay extends JModel
         /** pass query results to event */
         $this->dispatcher->trigger('onQueryAfterQuery', array($this->request_variables, $items, $this->params));
 
-        /** publish dates **/
+        /** publish dates (if the user is not able to see unpublished - and the dates prevent publilshing) **/
         $nullDate = $this->_db->Quote($this->_db->getNullDate());
         $nowDate = $this->_db->Quote(JFactory::getDate()->toMySQL());
 
@@ -484,7 +499,7 @@ class MolajoModelDisplay extends JModel
                 $items[$i]->fulltext = $fulltext;
 
                 /** some content plugins expect column named text */
-                if ($this->params->get('show_intro','1') == '1') {
+                if ($this->params->get('layout_show_intro','1') == '1') {
                     $items[$i]->text = $items[$i]->introtext.' '.$items[$i]->fulltext;
                 } else if ($items[$i]->fulltext) {
                     $items[$i]->text = $items[$i]->fulltext;
@@ -513,27 +528,33 @@ class MolajoModelDisplay extends JModel
                     $items[$i]->created_ccyymmdd = MolajoDateHelper::convertCCYYMMDD ($items[$i]->created);
                     $items[$i]->created_n_days_ago = MolajoDateHelper::differenceDays (date('Y-m-d'), $items[$i]->created_ccyymmdd);
                     $items[$i]->created_ccyymmdd = str_replace('-', '', $items[$i]->created_ccyymmdd);
+                    $items[$i]->created_pretty_date = MolajoDateHelper::prettydate ($items[$i]->created_ccyymmdd);
                 }  else {
                     $items[$i]->created_n_days_ago = '';
                     $items[$i]->created_ccyymmdd = '';
+                    $items[$i]->created_pretty_date = '';
                 }
 
                 if (isset($items[$i]->modified)) {
                     $items[$i]->modified_ccyymmdd = MolajoDateHelper::convertCCYYMMDD ($items[$i]->modified);
                     $items[$i]->modified_n_days_ago = MolajoDateHelper::differenceDays (date('Y-m-d'), $items[$i]->modified_ccyymmdd);
                     $items[$i]->modified_ccyymmdd = str_replace('-', '', $items[$i]->modified_ccyymmdd);
+                    $items[$i]->modified_pretty_date = MolajoDateHelper::prettydate ($items[$i]->modified);
                 }  else {
                     $items[$i]->modified_n_days_ago = '';
                     $items[$i]->modified_ccyymmdd = '';
+                    $items[$i]->modified_pretty_date = '';
                 }
 
                 if (isset($items[$i]->publish_up)) {
                     $items[$i]->published_ccyymmdd = MolajoDateHelper::convertCCYYMMDD ($items[$i]->publish_up);
                     $items[$i]->published_n_days_ago = MolajoDateHelper::differenceDays (date('Y-m-d'), $items[$i]->published_ccyymmdd);
                     $items[$i]->published_ccyymmdd = str_replace('-', '', $items[$i]->published_ccyymmdd);
+                    $items[$i]->published_pretty_date = MolajoDateHelper::prettydate ($items[$i]->publish_up);
                 }  else {
                     $items[$i]->published_n_days_ago = '';
                     $items[$i]->published_ccyymmdd = '';
+                    $items[$i]->published_pretty_date = '';
                 }
                 
                 /** Perform JSON to array conversion... **/

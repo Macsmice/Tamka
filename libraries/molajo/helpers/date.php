@@ -12,6 +12,7 @@ class MolajoDateHelper {
 
     /**
      * convertCCYYMMDD
+     * 
      * @param date $date
      * @return string CCYY-MM-DD
      */
@@ -21,7 +22,8 @@ class MolajoDateHelper {
     }
 
     /**
-     * datediff
+     * differenceDays
+     * 
      * @param $date1 string expressed as CCYY-MM-DD
      * @param $date2 string expressed as CCYY-MM-DD
      * returns integer difference in days
@@ -42,7 +44,117 @@ class MolajoDateHelper {
     }
 
     /**
+     * prettydate
+     * 
+     * @param  $date
+     * @return string human-readable pretty date
+     */
+    function prettydate ($parameter_date)
+    {
+        /** user time zone */
+        $parameter_date = $this->getUTCDate($parameter_date, 'user');
+        $current_date = $this->getUTCDate(date('m/d/Y h:i:s a', time()), 'user');
+
+        $parameter_date = strtotime($parameter_date);
+        $current_date = strtotime($current_date);
+
+        /** verify dates */
+        if ($parameter_date === false
+            || $parameter_date < 0
+            || $parameter_date > $current_date) {
+                return false;
+        }
+
+        /** difference in years */
+        $years = date('Y', $current_date) - date('Y', $parameter_date);
+
+        /** difference in months */
+        $endMonth = date('m', $current_date);
+        $startMonth = date('m', $parameter_date);
+        $months = $endMonth - $startMonth;
+        if ($months < 0)  {
+            $months = $months + 12;
+            $years = $years - 1;
+        }
+
+        /** difference in days */
+        $remove_years_months = array();
+        if ($years > 0) {
+            $remove_years_months[] = $years . (($years == 1) ? ' year' : ' years');
+        }
+        if ($months > 0) {
+            $remove_years_months[] = $months . (($months == 1) ? ' month' : ' months');
+        }
+        $remove_years_months = count($remove_years_months) > 0 ? '+' . implode(' ', $remove_years_months) : 'now';
+
+        $days = $current_date - strtotime($remove_years_months, $parameter_date);
+        $days = date('z', $days);
+
+        /** only calculate hours, minutes and seconds for current date */
+        if ($years == 0 && $months == 0 && $days == 0) {
+            $seconds = date('s', $current_date) - date('s', $parameter_date);
+
+            /** difference in hours */
+            $hours = round($seconds/(60*60), 0);
+            if ($hours > 0) {
+                $seconds = $seconds - round($seconds/(60*60), 0);
+            }
+
+            /** difference in minutes */
+            $minutes = 0;
+            if ($seconds > 0) {
+                $minutes = round($seconds/60, 0);
+
+                /** difference in seconds */
+                if ($minutes > 0) {
+                    $seconds = $seconds - round($seconds/60, 0);
+                }
+            }
+        }
+
+        /** no date differences */
+        if ($years == 0 && $months == 0 && $days == 0 && $hours == 0 && $days == 0 && $hours == 0) {
+            return '';
+        }
+
+        /** format pretty date */
+        $prettyDate = $this->prettyDateFormat ($years, 'MOLAJO_YEAR_SINGULAR', 'MOLAJO_YEAR_PLURAL');
+        $prettyDate .= $this->prettyDateFormat ($months, 'MOLAJO_MONTH_SINGULAR', 'MOLAJO_MONTH_PLURAL');
+        $prettyDate .= $this->prettyDateFormat ($days, 'MOLAJO_DAY_SINGULAR', 'MOLAJO_DAY_PLURAL');
+        $prettyDate .= $this->prettyDateFormat ($hours, 'MOLAJO_HOUR_SINGULAR', 'MOLAJO_HOUR_PLURAL');
+        $prettyDate .= $this->prettyDateFormat ($minutes, 'MOLAJO_MINUTE_SINGULAR', 'MOLAJO_MINUTE_PLURAL');
+        $prettyDate .= $this->prettyDateFormat ($seconds, 'MOLAJO_SECOND_SINGULAR', 'MOLAJO_SECOND_PLURAL');
+
+        /** remove leading comma */
+        return substr($prettyDate, 1, strlen($prettyDate) - 1);
+    }
+
+    /**
+     * prettyDateFormat
+     *
+     * @param  $numeric_value
+     * @param  $singular_literal
+     * @param  $plural_literal
+     * @return void
+     */
+    function prettyDateFormat ($numeric_value, $singular_literal, $plural_literal)
+    {
+        if ($numeric_value == 0) {
+            return;
+        }
+
+        if ($numeric_value == 1) {
+            return ', '.$numeric_value.' '.JText::_($singular_literal);
+        }
+
+        return ', '.$numeric_value.' '.JText::_($plural_literal);
+    }
+
+    /**
      * buildCalendar
+     *
+     * Amy - redo to generate a set of dates, combine with other data, pass to a layout for rendering
+     *
      * @param string $month
      * @param string $year
      * @param string $year
@@ -97,5 +209,53 @@ class MolajoDateHelper {
         $calendar .= "</table>";
 
         return $calendar;
+    }
+
+    /**
+     * @package     Joomla.Platform
+     * @subpackage  Adapted from JFormFieldCalendar
+     *
+     * @copyright   Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
+     * @license     GNU General Public License version 2 or later; see LICENSE
+     *
+     * getUTCDate
+     *
+     * @param  $input_date
+     * @param string $server_or_user_UTC
+     * @return void
+     */
+    function getUTCDate ($input_date, $server_or_user_UTC = 'user')
+    {
+
+		$config = JFactory::getConfig();
+		$user	= JFactory::getUser();
+
+		// If a known filter is given use it.
+		switch (strtoupper((string) $server_or_user_UTC))
+		{
+			case 'SERVER_UTC':
+				// Convert a date to UTC based on the server timezone.
+				if (intval($input_date)) {
+					// Get a date object based on the correct timezone.
+					$date = JFactory::getDate($input_date, 'UTC');
+					$date->setTimezone(new DateTimeZone($config->get('offset')));
+
+					// Transform the date string.
+					return $date->toMySQL(true);
+				}
+				break;
+
+			default:
+				// Convert a date to UTC based on the user timezone.
+				if (intval($input_date)) {
+					// Get a date object based on the correct timezone.
+					$date = JFactory::getDate($input_date, 'UTC');
+					$date->setTimezone(new DateTimeZone($user->getParam('timezone', $config->get('offset'))));
+
+					// Transform the date string.
+					return $date->toMySQL(true);
+				}
+				break;
+		}
     }
 }

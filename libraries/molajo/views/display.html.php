@@ -18,15 +18,45 @@ defined('MOLAJO') or die;
 class MolajoViewDisplay extends JView
 {
     /** model query results */
-    protected $state;
-    protected $queryResults;
-    protected $queryItem;
-    protected $queryParameters;
 
-    /** toolbar */
+    /**
+     * @var $options object
+     *
+     * Contains all options which can be retrieved as $this->options->get('option_name')
+     *
+     * 1. Filters and filtered values (for Administrator) - ex. $this->options->get('filter_category')
+     *
+     * 2. Merged Component Parameters (Global Options, Menu Item, Item)
+     *    A. Including those used as selection criteria - ex. $this->options->get('filter_category')
+     *    B. And those parameters needed by the layout - ex. $this->option->get('layout_show_title')
+     *
+     * 3. Component Request Variables
+     *    $this->options->get('component_option'), and 'component_' + model, view, layout, default_view, single_view and task
+     *
+     * 4. 
+     *
+     */
+    protected $options;
+    protected $recordset;
+    protected $row;
+    protected $rowCount;
+
+    /** toolbar - layout? */
     protected $userToolbarButtonPermissions;
 
-    /** blog variables */
+
+
+/*  navigation object */
+    protected $listOrder;
+    protected $listDirn;
+    protected $saveOrder;
+    protected $ordering;
+
+    /** blog variables
+     move variables into $options
+     retrieve variables here in view - and split int recordset if needed
+
+     */
 	protected $category;
 	protected $children;
 	protected $lead_items = array();
@@ -36,12 +66,7 @@ class MolajoViewDisplay extends JView
 
     /** layout variables  **/
     protected $layoutHelper;
-    protected $item;
-
-    protected $listOrder;
-    protected $listDirn;
-    protected $saveOrder;
-    protected $ordering;
+    protected $layoutFolder;
 
     /** layout working fields */
     protected $tempArray;
@@ -72,18 +97,63 @@ class MolajoViewDisplay extends JView
     public function display($tpl = null)
     {
 //        $this->setState('filter_amy', 'stephen');
-        $this->state            = $this->get('State');
-        $this->queryResults     = $this->get('Items');
-        $this->pagination       = $this->get('Pagination');
 
-        $this->option    = $this->state->get('request.option');
-        var_dump($this->state);
-        echo 'is this option? '.$this->option;
+        $this->options       = $this->get('State');
 
-        die();
+/**
+
+
+$this->document
+$this->configuration
+$this->user
+
+$this->options
+Parameters (Includes Filters, Global Options, Menu Item, Item)
+$this->options->get('filter_category')
+$this->options->get('layout_show_page_heading', 1)
+$this->options->get('layout_page_class_suffix', '')
+
+Request Variables
+$this->options->get('component_option')
+$this->options->get('component_model')
+$this->options->get('component_view')
+$this->options->get('component_default_view')
+$this->options->get('component_single_view')
+$this->options->get('component_layout')
+
+ */
+        $this->recordset     = $this->get('Items');
+        // $this->row is one item
+        //  $this->row->xxx->event->eventName
+        
+        $this->rowCount = 0;
+
+        /**
+         * Navigation
+         */
+//Navigation
+//$this->navigation->get('form_return_to_link')
+//$this->navigation->get('previous')
+//$this->navigation->get('next')
+//
+// Pagination
+//$this->navigation->get('pagination_start')
+//$this->navigation->get('pagination_limit')
+//$this->navigation->get('pagination_links')
+//$this->navigation->get('pagination_ordering')
+//$this->navigation->get('pagination_direction')
+//$this->breadcrumbs
+//$total = $this->getTotal();
+
+        $this->pagination    = $this->get('Pagination');
+
+        // Related
 //		$this->category	    = $this->get('Category');
+//      $this->tags (tag cloud)
+//      $this->calendar
 //		$this->children	    = $this->get('Children');
 //		$this->parent		= $this->get('Parent');
+//      $this->author
 
         /** error handling **/
         if (count($errors = $this->get('Errors'))) {
@@ -91,54 +161,33 @@ class MolajoViewDisplay extends JView
             return false;
         }
 
-
-        /** parameters */
-        if (JFactory::getApplication()->getName() == 'site') {
-            $this->params = JFactory::getApplication()->getParams();
-//            $this->_mergeParams ();
-        } else {
-            $this->params = JComponentHelper::getParams(JRequest::getCmd('option'));
-        }
-
         /** user object */
         $this->user = JFactory::getUser();
 
-		/** Escape Pageclass Suffix */
-		$this->options->get('page_class_suffix', '') = htmlspecialchars($this->params->get('pageclass_sfx'));
 
         if (JFactory::getApplication()->getName() == 'site') {
-//            $documentHelper = new MolajoDocumentHelper ();
-//            $documentHelper->prepareDocument($this->params, $this->item, $this->document, JRequest::getCmd('option'), JRequest::getCmd('view'));
+
         } 
-
-
-        /** page heading, toolbar buttons and submenu **/
-        if (($this->getLayout() == 'modal') || (!JRequest::getCmd('format') == 'html')) {
-
-        /** amy - make buttons a menu item/layout option - do not hardcode for specific layouts */
-        } else {
-
-            /** component level user permissions **/
-            $aclClass = ucfirst(JRequest::getCmd('default_view')).'ACL';
-            $this->userToolbarButtonPermissions = $aclClass::getUserToolbarButtonPermissions (JRequest::getCmd('option'), JRequest::getCmd('single_view'), JRequest::getCmd('task'));
-
-            $toolbar = new MolajoToolbarHelper ();
-            $toolbar->addButtonsDefaultLayout ($this->state->get('filter.state'), $this->userToolbarButtonPermissions);
-
-            MolajoSubmenuHelper::add();
-        }
-
+//JText::_('MOLAJO_PUBLISHED_DATE')
+//JHtml::_('form.token')
+//echo JHtml::_('icon.edit', $this->row, $this->options);
+//$this->options->get('css_page_class_suffix', '')
+//JForm
+// echo a custom field
+// insert a content plugin
+//
         $this->tempCount = 0;
 
         /** layout **/
         $this->layoutHelper = new MolajoLayoutHelper();
+
         parent::display($tpl);
     }
 
     /**
-     * _mergeParams
+     * _mergeParams - move this into the model for crying out loud
      *
-     * @param  $this->queryResults
+     * @param  $this->recordset
      * @return void
      */
     private function _mergeParams ()
@@ -152,7 +201,7 @@ class MolajoViewDisplay extends JView
 		if ($active) {
 			$currentLink = $active->link;
 			// If the current view is the active item and an article view for this article, then the menu item params take priority
-			if ((int) $this->queryResults->id == 0) {
+			if ((int) $this->recordset->id == 0) {
 				// Menu item params take priority over content params
 				$this->params->merge($temp);
 
@@ -176,24 +225,10 @@ class MolajoViewDisplay extends JView
     }
 
     /**
-     * _createLink
-     *
-     * @param  $this->queryResults
-     * @return The
-     */
-    private function _createLink ()
-    {
-        $class = ucfirst(JRequest::getCmd('default_view')).'RouteHelper';
-        $routerHelper = new $class ();
-        $method = 'get'.ucfirst(JRequest::getCmd('single_view')).'Route';
-        return JRoute::_($routerHelper->$method ($this->item->id, $this->item->catid, $this->item));
-    }
-
-    /**
      * _triggerEvents
      *
      * @param  $context
-     * @param  $this->queryResults
+     * @param  $this->recordset
      * @param  $params
      * @param  $offset
      * @param string $pluginType
@@ -205,19 +240,19 @@ class MolajoViewDisplay extends JView
 		$dispatcher	= JDispatcher::getInstance();
 		JPluginHelper::importPlugin('content');
 
-        $context = JRequest::getCmd('option').'.'.JRequest::getCmd('single_view');
+        $context = $this->options->get('component_option').'.'.$this->options->get('component_single_view');
 
-		$results = $dispatcher->trigger('onContentPrepare', array ($context, $this->queryResults, $this->params, $this->offset));
-        $this->queryResults->event = new stdClass();
+		$results = $dispatcher->trigger('onContentPrepare', array ($context, $this->recordset, $this->params, $this->offset));
+        $this->recordset->event = new stdClass();
 
-		$results = $dispatcher->trigger('onContentAfterTitle', array($context, $this->queryResults, $this->params, $this->offset));
-		$this->queryResults->event->afterDisplayTitle = trim(implode("\n", $results));
+		$results = $dispatcher->trigger('onContentAfterTitle', array($context, $this->recordset, $this->params, $this->offset));
+		$this->recordset->event->afterDisplayTitle = trim(implode("\n", $results));
 
-		$results = $dispatcher->trigger('onContentBeforeDisplay', array($context, $this->queryResults, $this->params, $this->offset));
-		$this->queryResults->event->beforeDisplayContent = trim(implode("\n", $results));
+		$results = $dispatcher->trigger('onContentBeforeDisplay', array($context, $this->recordset, $this->params, $this->offset));
+		$this->recordset->event->beforeDisplayContent = trim(implode("\n", $results));
 
-		$results = $dispatcher->trigger('onContentAfterDisplay', array($context, $this->queryResults, $this->params, $this->offset));
-		$this->queryResults->event->afterDisplayContent = trim(implode("\n", $results));
+		$results = $dispatcher->trigger('onContentAfterDisplay', array($context, $this->recordset, $this->params, $this->offset));
+		$this->recordset->event->afterDisplayContent = trim(implode("\n", $results));
 
         return;
     }

@@ -15,7 +15,7 @@ $function	= JRequest::getCmd('function', 'jSelect');
 $listOrder	= $this->escape($this->queryState->get('list.ordering'));
 $listDirn	= $this->escape($this->queryState->get('list.direction'));
 ?>
-<form action="<?php echo JRoute::_('index.php?option='.$this->options->get('component_option').'&view='.JRequest::getVar('view').$function); ?>" method="post" name="adminForm" id="adminForm">
+<form action="<?php echo JRoute::_('index.php?option='.$this->options->get('component_option').'&view='.$this->options->get('component_view').$function); ?>" method="post" name="adminForm" id="adminForm">
 	<fieldset class="filter clearfix">
 		<div class="left">
 			<label for="filter_search">

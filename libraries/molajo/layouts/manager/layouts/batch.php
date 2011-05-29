@@ -2,7 +2,7 @@
 /**
  * @version     $id: layout
  * @package     Molajo
- * @subpackage  Multiple View
+ * @subpackage  Batch Copy
  * @copyright   Copyright (C) 2011 Amy Stephen. All rights reserved.
  * @license     GNU General Public License Version 2, or later http://www.gnu.org/licenses/gpl.html
  */
@@ -21,11 +21,11 @@ defined('MOLAJO') or die; ?>
                     <?php } ?>
             </select>
 
-            <button type="submit" onclick="submitbutton('<?php echo JRequest::getCmd('default_view'); ?>.copy');">
+            <button type="submit" onclick="submitbutton('<?php echo $this->options->get('component_default_view'); ?>.copy');">
                     <?php echo JText::_('MOLAJO_BATCH_COPY_PROCESS'); ?>
             </button>
 
-            <button type="submit" onclick="submitbutton('<?php echo JRequest::getCmd('default_view'); ?>.move');">
+            <button type="submit" onclick="submitbutton('<?php echo $this->options->get('component_default_view'); ?>.move');">
                     <?php echo JText::_('MOLAJO_BATCH_MOVE_PROCESS'); ?>
             </button>
         </fieldset>

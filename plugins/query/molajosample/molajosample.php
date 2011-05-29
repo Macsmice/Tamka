@@ -21,7 +21,7 @@ class plgQueryMolajosample extends JPlugin
     /**
     * Query Events - Events in order of occurrence
     *
-    * - onQueryPopulateState - passes in full filter set, can add or modify 
+    * - onQueryPopulateState - passes in full filterset, can add or modify
     *
     * - create query (called from View)
     *      - triggers onQueryBeforeQuery event, passing in the Query object
