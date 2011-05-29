@@ -8,9 +8,17 @@
  */
 defined('MOLAJO') or die;
 
-/** css and js: */
-/** component specific css and js - media/com_componentname/css[js]/viewname.css[js] **/
-require_once MOLAJO_LAYOUTS.'/standard.php';
+/**
+ * The following file automatically includes the following CSS and JS Files
+ *
+ * 1. Standard site-wide CSS and JS in -> media/site/css[js]/site.css[js]
+ * 2. Component specific CSS and JS in -> media/site/css[js]/component_option.css[js]
+ * 3. Any CSS file in the CSS sub-folder
+ * 4. Any JS file in the JS sub-folder
+ *
+ * Note: rtl files
+ */
+require_once MOLAJO_LAYOUTS.'/include.php';
 
 /** first content event **/
 // echo JHtml::_('content.prepare', $this->category->description);
