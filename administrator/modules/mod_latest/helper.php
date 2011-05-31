@@ -79,7 +79,7 @@ abstract class modLatestHelper
 		$model->setState('list.limit', $params->get('count', 5));
 
 		$items = $model->getItems();
-var_dump($items);
+
 		if ($error = $model->getError()) {
 			JError::raiseError(500, $error);
 			return false;

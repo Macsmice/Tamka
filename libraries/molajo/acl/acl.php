@@ -29,7 +29,7 @@ class ACL
     public function authoriseTask ($option, $entity, $task, $catid = 0, $id = 0, $item = array())
     {
         $authoriseTaskMethod = 'check'.ucfirst(strtolower($task)).'Authorisation';
-        $class = ACL::getMethodClass ($authoriseTaskMethod);
+        $class = ACL::getMethodClass ($authoriseTaskMethod, $option);
         if ($class == false) {
             return false;
         }
@@ -46,15 +46,17 @@ class ACL
     /**
      * getUserItemPermissions
      *
-     * Evaluates set of tasks for current item for current users's authorisation and adds column for each task with results
+     * Evaluates a set of tasks for the current content item for the current users's authorisation
+     *  A column is added to the resultset for each task with the result of the evaluation
      *
-     * Note: No ACL Implementation needed as this uses the existing Task/ACL Permission processes
+     * Note: No ACL Implementation Method is needed as this method uses existing Task/ACL methods
      *
      * @param string $option 'com_articles', etc.
      * @param string $entity 'article', or 'comment', etc.
      * @param string $task 'add', 'delete', 'publish'
      * @param integer $id - primary key for content
      * @param object $item - item columns and values
+     * 
      * @return boolean
      */
     public function getUserItemPermissions ($option, $entity, $task, $catid, $id, $item)
@@ -68,58 +70,51 @@ class ACL
             $itemFieldname = 'can'.ucfirst(strtolower($taskName));
             $item->$itemFieldname = $aclResults;
         }
+        
         return;
     }
 
     /**
-     * getUserToolbarButtonPermissions
+     * getUserPermissionSet
      *
-     * Loops thru the list of buttons identified for current Toolbar Button Tasks, evaluates authorisation for current user,
-     *      and passes back an array with results
+     * Evaluates User Permissions for a set of tasks and passes back an array with results
      *
-     * Note: No ACL Implementation needed as this uses the existing Task/ACL Permission processes
+     * Note: No additional ACL Implementation method needed as this uses the existing Task/ACL Permission processes
      *
      * @param string $option 'com_articles', etc.
      * @param string $entity 'article', or 'comment', etc.
-     * @param string $task 'add', 'delete', 'publish'
+     * @param string $set maps to a configuration set of tasks
      *
      * @return array
      */
-    public function getUserToolbarButtonPermissions ($option, $entity, $task)
+    public function getUserPermissionSet ($option, $entity, $set)
     {
         /** component parameters **/
         $params = JComponentHelper::getParams($option);
-        if ($task == 'add') {
-            $taskButtons = 'config_manager_editor_button_bar_new_option';
-        } else if ($task == 'edit') {
-            $taskButtons = 'config_manager_editor_button_bar_edit_option';
-        } else {
-            $taskButtons = 'config_manager_button_bar_option';
-        }
         
         /** loop thru config options and add ToolBar buttons **/
         $count = 0;
-        $loadedButtonArray = array();
-        $userToolbarButtonPermissions = array();
+        $processedOptionArray = array();
+        $userPermissions = array();
 
         for ($i=1; $i < 99; $i++) {
 
-            $buttonValue = $params->def($taskButtons.$i, null);
+            $optionValue = $params->def($set.$i, null);
 
-            if ($buttonValue == null) {
+            if ($optionValue == null) {
                break;
             }
-            if ($buttonValue == '0') {
+            if ($optionValue == '0') {
 
-            } else if (in_array($buttonValue, $loadedButtonArray)) {
+            } else if (in_array($optionValue, $processedOptionArray)) {
 
             } else {
-                $loadedButtonArray[] = $buttonValue;
-                $aclResults = ACL::authoriseTask ($option, $entity, $buttonValue, 0, 0, array());
-                $userToolbarButtonPermissions[$buttonValue] = $aclResults;
+                $processedOptionArray[] = $optionValue;
+                $aclResults = ACL::authoriseTask ($option, $entity, $optionValue, 0, 0, array());
+                $userPermissions[$optionValue] = $aclResults;
             }
         }
-        return $userToolbarButtonPermissions;
+        return $userPermissions;
     }
 
     /**
@@ -136,14 +131,14 @@ class ACL
     *  @return     boolean
     *  @since      1.6
     */
-    public function getQueryParts ($query, $type, $filterValue=null)
+    public function getQueryParts ($option, $query, $type, $filterValue=null)
     {
         $method = 'get'.ucfirst(strtolower($type)).'QueryParts';
-        $aclClass = ACL::getMethodClass ($method);
+        $aclClass = ACL::getMethodClass ($method, $option);
         if ($aclClass == false) {
             return false;
         }
-        return $aclClass::$method ($query, $type, $filterValue);
+        $aclClass::$method ($query, $type, $filterValue);
     }
 
     /**
@@ -157,16 +152,18 @@ class ACL
      *  getUsergroupsList - produces an array of the authorised access levels for the user
      *  getUsercategoriesList - produces a list of all categories that a user has permission for a given action
      *  getXYZList - any such pattern
+     * 
      */
     public function getList ($type, $option='', $task='', $params=array())
     {
         $method = 'get'.ucfirst(strtolower($type)).'List';
-        $aclClass = ACL::getMethodClass ($method);
+        $aclClass = ACL::getMethodClass ($method, $option);
         if ($aclClass == false) {
             return false;
         }
         return $aclClass::$method ($option, $task, $params);
     }
+
     /**
      * @deprecated 1.6	Use the getList method instead.
      */
@@ -208,12 +205,13 @@ class ACL
     *  @param string $task 'add', 'delete', 'publish'
     *  @param integer $id - primary key for content
     *  @param object $form - form object fields
+     * 
     *  @return boolean
     */
     public function getUserFormAuthorisations ($option, $entity, $task, $id, $form, $item)
     {
         $method = 'checkFormAuthorisations';
-        $class = ACL::getMethodClass ($method);
+        $class = ACL::getMethodClass ($method, $option);
         if ($class == false) {
             return false;
         }
@@ -233,16 +231,25 @@ class ACL
     * Finds first class::method available in component, ACL Option implemented, then default ACL
     *
     * @param string $method
+    * @param string $option
+    *
     * @return string $class
     */
-    public function getMethodClass ($method)
+    public function getMethodClass ($method, $option='')
     {
-        $componentClass = ucfirst(strtolower(JRequest::getVar('default_view'))).'ACL';
-        if (class_exists($componentClass)) {
-            if (method_exists($componentClass,$method)) {
-                return $componentClass;
+        if ($option == '') {
+        } else {
+            if (substr($option, 0, 4) == 'com_') {
+                $option = substr($option, 4, strlen($option) - 4);
+            }
+            $componentClass = ucfirst(strtolower($option)).'ACL';
+            if (class_exists($componentClass)) {
+                if (method_exists($componentClass,$method)) {
+                    return $componentClass;
+                }
             }
         }
+        
         $implementedClass = ucfirst(strtolower(JRequest::getVar('aclImplementation', 'core'))).'ACL';
         if (class_exists($implementedClass)) {
             if (method_exists($implementedClass,$method)) {

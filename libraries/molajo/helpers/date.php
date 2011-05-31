@@ -52,8 +52,8 @@ class MolajoDateHelper {
     function prettydate ($parameter_date)
     {
         /** user time zone */
-        $parameter_date = $this->getUTCDate($parameter_date, 'user');
-        $current_date = $this->getUTCDate(date('m/d/Y h:i:s a', time()), 'user');
+        $parameter_date = MolajoDateHelper::getUTCDate($parameter_date, 'user');
+        $current_date = MolajoDateHelper::getUTCDate(date('m/d/Y h:i:s a', time()), 'user');
 
         $parameter_date = strtotime($parameter_date);
         $current_date = strtotime($current_date);
@@ -91,6 +91,9 @@ class MolajoDateHelper {
         $days = date('z', $days);
 
         /** only calculate hours, minutes and seconds for current date */
+        $hours = 0;
+        $minutes = 0;
+        $seconds = 0;
         if ($years == 0 && $months == 0 && $days == 0) {
             $seconds = date('s', $current_date) - date('s', $parameter_date);
 
@@ -118,15 +121,15 @@ class MolajoDateHelper {
         }
 
         /** format pretty date */
-        $prettyDate = $this->prettyDateFormat ($years, 'MOLAJO_YEAR_SINGULAR', 'MOLAJO_YEAR_PLURAL');
-        $prettyDate .= $this->prettyDateFormat ($months, 'MOLAJO_MONTH_SINGULAR', 'MOLAJO_MONTH_PLURAL');
-        $prettyDate .= $this->prettyDateFormat ($days, 'MOLAJO_DAY_SINGULAR', 'MOLAJO_DAY_PLURAL');
-        $prettyDate .= $this->prettyDateFormat ($hours, 'MOLAJO_HOUR_SINGULAR', 'MOLAJO_HOUR_PLURAL');
-        $prettyDate .= $this->prettyDateFormat ($minutes, 'MOLAJO_MINUTE_SINGULAR', 'MOLAJO_MINUTE_PLURAL');
-        $prettyDate .= $this->prettyDateFormat ($seconds, 'MOLAJO_SECOND_SINGULAR', 'MOLAJO_SECOND_PLURAL');
+        $prettyDate = MolajoDateHelper::prettyDateFormat ($years, 'MOLAJO_YEAR_SINGULAR', 'MOLAJO_YEAR_PLURAL');
+        $prettyDate .= MolajoDateHelper::prettyDateFormat ($months, 'MOLAJO_MONTH_SINGULAR', 'MOLAJO_MONTH_PLURAL');
+        $prettyDate .= MolajoDateHelper::prettyDateFormat ($days, 'MOLAJO_DAY_SINGULAR', 'MOLAJO_DAY_PLURAL');
+        $prettyDate .= MolajoDateHelper::prettyDateFormat ($hours, 'MOLAJO_HOUR_SINGULAR', 'MOLAJO_HOUR_PLURAL');
+        $prettyDate .= MolajoDateHelper::prettyDateFormat ($minutes, 'MOLAJO_MINUTE_SINGULAR', 'MOLAJO_MINUTE_PLURAL');
+        $prettyDate .= MolajoDateHelper::prettyDateFormat ($seconds, 'MOLAJO_SECOND_SINGULAR', 'MOLAJO_SECOND_PLURAL');
 
         /** remove leading comma */
-        return substr($prettyDate, 1, strlen($prettyDate) - 1);
+        return trim(substr($prettyDate, 1, strlen($prettyDate) - 1));
     }
 
     /**
@@ -144,10 +147,10 @@ class MolajoDateHelper {
         }
 
         if ($numeric_value == 1) {
-            return ', '.$numeric_value.' '.JText::_($singular_literal);
+            return ', '.$numeric_value.' '.strtolower(JText::_($singular_literal));
         }
 
-        return ', '.$numeric_value.' '.JText::_($plural_literal);
+        return ', '.$numeric_value.' '.strtolower(JText::_($plural_literal));
     }
 
     /**

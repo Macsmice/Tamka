@@ -11,10 +11,6 @@ defined('MOLAJO') or die;
 /** defines and includes  **/
 require_once JPATH_COMPONENT.'/includes/include.php';
 
-JLoader::register('ArticlesControllerArticle', JPATH_COMPONENT.'/controller.php');
-JLoader::register('ArticlesControllerArticles', JPATH_COMPONENT.'/controller.php');
-JLoader::register('ArticlesController', JPATH_COMPONENT.'/controller.php');
-
 /** validate option **/
 if (JRequest::getCmd('option') == $current_folder) {
 } else {

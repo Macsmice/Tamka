@@ -16,5 +16,3 @@ defined('MOLAJO') or die;
  * @since	1.6
  */
 class ArticlesController extends MolajoController {}
-class ArticlesControllerArticle extends MolajoControllerEdit {}
-class ArticlesControllerArticles extends MolajoControllerMultiple {}

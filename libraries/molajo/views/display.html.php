@@ -17,21 +17,19 @@ defined('MOLAJO') or die;
  */
 class MolajoViewDisplay extends JView
 {
-    /** model query results */
-
     /**
      * @var $options object
      *
      * Contains all options which can be retrieved as $this->options->get('option_name')
      *
-     * 1. Filters and filtered values (for Administrator) - ex. $this->options->get('filter_category')
+     * 1. Filters and filtered values (for Administrator) - ex. $this->options->get('filter.category')
      *
      * 2. Merged Component Parameters (Global Options, Menu Item, Item)
-     *    A. Including those used as selection criteria - ex. $this->options->get('filter_category')
-     *    B. And those parameters needed by the layout - ex. $this->option->get('layout_show_title')
+     *    A. Including those used as selection criteria - ex. $this->options->get('filter.category')
+     *    B. And those parameters needed by the layout - ex. $this->option->get('layout.show_title')
      *
      * 3. Component Request Variables
-     *    $this->options->get('component_option'), and 'component_' + model, view, layout, default_view, single_view and task
+     *    $this->options->get('request.option'), and 'component_' + model, view, layout, default_view, single_view and task
      *
      * 4. 
      *
@@ -44,8 +42,6 @@ class MolajoViewDisplay extends JView
     /** toolbar - layout? */
     protected $userToolbarButtonPermissions;
 
-
-
 /*  navigation object */
     protected $listOrder;
     protected $listDirn;
@@ -55,7 +51,6 @@ class MolajoViewDisplay extends JView
     /** blog variables
      move variables into $options
      retrieve variables here in view - and split int recordset if needed
-
      */
 	protected $category;
 	protected $children;
@@ -97,32 +92,21 @@ class MolajoViewDisplay extends JView
     public function display($tpl = null)
     {
 //        $this->setState('filter_amy', 'stephen');
-
         $this->options       = $this->get('State');
 
 /**
-
-
 $this->document
 $this->configuration
 $this->user
 
 $this->options
 Parameters (Includes Filters, Global Options, Menu Item, Item)
-$this->options->get('filter_category')
+$this->options->get('filter.category')
 $this->options->get('layout_show_page_heading', 1)
 $this->options->get('layout_page_class_suffix', '')
-
-Request Variables
-$this->options->get('component_option')
-$this->options->get('component_model')
-$this->options->get('component_view')
-$this->options->get('component_default_view')
-$this->options->get('component_single_view')
-$this->options->get('component_layout')
-
  */
         $this->recordset     = $this->get('Items');
+
         // $this->row is one item
         //  $this->row->xxx->event->eventName
         
@@ -236,11 +220,10 @@ $this->options->get('component_layout')
      */
     private function _triggerEvents ()
     {
-
 		$dispatcher	= JDispatcher::getInstance();
 		JPluginHelper::importPlugin('content');
 
-        $context = $this->options->get('component_option').'.'.$this->options->get('component_single_view');
+        $context = $this->options->get('request.option').'.'.$this->options->get('request.single_view');
 
 		$results = $dispatcher->trigger('onContentPrepare', array ($context, $this->recordset, $this->params, $this->offset));
         $this->recordset->event = new stdClass();

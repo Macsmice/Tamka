@@ -46,13 +46,6 @@ class MolajoController extends JController
     protected $catid = null;
 
     /**
-    * $target_catid
-    *
-    * @var int
-    */
-    protected $batch_catid = null;
-
-    /**
     * $id
     *
     * @var int
@@ -161,6 +154,7 @@ class MolajoController extends JController
             } else {
                 $modelName = JRequest::getCmd('single_view');
             }
+
             $this->model = $this->getModel($modelName, ucfirst(JRequest::getCmd('default_view').'Model'), array());
         }
 
@@ -195,8 +189,6 @@ class MolajoController extends JController
         /** authorisation **/
         $results = MolajoController::checkTaskAuthorisation($task);
         if ($results === false) {
-            echo 'dfasdfasfd';
-            die();
             return false;
         }
 

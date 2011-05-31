@@ -9,9 +9,9 @@
 defined('MOLAJO') or die;
 
 /**
- * Component Model for Dispaly
+ * MolajoModelDisplay
  *
- * MolajoModelDisplay extends JModel extends JObject
+ * Component Model for Display Views
  *
  * @package	Molajo
  * @subpackage	Model
@@ -68,30 +68,6 @@ class MolajoModelDisplay extends JModel
     protected $context = null;
 
     /**
-     * Context object for use with plugins
-     *
-     * @var		string
-     * @since	1.6
-     */
-    protected $request_variables = array();
-
-    /**
-     * Use instead of request variables for HMVC
-     *
-     * @var		string
-     * @since	1.6
-     */
-    protected $option = null;
-    protected $view = null;
-    protected $default_view = null;
-    protected $single_view = null;
-    protected $model = null;
-    protected $layout = null;
-    protected $task = null;
-    protected $format = null;
-    protected $component_table = null;
-
-    /**
      * Valid filter fields or ordering.
      *
      * @var		array
@@ -106,22 +82,22 @@ class MolajoModelDisplay extends JModel
      * @since	1.6
      */
     protected $tableFieldList = array();
-  
+
     /**
-     * Model Object for Molajo configuration 
+     * Model Object for Molajo configuration
      *
      * @var		array
      * @since	1.6
      */
-    protected $molajoConfig = array();  
-    
+    protected $molajoConfig = array();
+
     /**
-     * Molajo Field Class 
+     * Molajo Field Class
      *
      * @var		array
      * @since	1.6
      */
-    protected $molajoField = array(); 
+    protected $molajoField = array();
 
     /**
      * __construct
@@ -134,26 +110,6 @@ class MolajoModelDisplay extends JModel
     public function __construct($config = array())
     {
         parent::__construct($config);
-
-        $this->context = strtolower($this->option.'.'.$this->getName());
-
-        $this->option = JRequest::getCmd('option');
-        $this->view = JRequest::getCmd('view');
-        $this->default_view = JRequest::getCmd('default_view');
-        $this->single_view = JRequest::getCmd('single_view');
-        $this->model = $this->getName();
-        $this->layout = JRequest::getCmd('layout');
-        $this->component_table = JRequest::getCmd('component_table');
-        $this->task = JRequest::getCmd('task');
-        $this->format = JRequest::getCmd('format');
-
-        $this->params = JComponentHelper::getParams($this->option);
-        $this->filterFieldName = JRequest::getCmd('filterFieldName', 'config_manager_list_filters');
-        $this->molajoConfig = new MolajoModelConfiguration();
-        $this->molajoField  = new MolajoField();
-
-        $this->dispatcher	= JDispatcher::getInstance();
-		JPluginHelper::importPlugin('query');
     }
 
     /**
@@ -176,17 +132,40 @@ class MolajoModelDisplay extends JModel
      */
     protected function populateState ($ordering = 'ordering', $direction = 'ASC')
     {
-        // for the site
+        /** request variables **/
+        $this->setState('request.application', MOLAJO_APPLICATION);
+        $this->setState('request.initiating_extension_type', JRequest::getCmd('initiating_extension_type'));
+        $this->setState('request.option', JRequest::getCmd('option'));
+        $this->setState('request.view', JRequest::getCmd('view'));
+        $this->setState('request.model', JRequest::getCmd('model'));
+        $this->setState('request.layout', JRequest::getCmd('layout'));
+        $this->setState('request.task', JRequest::getCmd('task'));
+        $this->setState('request.format', JRequest::getCmd('format'));
+        $this->setState('request.component_table', JRequest::getCmd('component_table'));
+        $this->setState('request.default_view', JRequest::getCmd('default_view'));
+        $this->setState('request.single_view', JRequest::getCmd('single_view'));
 
-        /** parameters */
-        if (JFactory::getApplication()->getName() == 'site') {
-            $this->params = JFactory::getApplication()->getParams();
-//            $this->_mergeParams ();
+        /** context **/
+        $this->context = strtolower(JRequest::getCmd('option').'.'.$this->getName());
+        if (trim(JRequest::getCmd('layout')) == '') {
         } else {
-            $this->params = JComponentHelper::getParams($this->option);
+            $this->context .= '.'.JRequest::getCmd('layout');
         }
-		$this->options->get('page_class_suffix', '') = htmlspecialchars($this->params->get('pageclass_sfx'));
 
+        if (JFactory::getApplication()->getName() == 'site') {
+           $this->params = JFactory::getApplication()->getParams();
+   //         $this->_mergeParams ();
+//		$this->getState('request.option')->get('page_class_suffix', '') = htmlspecialchars($this->params->get('pageclass_sfx'));
+        } else {
+           $this->params = JComponentHelper::getParams(JRequest::getCmd('option'));
+        }
+
+        $this->filterFieldName = JRequest::getCmd('filterFieldName', 'config_manager_list_filters');
+        $this->molajoConfig = new MolajoModelConfiguration();
+        $this->molajoField  = new MolajoField();
+
+        $this->dispatcher = JDispatcher::getInstance();
+		JPluginHelper::importPlugin('query');
 
         if (JRequest::getInt('id') == 0) {
             $this->populateStateMultiple ($ordering, $direction);
@@ -194,26 +173,12 @@ class MolajoModelDisplay extends JModel
             $this->populateItemState ();
         }
 
-        /** layout **/
-        $this->setState('layout', $this->layout);
-        if (trim($this->layout) == '') {
-        } else {
-            $this->context .= '.'.$this->layout;
-        }
-        /** extract actual column names from table for use verifying select list (below) and ordering values **/
-        $table	= $this->getTable();
-        $fields = $table->getProperties();
-
-        $this->tableFieldList = array();
-        foreach ($fields as $fieldname => $value) {
-            $this->tableFieldList[] = $fieldname;
-        }
-
-        $this->dispatcher->trigger('onQueryPopulateState', array ($this->request_variables, $this->state, $this->params));
+        $this->dispatcher->trigger('onQueryPopulateState', array (&$this->state, &$this->params));
     }
 
     /**
      * populateStateMultiple
+     *
      * Method to auto-populate the model state.
      *
      * @return	void
@@ -261,25 +226,9 @@ class MolajoModelDisplay extends JModel
             }
         }
 
-        /** layout **/
-        $this->setState('layout', $this->layout);
-        if ($this->layout == '') {
-        } else {
-            $this->context .= '.'.$this->layout;
-        }
-
-        /** extract actual column names from table for use verifying select list (below) and ordering values **/
-        $table	= $this->getTable();
-        $fields = $table->getProperties();
-
-        $this->tableFieldList = array();
-        foreach ($fields as $fieldname => $value) {
-            $this->tableFieldList[] = $fieldname;
-        }
-
         /** list limit **/
-        $value = (int) JFactory::getApplication()->getUserStateFromRequest('global.list.limit', 'limit', JFactory::getApplication()->getCfg('list_limit'));
-        $limit = $value;
+        $limit = (int) JFactory::getApplication()->getUserStateFromRequest('global.list.limit', 'limit',
+                                                                           JFactory::getApplication()->getCfg('list_limit'));
         $this->setState('list.limit', (int) $limit);
 
         /** list start **/
@@ -301,7 +250,7 @@ class MolajoModelDisplay extends JModel
             $ordering = 'a.title';
         }
         JFactory::getApplication()->setUserState($this->context.'.ordercol', $ordering);
-        
+
         $this->setState('list.ordering', $value);
 
         if (in_array($value, $this->tableFieldList)) {
@@ -319,16 +268,6 @@ class MolajoModelDisplay extends JModel
             JFactory::getApplication()->setUserState($this->context.'.orderdirn', $value);
         }
         $this->setState('list.direction', $value);
-
-        /** request variables **/
-        $this->setState('request.application', MOLAJO_APPLICATION);
-        $this->setState('request.extension', 'component');
-        $this->setState('request.option', $this->option);
-        $this->setState('request.view', $this->view);
-        $this->setState('request.model', $this->model);
-        $this->setState('request.layout', $this->layout);
-        $this->request_variables = array('application' => MOLAJO_APPLICATION, 'option'  => $this->option, 'view' => $this->view, 'model' => $this->model, 'layout' => $this->layout);
-        $this->setState('request.variables', $this->request_variables);
 
         return;
     }
@@ -421,14 +360,24 @@ class MolajoModelDisplay extends JModel
      *      - Returns resultset to the View
      *
      * @return	mixed	An array of objects on success, false on failure.
+     *
      * @since	1.6
      */
     public function getItems()
     {
+        /** extract actual column names from table **/
+        $table = $this->getTable();
+        $fields = $table->getProperties();
+
+        $this->tableFieldList = array();
+        foreach ($fields as $fieldname => $value) {
+            $this->tableFieldList[] = $fieldname;
+        }
+
         /** create query **/
         $store = $this->getStoreId();
         if (empty($this->cache[$store])) {
-            
+
         } else {
             return $this->cache[$store];
         }
@@ -446,7 +395,7 @@ class MolajoModelDisplay extends JModel
         }
 
         /** pass query results to event */
-        $this->dispatcher->trigger('onQueryAfterQuery', array($this->request_variables, $items, $this->params));
+        $this->dispatcher->trigger('onQueryAfterQuery', array(&$this->state, &$items, &$this->params));
 
         /** publish dates (if the user is not able to see unpublished - and the dates prevent publilshing) **/
         $nullDate = $this->_db->Quote($this->_db->getNullDate());
@@ -456,7 +405,7 @@ class MolajoModelDisplay extends JModel
         $jsonFields = $this->molajoConfig->getOptionList (MOLAJO_CONFIG_OPTION_ID_JSON_FIELDS);
 
         /** ACL **/
-        $aclClass = ucfirst($this->default_view).'ACL';
+        $aclClass = ucfirst($this->getState('request.default_view')).'ACL';
 
         /** process resultset */
         if (count($items) > 0) {
@@ -465,7 +414,7 @@ class MolajoModelDisplay extends JModel
 
                 $keep = true;
 
-                $this->dispatcher->trigger('onQueryBeforeItem', array($this->request_variables, $items[$i], $this->params, $keep));
+                $this->dispatcher->trigger('onQueryBeforeItem', array(&$this->state, &$items[$i], &$this->params, &$keep));
 
                 /** category is archived, so item should be too **/
                 if ($items[$i]->minimum_state_category < $items[$i]->state && $items[$i]->state > MOLAJO_STATE_VERSION) {
@@ -480,7 +429,8 @@ class MolajoModelDisplay extends JModel
                 if ($items[$i]->archived_category == 1 && $items[$i]->state < MOLAJO_STATE_ARCHIVED) {
                     $items[$i]->state = MOLAJO_STATE_ARCHIVED;
                     /** recheck the new status against query filter **/
-                    if ($this->getState('filter.state') == MOLAJO_STATE_ARCHIVED || $this->getState('filter.state') =='*') {
+                    if ($this->getState('filter.state') == MOLAJO_STATE_ARCHIVED
+                        || $this->getState('filter.state') =='*') {
                     } else {
                         $keep = false;
                     }
@@ -533,7 +483,7 @@ class MolajoModelDisplay extends JModel
                     $items[$i]->created_ccyymmdd = MolajoDateHelper::convertCCYYMMDD ($items[$i]->created);
                     $items[$i]->created_n_days_ago = MolajoDateHelper::differenceDays (date('Y-m-d'), $items[$i]->created_ccyymmdd);
                     $items[$i]->created_ccyymmdd = str_replace('-', '', $items[$i]->created_ccyymmdd);
-                    $items[$i]->created_pretty_date = MolajoDateHelper::prettydate ($items[$i]->created_ccyymmdd);
+                    $items[$i]->created_pretty_date = MolajoDateHelper::prettydate ($items[$i]->created);
                 }  else {
                     $items[$i]->created_n_days_ago = '';
                     $items[$i]->created_ccyymmdd = '';
@@ -561,7 +511,7 @@ class MolajoModelDisplay extends JModel
                     $items[$i]->published_ccyymmdd = '';
                     $items[$i]->published_pretty_date = '';
                 }
-                
+
                 /** Perform JSON to array conversion... **/
                 foreach ($jsonFields as $field) {
                     $attribute = $field->value;
@@ -573,12 +523,17 @@ class MolajoModelDisplay extends JModel
                 }
 
                 /** acl-append item-specific task permissions **/
-                $results = $aclClass::getUserItemPermissions ($this->option, $this->single_view, $this->task, $items[$i]->id, $items[$i]->category_id, $items[$i]);
+                $results = $aclClass::getUserItemPermissions ($this->getState('request.option'),
+                                                              $this->getState('request.single_view'),
+                                                              $this->getState('request.task'),
+                                                              $items[$i]->id,
+                                                              $items[$i]->category_id,
+                                                              $items[$i]);
                 if ($results === false) {
                     $keep = false;
                 }
 
-                $this->dispatcher->trigger('onQueryAfterItem', array($this->request_variables, $items[$i], $this->params, $keep));
+                $this->dispatcher->trigger('onQueryAfterItem', array(&$this->state, &$items[$i], &$this->params, &$keep));
 
                 /** remove item overridden by category and no longer valid for criteria **/
                 if ($keep === true) {
@@ -589,7 +544,7 @@ class MolajoModelDisplay extends JModel
         }
 
         /** final event for queryset */
-        $this->dispatcher->trigger('onQueryComplete', array($this->request_variables, $items, $this->params));
+        $this->dispatcher->trigger('onQueryComplete', array(&$this->state, &$items, &$this->params));
 
         /** place query results in cache **/
         $this->cache[$store] = $items;
@@ -633,7 +588,7 @@ class MolajoModelDisplay extends JModel
     {
         /** retrieve JDatabaseQuery object */
         $this->query = $this->_db->getQuery(true);
-        
+
         /** Process each field that is 1) required 2) selected for display and 3) selected as a filter **/
         $fieldArray = array();
 
@@ -646,7 +601,7 @@ class MolajoModelDisplay extends JModel
         $this->setQueryParts ('search', false);
 
         /** primary table **/
-        $this->query->from('#'.$this->component_table.' AS a');
+        $this->query->from('#'.$this->getState('request.component_table').' AS a');
 
         /** parent category **/
         $this->query->select('c.id AS category_id, c.title AS category_title, c.path AS category_route, c.alias AS category_alias');
@@ -659,7 +614,7 @@ class MolajoModelDisplay extends JModel
             $subQuery = ' SELECT parent.id, MIN(parent.published) AS published ';
             $subQuery .= ' FROM #__categories AS cat ';
             $subQuery .= ' JOIN #__categories AS parent ON cat.lft BETWEEN parent.lft AND parent.rgt ';
-            $subQuery .= ' WHERE parent.extension = '.$this->_db->quote($this->option);
+            $subQuery .= ' WHERE parent.extension = '.$this->_db->quote($this->getState('request.option'));
             $subQuery .= '   AND cat.published > '.MOLAJO_STATE_VERSION;
             $subQuery .= '   AND parent.published > '.MOLAJO_STATE_VERSION;
             $subQuery .= ' GROUP BY parent.id ';
@@ -670,13 +625,20 @@ class MolajoModelDisplay extends JModel
             $subQuery = ' SELECT parent.id, MAX(parent.published) AS published ';
             $subQuery .= ' FROM #__categories AS cat ';
             $subQuery .= ' JOIN #__categories AS parent ON cat.lft BETWEEN parent.lft AND parent.rgt ';
-            $subQuery .= ' WHERE parent.extension = '.$this->_db->quote($this->option);
+            $subQuery .= ' WHERE parent.extension = '.$this->_db->quote($this->getState('request.option'));
             $subQuery .= ' GROUP BY parent.id ';
         $this->query->join(' LEFT OUTER', '('.$subQuery.') AS maximumState ON maximumState.id = c.id ');
- 
+
+/**
+			$date = JFactory::getDate();
+			$now = $date->toMySQL();
+			$nullDate = $db->getNullDate();
+			$query->where('(m.publish_up = '.$db->Quote($nullDate).' OR m.publish_up <= '.$db->Quote($now).')');
+			$query->where('(m.publish_down = '.$db->Quote($nullDate).' OR m.publish_down >= '.$db->Quote($now).')');
+*/
         /** set view access criteria for site visitor **/
-        $aclClass = ucfirst(strtolower($this->default_view)).'ACL';
-        $aclClass::getQueryParts ($this->query, 'user', '');
+        $aclClass = ucfirst(strtolower($this->getState('request.default_view'))).'ACL';
+        $aclClass::getQueryParts ($this->getState('request.default_view'), $this->query, 'user', '', $this->getState('request.default_view'));
 
         /** set ordering and direction **/
         $orderCol	= $this->state->get('list.ordering', 'a.title');
@@ -687,7 +649,7 @@ class MolajoModelDisplay extends JModel
         $this->query->order($this->_db->getEscaped($orderCol.' '.$orderDirn));
 
         /** pass query object to event */
-        $this->dispatcher->trigger('onQueryBeforeQuery', $this->query);
+        $this->dispatcher->trigger('onQueryBeforeQuery', array(&$this->state, &$this->query, &$this->params));
 
         return $this->query;
     }
@@ -836,7 +798,7 @@ class MolajoModelDisplay extends JModel
      */
     public function getAuthors()
     {
-        $componentTable = '#'.$this->component_table;
+        $componentTable = '#'.$this->getState('request.component_table');
 
         $this->query = $this->_db->getQuery(true);
 
@@ -920,7 +882,7 @@ class MolajoModelDisplay extends JModel
                                             SUBSTRING(a.'.$this->_db->namequote($columnName).', 1, 7) AS text');
 
         if ($table == null) {
-            $this->queryTable = '#'.$this->component_table;
+            $this->queryTable = '#'.$this->getState('request.component_table');
         } else {
             $this->queryTable = $table;
         }
@@ -949,7 +911,7 @@ class MolajoModelDisplay extends JModel
      */
     public function getOptionList($field1, $field2, $showKey = false, $showKeyFirst = false, $table  = null)
     {
-        $this->params = JComponentHelper::getParams($this->option);   
+        $this->params = JComponentHelper::getParams($this->getState('request.option'));   
 
         $this->query = $this->_db->getQuery(true);
 
@@ -967,7 +929,7 @@ class MolajoModelDisplay extends JModel
 
         /** from **/
         if ($table == null) {
-            $this->queryTable = '#'.$this->component_table;
+            $this->queryTable = '#'.$this->getState('request.component_table');
         } else {
             $this->queryTable = $table;
         }
@@ -1025,7 +987,7 @@ class MolajoModelDisplay extends JModel
         if (class_exists($fieldClassName)) {
             $value = $this->getState('filter.'.$fieldname);
             $molajoSpecificFieldClass = new $fieldClassName();
-            $molajoSpecificFieldClass->getQueryParts($this->query, $value, $selectedState, $onlyWhereClause);
+            $molajoSpecificFieldClass->getQueryParts($this->query, $value, $selectedState, $onlyWhereClause, $this->getState('request.default_view'));
 
         } else {
             if ($onlyWhereClause === true) {
@@ -1054,7 +1016,7 @@ class MolajoModelDisplay extends JModel
         $this->query->select('DISTINCT '.$this->_db->namequote($columnName).' as value');
 
         if ($table == null) {
-            $this->query->from($this->_db->namequote('#'.$this->component_table));
+            $this->query->from($this->_db->namequote('#'.$this->getState('request.component_table')));
         } else {
             $this->query->from($this->_db->namequote($table));
         }
@@ -1105,7 +1067,7 @@ class MolajoModelDisplay extends JModel
             return;
         }
         $this->query->where($this->_db->namequote('id').' IN ('.$categoryArray.')');
-        $this->query->where($this->_db->namequote('extension').' = '.$this->_db->quote($this->option));
+        $this->query->where($this->_db->namequote('extension').' = '.$this->_db->quote($this->getState('request.option')));
 
         $this->_db->setQuery($this->query->__toString());
 
@@ -1134,7 +1096,9 @@ class MolajoModelDisplay extends JModel
     */
     public function getTable($type='', $prefix='', $config = array())
     {
-        return JTable::getInstance($type=ucfirst($this->single_view), $prefix=ucfirst($this->default_view.'Table'), $config);
+        return JTable::getInstance($type=ucfirst($this->getState('request.single_view')),
+                                   $prefix=ucfirst($this->getState('request.default_view').'Table'),
+                                   $config);
     }
 
     /**

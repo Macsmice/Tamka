@@ -95,7 +95,7 @@ class MolajoFieldAccess extends MolajoField
             return;
         }
         $aclClass = ucfirst(strtolower(JRequest::getVar('default_view'))).'ACL';
-        $aclClass::getQueryParts ($query, 'filter', $value );
+        $aclClass::getQueryParts (JRequest::getVar('option'), $query, 'filter', $value );
     }
 
     /**

@@ -55,7 +55,7 @@ class plgMolajoContent extends JPlugin	{
         }
         /** add line breaks **/
         if ($systemParams->def('enable_add_line_breaks', 0) == 1) {
-            $content->$loc = MolajoHelperText::addLineBreaks ($content->$loc);
+            $content->$loc = MolajoTextHelper::addLineBreaks ($content->$loc);
         }
         /** pullquotes and blockquotes **/
         if (($systemParams->def('enable_blockquotes', 0) == 1) || ($systemParams->def('enable_pullquotes', 0) == 1)) {
@@ -69,7 +69,7 @@ class plgMolajoContent extends JPlugin	{
         }
         /** smilies functions **/
         if ($systemParams->def('enable_smilies', 0) == 1) {
-            $content->$loc = MolajoHelperText::smilies ($content->$loc);
+            $content->$loc = MolajoTextHelper::smilies ($content->$loc);
         }
         return;
     }

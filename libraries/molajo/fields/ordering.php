@@ -88,7 +88,7 @@ class MolajoFieldOrdering extends MolajoField
      * @param sstring $value
      * @return array
      */
-    public function getQueryParts ($query, $value, $selectedOrdering, $onlyWhereClause=false)
+    public function getQueryParts ($query, $value, $selectedState, $onlyWhereClause=false)
     {
         $query->select('a.ordering');
         if (is_numeric($value)) {

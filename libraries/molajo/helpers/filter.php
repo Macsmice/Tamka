@@ -1,7 +1,7 @@
 <?php
 /**
  * @package     Molajo
- * @subpackage  MolajoFilterHelperFilter
+ * @subpackage  MolajoFilterHelper
  * @copyright   Copyright (C) 2011 Amy Stephen. All rights reserved.
  * @license     GNU General Public License Version 2, or later http://www.gnu.org/licenses/gpl.html
  */
@@ -39,10 +39,10 @@ class MolajoFilterHelper
     * @param text The string to filter
     * @return string The filtered string
     */
-    public static function filterText($text)
+    public function text($text)
     {
         return true;
-        
+
         /** filter parameters **/
         $molajoSystemPlugin =& JPluginHelper::getPlugin('system', 'molajo');
         $systemParams = new JParameter($molajoSystemPlugin->params);

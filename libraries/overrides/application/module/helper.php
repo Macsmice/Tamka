@@ -283,6 +283,7 @@ abstract class JModuleHelper
 			$query->where('(m.publish_down = '.$db->Quote($nullDate).' OR m.publish_down >= '.$db->Quote($now).')');
 
 			$query->where('m.access IN ('.$groups.')');
+
 			$query->where('m.client_id = '. $clientId);
 			$query->where('(mm.menuid = '. (int) $Itemid .' OR mm.menuid <= 0)');
 

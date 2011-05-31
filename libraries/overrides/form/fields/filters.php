@@ -40,7 +40,7 @@ class JFormFieldFilters extends JFormField
 	{
 		/** retrieve user's ACL groups **/
         $aclClass = ucfirst(JRequest::getCmd('default_view')).'ACL';
-		$groups = $aclClass::getList ('Allusergroups', $option='', $task='', $params=array());
+		$groups = $aclClass::getList ('Allusergroups', $option=JRequest::getCmd('optiomn'), $task='', $params=array());
 
 return 'Filters are broken - ACL results set is fine - output is failing';        
 

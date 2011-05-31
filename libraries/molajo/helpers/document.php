@@ -31,6 +31,7 @@ class MolajoDocumentHelper
         $menus		= JFactory::getApplication()->getMenu();
         $pathway	= JFactory::getApplication()->getPathway();
         $title 		= null;
+        $document	= JFactory::getDocument();
 
         // Because the application sets a default page title,
         // we need to get it from the menu item itself

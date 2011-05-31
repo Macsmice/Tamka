@@ -52,7 +52,8 @@ class MolajoViewEdit extends JView
         $this->form   = $this->get('Form');
         $this->item   = $this->get('Item');
         $this->state  = $this->get('State');
-
+var_dump($this->item );
+        die();
         if (count($errors = $this->get('Errors'))) {
             JError::raiseError(500, implode("\n", $errors));
             return false;
@@ -85,14 +86,14 @@ class MolajoViewEdit extends JView
         $aclClass::getUserFormAuthorisations (JRequest::getVar('option'), JRequest::getVar('single_view'), JRequest::getVar('task'), $this->item->id, $this->form, $this->item);
 
         /** ACL: component level authorisations **/
-        $this->userToolbarButtonPermissions = $aclClass::getUserToolbarButtonPermissions (JRequest::getVar('option'), JRequest::getVar('single_view'), JRequest::getVar('task'));
+        $this->permissions = $aclClass::getUserPermissionSet (JRequest::getVar('option'), JRequest::getVar('single_view'), JRequest::getVar('task'));
 
         /** page heading, toolbar buttons and submenu **/
         if (($this->getLayout() == 'modal') || (!JRequest::getCmd('format') == 'html')) {
 //        } else if (JFactory::getApplication()->getName() == 'site') {
         } else {
             $molajoToolbar = new MolajoToolbarHelper ();
-            $molajoToolbar->addButtonsEditLayout ($this->item->state, $this->userToolbarButtonPermissions, $this->item->id, $this->item);
+            $molajoToolbar->addButtonsEditLayout ($this->item->state, $this->permissions, $this->item->id, $this->item);
         }
 
 		//Escape strings for HTML output

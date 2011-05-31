@@ -120,9 +120,9 @@ jimport('joomla.filesystem.folder');
 jimport('overrides.access.access');
 
 /** application */
-jimport('overrides.application.component.controller');
+jimport('joomla.application.component.controller');
 jimport('overrides.application.component.view');
-jimport('overrides.application.component.model');
+jimport('joomla.application.component.model');
 jimport('overrides.application.component.helper');
 jimport('overrides.application.module.helper');
 jimport('overrides.application.helper');

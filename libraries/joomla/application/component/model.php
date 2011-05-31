@@ -259,8 +259,6 @@ abstract class JModel extends JObject
 	}
 
 	/**
-     * amy - not used
-     *
 	 * Gets an array of objects from the results of database query.
 	 *
 	 * @param   string   $query       The query.
@@ -279,8 +277,6 @@ abstract class JModel extends JObject
 	}
 
 	/**
-     * amy - not used
-     *
 	 * Returns a record count for the query
 	 *
 	 * @param    string  $query  The query.
@@ -322,8 +318,6 @@ abstract class JModel extends JObject
 	}
 
 	/**
-     * amy not used
-     *
 	 * Method to get the database connector object
 	 *
 	 * @return  JDatabase  JDatabase connector object
@@ -421,8 +415,6 @@ abstract class JModel extends JObject
 	}
 
 	/**
-     * amy - ???
-     *
 	 * Method to set the database connector object
 	 *
 	 * @param   object  &$db	A JDatabase based object
@@ -436,8 +428,6 @@ abstract class JModel extends JObject
 	}
 
 	/**
-     * ???
-     *
 	 * Method to set model state variables
 	 *
 	 * @param   string  $property	The name of the property
@@ -472,7 +462,7 @@ abstract class JModel extends JObject
 			'cachebase'		=> ($client_id) ? JPATH_ADMINISTRATOR.DS.'cache' : $conf->get('cache_path', JPATH_SITE.DS.'cache')
 		);
 
-//amy		jimport('joomla.cache.cache');
+		jimport('joomla.cache.cache');
 		$cache = JCache::getInstance('callback', $options);
 		$cache->clean();
 
