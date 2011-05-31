@@ -91,7 +91,7 @@ if (isset($_SERVER["REQUEST_URI"])) {
 define('MOLAJO_CURRENT_URL', strtolower($currentURL));
 
 /** Layouts: Drivers, Layouts, and Parameters */
-$temp = MOLAJO_LIBRARY.'/layouts';
+$temp = JPATH_ROOT.'/layouts';
 define('MOLAJO_LAYOUTS', $temp);
 $temp = MOLAJO_LIBRARY.'/parameters';
 define('MOLAJO_PARAMETERS', $temp);

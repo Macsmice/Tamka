@@ -8,9 +8,7 @@
  */
 defined('MOLAJO') or die;
 
-$this->layoutFolder = $this->layoutHelper->driver ('manager', $this->option, $this->view, '/driver.php');
-if ($this->layoutFolder === false) {
-    return false;
-} else {
-    include $this->layoutFolder.'/driver.php';
-}
+require $this->layoutHelper->driver ('manager',
+                                    $this->state->get('request.option'),
+                                    $this->state->get('request.view'),
+                                    '/driver.php');

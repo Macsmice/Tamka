@@ -54,15 +54,15 @@ class MolajoLayoutHelper
 
         /** template **/
         if (file_exists($templatePath.$folder.$driver)) {
-            return $templatePath.$folder;
+            return $templatePath.$folder.$driver;
 
         /** component **/
         } else if (file_exists($componentPath.$folder)) {
-            return $componentPath.$folder;
+            return $componentPath.$folder.$driver;
 
         /** molajao library **/
         } else if (file_exists($corePath.$folder)) {
-            return $corePath.$folder;
+            return $corePath.$folder.$driver;
         }
 
         JFactory::getApplication()->enqueueMessage(JText::_(strtoupper($option).'_INVALID_LAYOUT_FILENAME').': '.$corePath.$folder, 'error');

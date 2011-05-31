@@ -135,9 +135,10 @@ class plgQueryMolajosample extends JPlugin
 	 *
 	 * Method is called by the model
      * 
-	 * @param	string	$context    The component.view.layout context 
-	 * @param	object	$filters    Filters for query object
+	 * @param	string	$state      Array of request variables, filters, list objects
+	 * @param	object	$item       Single resultset item
 	 * @param	object	$params     The content params
+	 * @param	boolean	$keep       Will the row be returned to the layout?
 	 * 
 	 * @since	1.6
 	 */    
@@ -145,8 +146,7 @@ class plgQueryMolajosample extends JPlugin
     {
         return true;
     }  
-    
-    
+
 	/**
 	 * 6. onQueryComplete
      *

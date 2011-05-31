@@ -34,13 +34,14 @@ class MolajoViewDisplay extends JView
      * 4. 
      *
      */
-    protected $options;
+    protected $state;
+    protected $params;
     protected $recordset;
-    protected $row;
-    protected $rowCount;
 
     /** toolbar - layout? */
     protected $userToolbarButtonPermissions;
+    protected $row;
+    protected $rowCount;
 
 /*  navigation object */
     protected $listOrder;
@@ -92,7 +93,10 @@ class MolajoViewDisplay extends JView
     public function display($tpl = null)
     {
 //        $this->setState('filter_amy', 'stephen');
-        $this->options       = $this->get('State');
+
+        $this->state         = $this->get('State');
+        $this->params        = $this->get('Params');
+        $this->recordset     = $this->get('Items');
 
 /**
 $this->document
@@ -101,12 +105,10 @@ $this->user
 
 $this->options
 Parameters (Includes Filters, Global Options, Menu Item, Item)
-$this->options->get('filter.category')
-$this->options->get('layout_show_page_heading', 1)
+$this->state->get('filter.category')
+$this->params->get('layout_show_page_heading', 1)
 $this->options->get('layout_page_class_suffix', '')
  */
-        $this->recordset     = $this->get('Items');
-
         // $this->row is one item
         //  $this->row->xxx->event->eventName
         
