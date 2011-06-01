@@ -243,8 +243,7 @@ $this->options->get('layout_page_class_suffix', '')
      */
     private function _mergeParams ()
     {
-		// Merge article params. If this is single-article view, menu params override article params
-		// Otherwise, article params override menu item params
+
 		$active	= JFactory::getApplication()->getMenu()->getActive();
 		$temp	= clone ($this->params);
 
