@@ -286,6 +286,12 @@ echo 'format (display only): '.$format.'<br />';
  
             if (JFactory::getApplication()->getName() == 'administrator') {
                 $fileName = JPATH_ADMINISTRATOR.'/components/'.JRequest::getCmd('option').'/views/'.$view.'/tmpl/'.$layout.'.php';
+                if ($view == $defaultView && $layout == 'default') {
+                    $layout = 'manager';
+                }
+                if ($view == $singleView && $layout == 'default') {
+                    $layout = 'edit';
+                }
             } else {
                 $fileName = JPATH_SITE.'/components/'.JRequest::getCmd('option').'/views/'.$view.'/tmpl/'.$layout.'.php';
             }

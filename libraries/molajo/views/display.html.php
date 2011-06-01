@@ -99,9 +99,6 @@ class MolajoViewDisplay extends JView
         $this->params        = $this->get('Params');
         $this->recordset     = $this->get('Items');
 
-        /** locate layout path */
-
-        /** render output */
 /**
 MOLAJO_LAYOUT_DRIVERS
 $this->document
@@ -167,9 +164,9 @@ $this->options->get('layout_page_class_suffix', '')
           parent::display($tpl);
         } else {
           if ($this->get('request.id' == 0)) {
-            echo $this->renderOutput($path, 'driver_item.php');
+            echo $this->renderOutputItem ($path, 'driver_item.php');
           } else {
-            echo $this->renderOutput($path, 'driver_list.php');
+            echo $this->renderOutputList ($path, 'driver_list.php');
           }
         }
     }
@@ -225,10 +222,121 @@ $this->options->get('layout_page_class_suffix', '')
      * @param  $driver
      * @return string
      */
-    private function renderOutput ($path, $driver)
+    private function renderOutputItem ($path)
     {
+        /** start collecting the output */
         ob_start();
-        include $path.$driver;
+
+        /**
+         * Single Item Recordset
+         *
+         * Automatically includes the following files (if existing)
+         *
+         * A. Before first row => layoutFolder/layouts/header.php
+         * B. For each row in the recordset => layoutFolder/layouts/body.php
+         * C. After the last row in the recordset => layoutFolder/layouts/footer.php
+         *
+         */
+        foreach ($this->recordset as $this->row) {
+
+            $this->rowCount++;
+
+            /** header - beginning of layout */
+            if ($this->rowCount == 1) {
+                if (file_exists($path.'/layouts/header.php')) {
+                    include $path.'/layouts/header.php';
+                }
+
+                /** event: After Display of Title */
+                echo $this->row->event->afterDisplayTitle;
+
+                /** event: Before Content Display */
+                echo $this->row->event->beforeDisplayContent;
+            }
+
+            /** body - once for each row in the recordset */
+            if (file_exists($path.'/layouts/body.php')) {
+                include $path.'/layouts/body.php';
+            }
+        }
+
+        /** footer - end of layout */
+        if (file_exists($path.'/layouts/footer.php')) {
+            include $path.'/layouts/footer.php';
+        }
+
+        /** event: After Layout is finished */
+        echo $this->row->event->afterDisplayContent;
+                   
+        /** collect output */
+        $output = ob_get_contents();
+        ob_end_clean();
+
+        return $output;
+    }
+
+    /**
+     * renderOutputPath
+     *
+     * @param  $path
+     *
+     * @return string
+     */
+    private function renderOutputList ($path)
+    {
+        /** start collecting the output */
+        ob_start();
+
+        /**
+         * List Recordset
+         *
+         * Automatically includes the following files (if existing)
+         *
+         * A. Before first row => layoutFolder/layouts/header.php
+         * B. For each row in the recordset => layoutFolder/layouts/body.php
+         * C. After the last row in the recordset => layoutFolder/layouts/footer.php
+         *
+         */
+        foreach ($this->recordset as $this->row) {
+
+            $this->rowCount++;
+
+            /** header - beginning of layout */
+            if ($this->rowCount == 1) {
+                if (file_exists($path.'/layouts/header.php')) {
+                    include $path.'/layouts/header.php';
+                }
+            }
+
+            if (file_exists($path.'/layouts/item_header.php')) {
+                include $path.'/layouts/item_header.php';
+            }
+
+            /** event: After Display of Title */
+            echo $this->row->event->afterDisplayTitle;
+
+            /** event: Before Content Display */
+            echo $this->row->event->beforeDisplayContent;
+
+            /** body - once for each row in the recordset */
+            if (file_exists($path.'/layouts/item_body.php')) {
+                include $path.'/layouts/item_body.php';
+            }
+
+            if (file_exists($path.'/layouts/item_footer.php')) {
+                include $path.'/layouts/item_footer.php';
+            }
+        }
+
+        /** footer - end of layout */
+        if (file_exists($path.'/layouts/footer.php')) {
+            include $path.'/layouts/footer.php';
+        }
+
+        /** event: After Layout is finished */
+        echo $this->row->event->afterDisplayContent;
+
+        /** collect output */
         $output = ob_get_contents();
         ob_end_clean();
 
@@ -243,7 +351,6 @@ $this->options->get('layout_page_class_suffix', '')
      */
     private function _mergeParams ()
     {
-
 		$active	= JFactory::getApplication()->getMenu()->getActive();
 		$temp	= clone ($this->params);
 
