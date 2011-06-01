@@ -190,7 +190,7 @@ $this->options->get('layout_page_class_suffix', '')
     {
         /** path: template **/
         $template = JFactory::getApplication()->getTemplate();
-        $templatePath = JPATH_THEMES.'/'.$template.'/html/layouts/';
+        $templatePath = JPATH_THEMES.'/'.$template.'/html/layouts /';
 
         /** path: component **/
         if (MOLAJO_APPLICATION == 'site') {
