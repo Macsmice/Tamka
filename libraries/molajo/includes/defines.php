@@ -21,7 +21,7 @@ define('JPATH_THEMES',			JPATH_BASE.'/templates');
 define('JPATH_CACHE',			JPATH_BASE.'/cache');
 define('JPATH_MANIFESTS',		JPATH_ADMINISTRATOR.'/manifests');
 
-/** legacy */
+/** legacy/* */
 define('JPATH_LIBRARIES',		JPATH_ROOT.'/libraries');
 
 /** overrides */

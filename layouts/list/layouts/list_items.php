@@ -17,8 +17,6 @@ JHtml::core();
 // Create some shortcuts.
 $params		= $this->row->params;
 $n			= count($this->recordset);
-$listOrder	= $this->escape($this->queryState->get('list.ordering'));
-$listDirn	= $this->escape($this->queryState->get('list.direction'));
 ?>
 
 <?php if (empty($this->recordset)) : ?>
@@ -63,24 +61,24 @@ $listDirn	= $this->escape($this->queryState->get('list.direction'));
 		<thead>
 			<tr>
 				<th class="list-title" id="tableOrdering">
-					<?php  echo JHtml::_('grid.sort', 'JGLOBAL_TITLE', 'a.title', $listDirn, $listOrder) ; ?>
+					<?php  echo JHtml::_('grid.sort', 'JGLOBAL_TITLE', 'a.title', $this->escape($this->state->get('list.direction')), $this->escape($this->state->get('list.ordering'))) ; ?>
 				</th>
 
 				<?php if ($date = $this->options->get('list_show_date')) : ?>
 				<th class="list-date" id="tableOrdering2">
-					<?php echo JHtml::_('grid.sort', 'COM_CONTENT_'.$date.'_DATE', 'a.created', $listDirn, $listOrder); ?>
+					<?php echo JHtml::_('grid.sort', 'COM_CONTENT_'.$date.'_DATE', 'a.created', $this->escape($this->state->get('list.direction')), $this->escape($this->state->get('list.ordering'))); ?>
 				</th>
 				<?php endif; ?>
 
 				<?php if ($this->options->get('list_show_author',1)) : ?>
 				<th class="list-author" id="tableOrdering3">
-					<?php echo JHtml::_('grid.sort', 'JAUTHOR', 'author', $listDirn, $listOrder); ?>
+					<?php echo JHtml::_('grid.sort', 'JAUTHOR', 'author', $this->escape($this->state->get('list.direction')), $this->escape($this->state->get('list.ordering'))); ?>
 				</th>
 				<?php endif; ?>
 
 				<?php if ($this->options->get('list_show_hits',1)) : ?>
 				<th class="list-hits" id="tableOrdering4">
-					<?php echo JHtml::_('grid.sort', 'JGLOBAL_HITS', 'a.hits', $listDirn, $listOrder); ?>
+					<?php echo JHtml::_('grid.sort', 'JGLOBAL_HITS', 'a.hits', $this->escape($this->state->get('list.direction')), $this->escape($this->state->get('list.ordering'))); ?>
 				</th>
 				<?php endif; ?>
 			</tr>

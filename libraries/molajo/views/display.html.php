@@ -94,19 +94,25 @@ class MolajoViewDisplay extends JView
     {
 //        $this->setState('filter_amy', 'stephen');
 
+        /** retrieve model data */
         $this->state         = $this->get('State');
         $this->params        = $this->get('Params');
         $this->recordset     = $this->get('Items');
 
+        /** locate layout path */
+
+        /** render output */
 /**
+MOLAJO_LAYOUT_DRIVERS
 $this->document
 $this->configuration
 $this->user
 
+
 $this->options
 Parameters (Includes Filters, Global Options, Menu Item, Item)
-$this->state->get('filter.category')
-$this->params->get('layout_show_page_heading', 1)
+$this->state->get('filter.category')                        state
+$this->params->get('layout_show_page_heading', 1)           parameters = layout_options?
 $this->options->get('layout_page_class_suffix', '')
  */
         // $this->row is one item
@@ -154,20 +160,80 @@ $this->options->get('layout_page_class_suffix', '')
         if (JFactory::getApplication()->getName() == 'site') {
 
         } 
-//JText::_('MOLAJO_PUBLISHED_DATE')
-//JHtml::_('form.token')
-//echo JHtml::_('icon.edit', $this->row, $this->options);
-//$this->options->get('css_page_class_suffix', '')
-//JForm
-// echo a custom field
-// insert a content plugin
-//
+
         $this->tempCount = 0;
+        $path = $this->findPath($this->state->get('request.layout'));
+        if ($path === false) {
+          parent::display($tpl);
+        } else {
+          if ($this->get('request.id' == 0)) {
+            echo $this->renderOutput($path, 'driver_item.php');
+          } else {
+            echo $this->renderOutput($path, 'driver_list.php');
+          }
+        }
+    }
 
-        /** layout **/
-        $this->layoutHelper = new MolajoLayoutHelper();
+    /**
+     * Looks for path of $tpl as a layout folder, in this order:
+     *
+     * - CurrentTemplate/html/layouts/$tpl/
+     * - components/com_thiscomponent/views/this_view/tmpl/$tpl/
+     * - MOLAJO_LAYOUTS/$tpl/
+     *
+     * - defaults to normal Joomla View processing
+     *
+     * @param  $tpl
+     * @return string
+     */
+    public function findPath ($tpl)
+    {
+        /** path: template **/
+        $template = JFactory::getApplication()->getTemplate();
+        $templatePath = JPATH_THEMES.'/'.$template.'/html/layouts/';
 
-        parent::display($tpl);
+        /** path: component **/
+        if (MOLAJO_APPLICATION == 'site') {
+            $componentPath = JPATH_ROOT.'/components/'.$this->state->get('request.option').'/views/'.$this->state->get('request.view').'/tmpl/';
+        } else {
+            $componentPath = JPATH_ROOT.'/'.MOLAJO_APPLICATION.'/components/'.$this->state->get('request.option').'/views/'.$this->state->get('request.view').'/tmpl/';
+        }
+
+        /** path: core **/
+        $corePath = MOLAJO_LAYOUTS.'/';
+echo $corePath.$tpl;
+
+        /** template **/
+        if (is_dir($templatePath.$tpl)) {
+            return $templatePath.$tpl;
+
+        /** component **/
+        } else if (is_dir($componentPath.$tpl)) {
+            return $componentPath.$tpl;
+
+        /** molajao library **/
+        } else if (is_dir($corePath.$tpl)) {
+            return $corePath.$tpl;
+        }
+
+        return false;
+    }
+
+    /**
+     * renderOutput
+     *
+     * @param  $path
+     * @param  $driver
+     * @return string
+     */
+    private function renderOutput ($path, $driver)
+    {
+        ob_start();
+        include $path.$driver;
+        $output = ob_get_contents();
+        ob_end_clean();
+
+        return $output;
     }
 
     /**

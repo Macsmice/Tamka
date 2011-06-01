@@ -10,17 +10,15 @@ defined('MOLAJO') or die;
 
 /** JS **/
 JHtml::_('behavior.framework', true);
-JHTML::_('behavior.tooltip');
-JHTML::_('script','system/multiselect.js', false, true);
+JHtml::_('behavior.tooltip');
+JHtml::_('script','system/multiselect.js', false, true);
 
 /** custom icons, button bar items, grid icons, css **/
 $document =& JFactory::getDocument();
 $document->addStyleSheet('../media/'.$this->state->get('request.option').'/css/administrator.css');
 
 /** list variables **/
-$listOrder = $this->escape($this->state->get('list.ordering'));
-$listDirn = $this->escape($this->state->get('list.direction'));
-$this->saveOrder = $this->state->get('list.ordering') == 'a.ordering';
+$this->saveOrder = $this->state->get('list.ordering');
 
 /** generate output **/
 include dirname(__FILE__).'/layouts/form_begin.php';

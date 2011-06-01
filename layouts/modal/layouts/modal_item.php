@@ -12,8 +12,8 @@ defined('JPATH_PLATFORM') or die;
 
 $function	= JRequest::getCmd('function', 'jSelect');
 
-$listOrder	= $this->escape($this->queryState->get('list.ordering'));
-$listDirn	= $this->escape($this->queryState->get('list.direction'));
+$this->escape($this->state->get('list.ordering'))	= $this->escape($this->state->get('list.ordering'));
+$this->escape($this->state->get('list.direction'))	= $this->escape($this->state->get('list.direction'));
 ?>
 <form action="<?php echo JRoute::_('index.php?option='.$this->options->get('request.option').'&view='.$this->options->get('request.view').$function); ?>" method="post" name="adminForm" id="adminForm">
 	<fieldset class="filter clearfix">
@@ -47,19 +47,19 @@ $listDirn	= $this->escape($this->queryState->get('list.direction'));
 		<thead>
 			<tr>
 				<th class="title">
-					<?php echo JHtml::_('grid.sort', 'JGLOBAL_TITLE', 'a.title', $listDirn, $listOrder); ?>
+					<?php echo JHtml::_('grid.sort', 'JGLOBAL_TITLE', 'a.title', $this->escape($this->state->get('list.direction')), $this->escape($this->state->get('list.ordering'))); ?>
 				</th>
 				<th width="20%">
-					<?php echo JHtml::_('grid.sort', 'JCATEGORY', 'a.catid', $listDirn, $listOrder); ?>
+					<?php echo JHtml::_('grid.sort', 'JCATEGORY', 'a.catid', $this->escape($this->state->get('list.direction')), $this->escape($this->state->get('list.ordering'))); ?>
 				</th>
 				<th width="5%">
-					<?php echo JHtml::_('grid.sort',  'JDATE', 'a.created', $listDirn, $listOrder); ?>
+					<?php echo JHtml::_('grid.sort',  'JDATE', 'a.created', $this->escape($this->state->get('list.direction')), $this->escape($this->state->get('list.ordering'))); ?>
 				</th>
 				<th width="5%">
-					<?php echo JHtml::_('grid.sort',  'JAUTHOR', 'a.author', $listDirn, $listOrder); ?>
+					<?php echo JHtml::_('grid.sort',  'JAUTHOR', 'a.author', $this->escape($this->state->get('list.direction')), $this->escape($this->state->get('list.ordering'))); ?>
 				</th>
 				<th width="1%" class="nowrap">
-					<?php echo JHtml::_('grid.sort', 'JGRID_HEADING_ID', 'a.id', $listDirn, $listOrder); ?>
+					<?php echo JHtml::_('grid.sort', 'JGRID_HEADING_ID', 'a.id', $this->escape($this->state->get('list.direction')), $this->escape($this->state->get('list.ordering'))); ?>
 				</th>
 			</tr>
 		</thead>
