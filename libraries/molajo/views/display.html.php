@@ -201,7 +201,6 @@ $this->options->get('layout_page_class_suffix', '')
 
         /** path: core **/
         $corePath = MOLAJO_LAYOUTS.'/';
-echo $corePath.$tpl;
 
         /** template **/
         if (is_dir($templatePath.$tpl)) {
