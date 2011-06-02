@@ -13,29 +13,29 @@ defined('JPATH_PLATFORM') or die;
 JHtml::addIncludePath(JPATH_COMPONENT.'/helpers');
 
 ?>
-<div class="category-list<?php echo $this->options->get('page_class_suffix', '');?>">
+<div class="category-list<?php echo $this->state->get('page_class_suffix', '');?>">
 
-	<?php if ($this->options->get('show_page_heading', 1)) : ?>
+	<?php if ($this->state->get('show_page_heading', 1)) : ?>
 	<h1>
-		<?php echo $this->escape($this->options->get('page_heading')); ?>
+		<?php echo $this->escape($this->state->get('page_heading')); ?>
 	</h1>
 	<?php endif; ?>
 
-	<?php if ($this->options->get('show_category_title', 1) OR $this->options->get('page_subheading')) : ?>
+	<?php if ($this->state->get('show_category_title', 1) OR $this->state->get('page_subheading')) : ?>
 	<h2>
-		<?php echo $this->escape($this->options->get('page_subheading')); ?>
-		<?php if ($this->options->get('show_category_title')) : ?>
+		<?php echo $this->escape($this->state->get('page_subheading')); ?>
+		<?php if ($this->state->get('show_category_title')) : ?>
 			<span class="subheading-category"><?php echo $this->category->title;?></span>
 		<?php endif; ?>
 	</h2>
 	<?php endif; ?>
 
-	<?php if ($this->options->get('show_description', 1) || $this->options->def('show_description_image', 1)) : ?>
+	<?php if ($this->state->get('show_description', 1) || $this->state->def('show_description_image', 1)) : ?>
 	<div class="category-desc">
-		<?php if ($this->options->get('show_description_image') && $this->category->getParams()->get('image')) : ?>
+		<?php if ($this->state->get('show_description_image') && $this->category->getParams()->get('image')) : ?>
 			<img src="<?php echo $this->category->getParams()->get('image'); ?>"/>
 		<?php endif; ?>
-		<?php if ($this->options->get('show_description') && $this->category->description) : ?>
+		<?php if ($this->state->get('show_description') && $this->category->description) : ?>
 			<?php echo JHtml::_('content.prepare', $this->category->description); ?>
 		<?php endif; ?>
 		<div class="clr"></div>

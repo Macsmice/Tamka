@@ -11,17 +11,17 @@ defined('MOLAJO') or die;
 /**
  * Toolbar
  */
-if ($this->options->get('component_task') == 'add') {
+if ($this->state->get('component_task') == 'add') {
     $set = 'config_manager_editor_button_bar_new_option';
-} else if ($this->options->get('component_task') == 'edit') {
+} else if ($this->state->get('component_task') == 'edit') {
     $set = 'config_manager_editor_button_bar_edit_option';
 } else {
     $set = 'config_manager_button_bar_option';
 }
-$aclClass = ucfirst($this->options->get('request.default_view')).'ACL';
-$this->permissions = $aclClass::getUserPermissionSet ($this->options->get('request.option'),
-                                                      $this->options->get('request.single_view'),
+$aclClass = ucfirst($this->state->get('request.default_view')).'ACL';
+$this->permissions = $aclClass::getUserPermissionSet ($this->state->get('request.option'),
+                                                      $this->state->get('request.single_view'),
                                                       $set);
 
 $toolbar = new MolajoToolbarHelper ();
-$toolbar->addButtonsDefaultLayout ($this->options->get('filter.option'), $this->permissions);
+$toolbar->addButtonsDefaultLayout ($this->state->get('filter.option'), $this->permissions);

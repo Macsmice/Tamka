@@ -36,7 +36,7 @@ class MolajoModelDisplay extends JModel
     protected $query = null;
 
     /**
-     * $dispatcher
+     * $this->dispatcher
      *
      * @var    string
      * @since  1.6
@@ -145,6 +145,13 @@ class MolajoModelDisplay extends JModel
         $this->setState('request.default_view', JRequest::getCmd('default_view'));
         $this->setState('request.single_view', JRequest::getCmd('single_view'));
 
+        $this->setState('layout.loadSiteCSS', true);
+        $this->setState('layout.loadSiteJS', true);
+        $this->setState('layout.loadComponentCSS', true);
+        $this->setState('layout.loadComponentJS', true);
+        $this->setState('layout.loadLayoutCSS', true);
+        $this->setState('layout.loadLayoutJS', true);
+
         /** context **/
         $this->context = strtolower(JRequest::getCmd('option').'.'.$this->getName());
         if (trim(JRequest::getCmd('layout')) == '') {
@@ -166,6 +173,7 @@ class MolajoModelDisplay extends JModel
 
         $this->dispatcher = JDispatcher::getInstance();
 		JPluginHelper::importPlugin('query');
+		JPluginHelper::importPlugin('content');
 
         if (JRequest::getInt('id') == 0) {
             $this->populateStateMultiple ($ordering, $direction);
@@ -535,6 +543,19 @@ class MolajoModelDisplay extends JModel
 
                 $this->dispatcher->trigger('onQueryAfterItem', array(&$this->state, &$items[$i], &$this->params, &$keep));
 
+                /** process content plugins */
+                $this->dispatcher->trigger('onContentPrepare', array ($this->context, &$items[$i], $this->params, $this->getState('list.start')));
+                $items[$i]->event = new stdClass();
+        
+                $results = $this->dispatcher->trigger('onContentAfterTitle', array($this->context, &$items[$i], $this->params, $this->getState('list.start')));
+                $items[$i]->event->afterDisplayTitle = trim(implode("\n", $results));
+        
+                $results = $this->dispatcher->trigger('onContentBeforeDisplay', array($this->context, &$items[$i], $this->params, $this->getState('list.start')));
+                $items[$i]->event->beforeDisplayContent = trim(implode("\n", $results));
+        
+                $results = $this->dispatcher->trigger('onContentAfterDisplay', array($this->context, &$items[$i], $this->params, $this->getState('list.start')));
+                $items[$i]->event->afterDisplayContent = trim(implode("\n", $results)); 
+                
                 /** remove item overridden by category and no longer valid for criteria **/
                 if ($keep === true) {
                 } else {

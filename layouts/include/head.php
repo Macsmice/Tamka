@@ -11,30 +11,30 @@ defined('MOLAJO') or die;
 /**
  *  1. Load Language Files
  */
-include 'include_standard_language.php';
+include 'language.php';
 
 /**
  *  2. Process Document Head
  */
-if ($this->options->get('request.format') == 'html' && $thisisreallyacomponent) {
-    include 'include_standard_document_head.php';
+if ($this->state->get('request.format') == 'html' && $thisisreallyacomponent) {
+    include 'document.php';
 }
 
 /**
  *  3. Prepare Toolbar
  */
-if ($this->options->get('request.layout') == 'modal'
-    || !$this->options->get('request.format') == 'html') {
+if ($this->state->get('request.layout') == 'modal'
+    || !$this->state->get('request.format') == 'html') {
 } else {
-    include 'include_toolbar.php';
+    include 'toolbar.php';
 }
 
 /**
  *  4. Prepare Submenu
  */
-if ($this->options->get('request.application') == 'ADMINISTRATOR') {
+if ($this->state->get('request.application') == 'ADMINISTRATOR') {
 } else {
-    include 'include_submenu.php';
+    include 'submenu.php';
 }
 
 /**
@@ -49,4 +49,4 @@ if ($this->options->get('request.application') == 'ADMINISTRATOR') {
  *
  * Note: Right-to-left css files should begin with rtl_
  */
-include 'include_css_and_js.php';
+include 'css_and_js.php';

@@ -7,9 +7,9 @@
  * @license     GNU General Public License Version 2, or later http://www.gnu.org/licenses/gpl.html
  */
 defined('MOLAJO') or die;?>
-<div class="item<?php echo $this->options->get('page_class_suffix', ''); ?>">
+<div class="item<?php echo $this->state->get('page_class_suffix', ''); ?>">
 
-<div class="item-header<?php echo $this->options->get('page_class_suffix', ''); ?>">
+<div class="item-header<?php echo $this->state->get('page_class_suffix', ''); ?>">
 
 <h2>
 <?php echo $this->escape($this->row->title); ?>
@@ -18,7 +18,7 @@ defined('MOLAJO') or die;?>
 <?php if ($this->row->canEdit) : ?>
 <ul class="actions">
     <li class="edit-icon">
-        <?php //echo JHtml::_('icon.edit', $this->row, $this->options); ?>
+        <?php //echo JHtml::_('icon.edit', $this->row, $this->state); ?>
     </li>
 </ul>
 <?php endif; ?>

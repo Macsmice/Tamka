@@ -15,7 +15,8 @@ defined('MOLAJO') or die;
 /** installation check */
 define('INSTALL_CHECK', false);
 if (MOLAJO_APPLICATION == 'installation'
-    || INSTALL_CHECK === false) {
+    || (INSTALL_CHECK === false && file_exists(JPATH_CONFIGURATION.'/configuration.php')) ) {
+
 } else {
     if (!file_exists(JPATH_CONFIGURATION.'/configuration.php')
         || (filesize(JPATH_CONFIGURATION.'/configuration.php') < 10)

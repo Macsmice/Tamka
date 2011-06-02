@@ -18,7 +18,7 @@ require $this->layoutHelper->getPath ('table_head_column_first.php');
 /** loop thru header columns **/
 $this->tempColumnCount = 1;
 for ($i=1; $i < 1000; $i++) {
-    $this->columnName = $this->options->def('config_manager_grid_column'.$i, 0);
+    $this->columnName = $this->state->def('config_manager_grid_column'.$i, 0);
     if ($this->columnName == null) {
         break;
     } else if ($this->columnName == '0') {

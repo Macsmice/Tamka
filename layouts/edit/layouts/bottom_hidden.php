@@ -9,6 +9,6 @@
 defined('MOLAJO') or die;
 ?>
 <input type="hidden" name="task" value="" />
-<input type="hidden" name="return" value="<?php echo $this->options->get('navigation_form_return_to'); ?>" />
+<input type="hidden" name="return" value="<?php echo $this->state->get('navigation_form_return_to'); ?>" />
 <input type="hidden" name="id" value="<?php echo $this->row->id;?>" />
 <?php echo JHtml::_('form.token'); ?>

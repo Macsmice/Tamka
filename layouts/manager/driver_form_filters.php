@@ -12,7 +12,7 @@ defined('MOLAJO') or die;
 $anyFilters = false;
 
 /** search **/
-if ($this->options->def('config_manager_list_search', 1) == '1') {
+if ($this->state->def('config_manager_list_search', 1) == '1') {
     if ($anyFilters == false) {
         $anyFilters = true;
         require $this->layoutHelper->getPath ('form_filter_begin.php');
@@ -28,7 +28,7 @@ $loadFilterArray = array();
 
 /** loop thru filter options **/
 for ($i=1; $i < 1000; $i++) {
-    $this->fieldName = $this->options->def('config_manager_list_filters'.$i);
+    $this->fieldName = $this->state->def('config_manager_list_filters'.$i);
 
     /** encountered end of filters **/
     if ($this->fieldName == null) {

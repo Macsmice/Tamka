@@ -20,7 +20,7 @@ defined('MOLAJO') or die;
  *
  * Note: Right-to-left css files should begin with rtl_
  */
-if ($this->option->get('layout.loadSiteCSS', true) === true) {
+if ($this->state->get('layout.loadSiteCSS', true) === true) {
     /** standard site-wide css and js - media/site/css[js]/viewname.css[js] **/
     if (JFile::exists(JPATH_BASE.'/media/site/css/site.css')) {
         $this->document->addStyleSheet(JURI::base().'/site/css/site.css');
@@ -32,27 +32,27 @@ if ($this->option->get('layout.loadSiteCSS', true) === true) {
     }
 }
 
-if ($this->option->get('layout.loadSiteJS', true) === true) {
+if ($this->state->get('layout.loadSiteJS', true) === true) {
     if (JFile::exists(JPATH_BASE.'/media/site/js/site.js')) {
         $this->document->addScript(JURI::base().'/media/site/js/site.js');
     }
 }
 
 /** component specific css and js - media/site/css[js]/component_option.css[js] **/
-if ($this->option->get('layout.loadComponentCSS', true) === true) {
-    if (JFile::exists(JPATH_BASE.'/media/site/css/'.$this->options->get('request.option').'.css')) {
-        $this->document->addStyleSheet(JURI::base().'/media/site/css/'.$this->options->get('request.option').'.css');
+if ($this->state->get('layout.loadComponentCSS', true) === true) {
+    if (JFile::exists(JPATH_BASE.'/media/site/css/'.$this->state->get('request.option').'.css')) {
+        $this->document->addStyleSheet(JURI::base().'/media/site/css/'.$this->state->get('request.option').'.css');
     }
 }
     
-if ($this->option->get('layout.loadComponentJS', true) === true) {
-    if (JFile::exists(JPATH_BASE.'/media/site/js/'.$this->options->get('request.option').'.js')) {
-        $this->document->addScript(JURI::base().'media/site/js/'.$this->options->get('request.option').'.js');
+if ($this->state->get('layout.loadComponentJS', true) === true) {
+    if (JFile::exists(JPATH_BASE.'/media/site/js/'.$this->state->get('request.option').'.js')) {
+        $this->document->addScript(JURI::base().'media/site/js/'.$this->state->get('request.option').'.js');
     }
 }
     
 /** Load Layout CSS (if exists in layout CSS folder) */
-if ($this->option->get('layout.loadLayoutCSS', true) === true) {
+if ($this->state->get('layout.loadLayoutCSS', true) === true) {
     $files = JFolder::files($this->layoutFolder.'/css', '\.css', false, false);
     foreach ($files as $file) {
         if (substr(strtolower($file), 0, 4) == 'rtl_' && $this->document->direction = 'rtl') {
@@ -64,7 +64,7 @@ if ($this->option->get('layout.loadLayoutCSS', true) === true) {
 }
     
 /** Load Layout JS (if exists in layout JS folder) */
-if ($this->option->get('layout.loadLayoutJS', true) === true) {
+if ($this->state->get('layout.loadLayoutJS', true) === true) {
     $files = JFolder::files($this->layoutFolder.'/js', '\.js', false, false);
     foreach ($files as $file) {
         if (substr(strtolower($file), 0, 4) == 'rtl_' && $this->document->direction = 'rtl') {

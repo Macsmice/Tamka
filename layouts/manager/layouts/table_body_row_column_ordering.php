@@ -7,17 +7,17 @@
  * @license     GNU General Public License Version 2, or later http://www.gnu.org/licenses/gpl.html
  */
 defined('MOLAJO') or die; 
-$defaultView = $this->options->get('request.default_view'); ?>
+$defaultView = $this->state->get('request.default_view'); ?>
 
 <td class="order">
 <?php if ($this->row->canEditstate) : ?>
     <?php if ($this->saveOrder) :?>
         <?php if ($this->getState('pagination.list_direction') == 'asc') : ?>
-                <span><?php echo $this->pagination->orderUpIcon($this->rowCount, ($this->recordset->catid == @$this->row[$this->rowCount-1]->catid), $this->options->get('request.default_view').'.orderup', 'JLIB_HTML_MOVE_UP', $this->ordering); ?></span>
-                <span><?php echo $this->pagination->orderDownIcon($this->rowCount, $this->pagination->total, ($this->row->catid == @$this->row[$this->rowCount+1]->catid), $this->options->get('request.default_view').'.orderdown', 'JLIB_HTML_MOVE_DOWN', $this->ordering); ?></span>
+                <span><?php echo $this->pagination->orderUpIcon($this->rowCount, ($this->recordset->catid == @$this->row[$this->rowCount-1]->catid), $this->state->get('request.default_view').'.orderup', 'JLIB_HTML_MOVE_UP', $this->ordering); ?></span>
+                <span><?php echo $this->pagination->orderDownIcon($this->rowCount, $this->pagination->total, ($this->row->catid == @$this->row[$this->rowCount+1]->catid), $this->state->get('request.default_view').'.orderdown', 'JLIB_HTML_MOVE_DOWN', $this->ordering); ?></span>
         <?php elseif ($this->getState('pagination.list_direction') == 'desc') : ?>
-                <span><?php echo $this->pagination->orderUpIcon($this->rowCount, ($this->recordset->catid == @$this->row[$this->rowCount-1]->catid), $this->options->get('request.default_view').'.orderdown', 'JLIB_HTML_MOVE_UP', $this->ordering); ?></span>
-                <span><?php echo $this->pagination->orderDownIcon($this->rowCount, $this->pagination->total, ($this->row->catid == @$this->row[$this->rowCount+1]->catid), $this->options->get('request.default_view').'.orderup', 'JLIB_HTML_MOVE_DOWN', $this->ordering); ?></span>
+                <span><?php echo $this->pagination->orderUpIcon($this->rowCount, ($this->recordset->catid == @$this->row[$this->rowCount-1]->catid), $this->state->get('request.default_view').'.orderdown', 'JLIB_HTML_MOVE_UP', $this->ordering); ?></span>
+                <span><?php echo $this->pagination->orderDownIcon($this->rowCount, $this->pagination->total, ($this->row->catid == @$this->row[$this->rowCount+1]->catid), $this->state->get('request.default_view').'.orderup', 'JLIB_HTML_MOVE_DOWN', $this->ordering); ?></span>
         <?php endif; ?>
     <?php endif; ?>
     <?php $disabled = $this->saveOrder ?  '' : 'disabled="disabled"'; ?>

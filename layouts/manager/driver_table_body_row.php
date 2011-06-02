@@ -15,7 +15,7 @@ require $this->layoutHelper->getPath ('table_body_row_column_first.php');
 
 /** loop through columns **/
 for ($i=1; $i < 1000; $i++) {
-    $this->columnName = $this->options->def('config_manager_grid_column'.$i);
+    $this->columnName = $this->state->def('config_manager_grid_column'.$i);
     if ($this->columnName == null) {
         break;
     } else if ($this->columnName == '0') {

@@ -11,6 +11,6 @@ defined('MOLAJO') or die;
 <th width="10%">
         <?php echo JHtml::_('grid.sort',  'MOLAJO_FIELD_ORDERING_LABEL', 'a.ordering', $this->getState('pagination.list_direction'), $this->getState('pagination.list_order')); ?>
         <?php if ($this->saveOrder) :?>
-                <?php echo JHtml::_('grid.order',  $this->recordset, 'filesave.png', $this->options->get('request.default_view').'.saveorder'); ?>
+                <?php echo JHtml::_('grid.order',  $this->recordset, 'filesave.png', $this->state->get('request.default_view').'.saveorder'); ?>
         <?php endif; ?>
 </th>
