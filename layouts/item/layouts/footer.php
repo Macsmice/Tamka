@@ -8,5 +8,4 @@
  */
 defined('MOLAJO') or die; ?>
 
-
 </div>

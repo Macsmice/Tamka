@@ -36,7 +36,7 @@ class MolajoViewDisplay extends JView
      */
     protected $state;
     protected $params;
-    protected $recordset;
+    protected $rowset;
 
     /** toolbar - layout? */
     protected $userToolbarButtonPermissions;
@@ -51,7 +51,7 @@ class MolajoViewDisplay extends JView
 
     /** blog variables
      move variables into $options
-     retrieve variables here in view - and split int recordset if needed
+     retrieve variables here in view - and split int rowset if needed
      */
 	protected $category;
 	protected $children;
@@ -97,7 +97,7 @@ class MolajoViewDisplay extends JView
         /** retrieve model data */
         $this->state         = $this->get('State');
         $this->params        = $this->get('Params');
-        $this->recordset     = $this->get('Items');
+        $this->rowset     = $this->get('Items');
 
         /**
 $this->document
@@ -225,16 +225,16 @@ $this->state->get('layout_page_class_suffix', '')
         include MOLAJO_LAYOUTS.'/include/head.php';
 
         /**
-         * List Recordset
+         * List rowset
          *
          * Automatically includes the following files (if existing)
          *
          * A. Before first row => layoutFolder/header.php
-         * B. For each row in the recordset => layoutFolder/item_header.php item_body.php and item_footer.php
-         * C. After the last row in the recordset => layoutFolder/footer.php
+         * B. For each row in the rowset => layoutFolder/item_header.php item_body.php and item_footer.php
+         * C. After the last row in the rowset => layoutFolder/footer.php
          *
          */
-        foreach ($this->recordset as $this->row) {
+        foreach ($this->rowset as $this->row) {
 
             $this->rowCount++;
             $this->row->rowCount = $this->rowCount++;
