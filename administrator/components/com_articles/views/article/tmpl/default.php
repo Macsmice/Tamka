@@ -8,7 +8,8 @@
  */
 defined('MOLAJO') or die;
 
-$this->layoutFolder = MolajoLayoutHelper::driver ('edit', $this->option, $this->view, '/driver.php');
+$this->layoutHelper = new MolajoLayoutHelper();
+$this->layoutFolder = $this->layoutHelper->driver ('edit', $this->option, $this->view, '/driver.php');
 if ($this->layoutFolder === false) {
     return false;
 } else {
