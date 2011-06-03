@@ -95,8 +95,8 @@ class MolajoViewDisplay extends JView
 //        $this->setState('filter_amy', 'stephen');
 
         /** retrieve model data */
-        $this->state         = $this->get('State');
-        $this->params        = $this->get('Params');
+        $this->state      = $this->get('State');
+        $this->params     = $this->get('Params');
         $this->rowset     = $this->get('Items');
 
         /**
@@ -150,13 +150,13 @@ $this->state->get('layout_page_class_suffix', '')
         /** user object */
         $this->user = JFactory::getUser();
 
-
         if (JFactory::getApplication()->getName() == 'site') {
 
-        } 
+        }
 
         $this->tempCount = 0;
         $this->layoutFolder = $this->findPath($this->state->get('request.layout'));
+$this->layoutFolder = $this->findPath('manager');
 
         if ($this->layoutFolder === false) {
             parent::display($tpl);
@@ -234,11 +234,11 @@ $this->state->get('layout_page_class_suffix', '')
          * C. After the last row in the rowset => layoutFolder/footer.php
          *
          */
+
         foreach ($this->rowset as $this->row) {
 
-            $this->rowCount++;
             $this->row->rowCount = $this->rowCount++;
-            
+ 
             /** layout: top */
             if ($this->rowCount == 1) {
                 if (file_exists($this->layoutFolder.'/layouts/top.php')) {
