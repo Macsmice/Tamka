@@ -12,5 +12,5 @@ $this->layoutFolder = MolajoLayoutHelper::driver ('edit', $this->option, $this->
 if ($this->layoutFolder === false) {
     return false;
 } else {
-    include $this->layoutFolder.'/driver.php';
+    include $this->layoutFolder;
 }
