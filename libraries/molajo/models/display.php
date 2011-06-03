@@ -544,16 +544,16 @@ class MolajoModelDisplay extends JModel
                 $this->dispatcher->trigger('onQueryAfterItem', array(&$this->state, &$items[$i], &$this->params, &$keep));
 
                 /** process content plugins */
-                $this->dispatcher->trigger('onContentPrepare', array ($this->context, &$items[$i], $this->params, $this->getState('list.start')));
+                $this->dispatcher->trigger('onContentPrepare', array ($this->context, &$items[$i], &$this->params, $this->getState('list.start')));
                 $items[$i]->event = new stdClass();
         
-                $results = $this->dispatcher->trigger('onContentAfterTitle', array($this->context, &$items[$i], $this->params, $this->getState('list.start')));
+                $results = $this->dispatcher->trigger('onContentAfterTitle', array($this->context, &$items[$i], &$this->params, $this->getState('list.start')));
                 $items[$i]->event->afterDisplayTitle = trim(implode("\n", $results));
         
-                $results = $this->dispatcher->trigger('onContentBeforeDisplay', array($this->context, &$items[$i], $this->params, $this->getState('list.start')));
+                $results = $this->dispatcher->trigger('onContentBeforeDisplay', array($this->context, &$items[$i], &$this->params, $this->getState('list.start')));
                 $items[$i]->event->beforeDisplayContent = trim(implode("\n", $results));
         
-                $results = $this->dispatcher->trigger('onContentAfterDisplay', array($this->context, &$items[$i], $this->params, $this->getState('list.start')));
+                $results = $this->dispatcher->trigger('onContentAfterDisplay', array($this->context, &$items[$i], &$this->params, $this->getState('list.start')));
                 $items[$i]->event->afterDisplayContent = trim(implode("\n", $results)); 
                 
                 /** remove item overridden by category and no longer valid for criteria **/

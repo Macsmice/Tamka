@@ -156,12 +156,12 @@ $this->state->get('layout_page_class_suffix', '')
         } 
 
         $this->tempCount = 0;
-        $path = $this->findPath($this->state->get('request.layout'));
+        $this->layoutFolder = $this->findPath($this->state->get('request.layout'));
 
-        if ($path === false) {
+        if ($this->layoutFolder === false) {
             parent::display($tpl);
         } else {
-            echo $this->renderOutput ($path);
+            echo $this->renderOutput ();
         }
     }
 
@@ -212,11 +212,11 @@ $this->state->get('layout_page_class_suffix', '')
     /**
      * renderOutput
      *
-     * @param  $path
+     * @param  $this->layoutFolder
      *
      * @return string
      */
-    private function renderOutput ($path)
+    private function renderOutput ()
     {
         /** start collecting the output */
         ob_start();
@@ -237,17 +237,18 @@ $this->state->get('layout_page_class_suffix', '')
         foreach ($this->recordset as $this->row) {
 
             $this->rowCount++;
-
-            /** header - beginning of layout */
-            if ($this->get('request.id') == 0
-                && $this->rowCount == 1) {
-                if (file_exists($path.'/header.php')) {
-                    include $path.'/header.php';
+            $this->row->rowCount = $this->rowCount++;
+            
+            /** layout: top */
+            if ($this->rowCount == 1) {
+                if (file_exists($this->layoutFolder.'/layouts/top.php')) {
+                    include $this->layoutFolder.'/layouts/top.php';
                 }
             }
 
-            if (file_exists($path.'/item_header.php')) {
-                include $path.'/item_header.php';
+            /** item: header */
+            if (file_exists($this->layoutFolder.'/layouts/header.php')) {
+                include $this->layoutFolder.'/layouts/header.php';
             }
 
             /** event: After Display of Title */
@@ -256,20 +257,20 @@ $this->state->get('layout_page_class_suffix', '')
             /** event: Before Content Display */
             echo $this->row->event->beforeDisplayContent;
 
-            /** body - once for each row in the recordset */
-            if (file_exists($path.'/item_body.php')) {
-                include $path.'/item_body.php';
+            /** item: body */
+            if (file_exists($this->layoutFolder.'/layouts/body.php')) {
+                include $this->layoutFolder.'/layouts/body.php';
             }
 
-            if (file_exists($path.'/item_footer.php')) {
-                include $path.'/item_footer.php';
+            /** item: footer */
+            if (file_exists($this->layoutFolder.'/layouts/footer.php')) {
+                include $this->layoutFolder.'/layouts/footer.php';
             }
         }
 
-        /** footer - end of layout */
-        if ($this->get('request.id') == 0
-            && file_exists($path.'/footer.php')) {
-            include $path.'/footer.php';
+        /** layout: bottom */
+        if (file_exists($this->layoutFolder.'/layouts/bottom.php')) {
+            include $this->layoutFolder.'/layouts/bottom.php';
         }
 
         /** event: After Layout is finished */

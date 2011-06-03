@@ -9,5 +9,5 @@
 defined('MOLAJO') or die;
 ?>
 <div class="item-body">
-    <?php echo $this->row->text; ?>
+    <?php echo trim($this->row->text); ?>
 </div>

@@ -195,6 +195,7 @@ $itemId = JRequest::getInt('Itemid', 0);
 
 #------------------------------- Article ID -------------------------------#
 
+$articleId = '';
 if ($view == 'article')
 $articleId = JRequest::getInt('id');
 

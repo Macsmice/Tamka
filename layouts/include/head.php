@@ -16,7 +16,9 @@ include 'language.php';
 /**
  *  2. Process Document Head
  */
-if ($this->state->get('request.format') == 'html' && $thisisreallyacomponent) {
+if ($this->state->get('request.format') == 'html'
+    && $this->state->get('request.initiating_extension_type') == 'component'
+    && $this->state->get('request.application') == 'ADMINISTRATOR') {
     include 'document.php';
 }
 

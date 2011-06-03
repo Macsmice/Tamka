@@ -50,7 +50,7 @@ if ($this->state->get('layout.loadComponentJS', true) === true) {
         $this->document->addScript(JURI::base().'media/site/js/'.$this->state->get('request.option').'.js');
     }
 }
-    
+
 /** Load Layout CSS (if exists in layout CSS folder) */
 if ($this->state->get('layout.loadLayoutCSS', true) === true) {
     $files = JFolder::files($this->layoutFolder.'/css', '\.css', false, false);

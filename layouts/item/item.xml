@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <extension version="1.0" type="layout" method="upgrade">
-    <name>LAYOUT_ITEM_NAME</name>
+    <name>LAYOUTS_ITEM_NAME</name>
     <author>Amy Stephen</author>
     <creationDate>June 2011</creationDate>
     <copyright>Copyright (C) 2011 Amy Stephen. All rights reserved.</copyright>
@@ -8,7 +8,7 @@
     <authorEmail>AmyStephen@gmail.com</authorEmail>
     <authorUrl>http://molajo.org</authorUrl>
     <version>1.0</version>
-    <description>LAYOUT_ITEM_XML_DESCRIPTION</description>
+    <description>LAYOUTS_ITEM_XML_DESCRIPTION</description>
 	<files>
 		<filename>driver.php</filename>
 		<filename>index.html</filename>
@@ -17,9 +17,10 @@
 		<folder>js</folder>
 		<folder>language</folder>
 		<folder>layouts</folder>
+		<folder>parameters</folder>
 	</files>
 	<languages>
-		<language tag="language/en-GB">en-GB.layout_item.ini</language>
-		<language tag="language/en-GB">en-GB.layout_item.sys.ini</language>
+		<language tag="language/en-GB">en-GB.layouts_item.ini</language>
+		<language tag="language/en-GB">en-GB.layouts_item.sys.ini</language>
 	</languages>
 </extension>
