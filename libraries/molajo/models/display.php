@@ -421,7 +421,8 @@ class MolajoModelDisplay extends JModel
             for ($i=0; $i < count($items); $i++) {
 
                 $keep = true;
-
+$items[$i]->canCheckin = false;
+$items[$i]->checked_out = false;
                 $this->dispatcher->trigger('onQueryBeforeItem', array(&$this->state, &$items[$i], &$this->params, &$keep));
 
                 /** category is archived, so item should be too **/

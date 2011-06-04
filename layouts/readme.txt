@@ -53,7 +53,14 @@ layout-name
 
 3. Where are Layouts located?
 
+Core Molajo Layouts are located on the root directory in the layouts folder.
+Layouts can also be a folder in the component/view/tmpl folder.
+Layouts can also be located in the Templates/html/layouts folder.
+
 4. How can I override a core Layout?
+
+To override a core Layout, you can place the Layout folder in the component/view/tmpl folder or the templates/html/layouts folder.
+The Template is the first place Molajo will look, then the Component, and finally, the Core Layouts folder.
 
 5. How can I create a Layout?
 To create a Layout use the Molajo Administrator Extension Manager-Create Menu Item.
@@ -62,6 +69,7 @@ To create a Layout use the Molajo Administrator Extension Manager-Create Menu It
 To install a Molajo Layout someone shared with you, use the Molajo Administrator-Extension Manager
 
 7. How can I share my Layout with other Molajo users?
+
 
 II. WORKING WITH QUERY RESULTS
 
@@ -109,3 +117,4 @@ DATE_FORMAT_LC4="Y-m-d"
 DATE_FORMAT_JS1="y-m-d"
 
 4. How can I change the date formats for Joomla?
+Date formats can be changed by overriding the language file for your implementation.

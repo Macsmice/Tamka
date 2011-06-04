@@ -55,7 +55,7 @@ if ($this->state->get('layout.loadComponentJS', true) === true) {
 if ($this->state->get('layout.loadLayoutCSS', true) === true) {
     $files = JFolder::files($this->layoutFolder.'/css', '\.css', false, false);
     foreach ($files as $file) {
-        if (substr(strtolower($file), 0, 4) == 'rtl_' && $this->document->direction = 'rtl') {
+        if (substr(strtolower($file), 0, 4) == 'rtl_' && $this->document->direction == 'rtl') {
             $this->document->addStyleSheet($this->layoutFolder.'/css/'.$file);
         } else {
             $this->document->addStyleSheet($this->layoutFolder.'/css/'.$file);
@@ -67,7 +67,7 @@ if ($this->state->get('layout.loadLayoutCSS', true) === true) {
 if ($this->state->get('layout.loadLayoutJS', true) === true) {
     $files = JFolder::files($this->layoutFolder.'/js', '\.js', false, false);
     foreach ($files as $file) {
-        if (substr(strtolower($file), 0, 4) == 'rtl_' && $this->document->direction = 'rtl') {
+        if (substr(strtolower($file), 0, 4) == 'rtl_' && $this->document->direction == 'rtl') {
             $this->document->addStyleSheet($this->layoutFolder.'/js/'.$file);
         } else {
             $this->document->addStyleSheet($this->layoutFolder.'/js/'.$file);
