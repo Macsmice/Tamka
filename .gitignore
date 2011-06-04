@@ -1,1 +1,9 @@
 configuration.php
+layouts/cache/*
+tmp/*
+logs/*
+cache/*
+!layout/cache/index.html
+!tmp/index.html
+!logs/index.html
+!cache/index.html
