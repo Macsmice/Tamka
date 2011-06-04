@@ -138,7 +138,16 @@ class MolajoModelDisplay extends JModel
         $this->setState('request.option', JRequest::getCmd('option'));
         $this->setState('request.view', JRequest::getCmd('view'));
         $this->setState('request.model', JRequest::getCmd('model'));
-        $this->setState('request.layout', JRequest::getCmd('layout'));
+        if (JRequest::getCmd('layout') == 'default') {
+            if (JRequest::getInt('id') == 0) {
+                $this->setState('request.layout', 'list');
+            } else {
+                $this->setState('request.layout', 'item');
+            }
+        } else {
+            $this->setState('request.layout', JRequest::getCmd('layout'));
+        }
+
         $this->setState('request.task', JRequest::getCmd('task'));
         $this->setState('request.format', JRequest::getCmd('format'));
         $this->setState('request.component_table', JRequest::getCmd('component_table'));
@@ -482,6 +491,8 @@ $items[$i]->checked_out = false;
                 $items[$i]->catslug		= $items[$i]->category_alias ? ($items[$i]->category_id.':'.$items[$i]->category_alias) : $items[$i]->category_id;
 //                $items[$i]->parent_slug	= $items[$i]->category_alias ? ($items[$i]->parent_id.':'.$items[$i]->parent_alias) : $items[$i]->parent_id;
 
+                $items[$i]->url		= '';
+                $items[$i]->readmore_link		= '';
                 // TODO: Change based on shownoauth
 //                $items[$i]->readmore_link = JRoute::_(ContentHelperRoute::getArticleRoute($items[$i]->slug, $items[$i]->catslug));
 

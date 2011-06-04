@@ -140,7 +140,6 @@ $this->params->get('layout_page_class_suffix', '')
         }
 
         $this->layoutFolder = $this->findPath($this->state->get('request.layout'));
-
         if ($this->layoutFolder === false) {
             parent::display($tpl);
         } else {
