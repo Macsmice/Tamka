@@ -13,14 +13,14 @@ defined('MOLAJO') or die;
  *
  * @package	Molajo
  * @subpackage	Helper
- * @since	1.6
+ * @since	1.0
  */
 class MolajoSubmenuHelper
 {
     /**
      * add
      *
-     * @since	1.6
+     * @since	1.0
      */
     public static function add ()
     {
@@ -61,7 +61,7 @@ class MolajoSubmenuHelper
      * addCategorySubmenu
      *
      * @param	array $permissions
-     * @since	1.6
+     * @since	1.0
      */
     public function addCategorySubmenu ()
     {
@@ -76,7 +76,7 @@ class MolajoSubmenuHelper
      * addDefaultSubmenu
      *
      * @param	array $permissions
-     * @since	1.6
+     * @since	1.0
      */
     public function addDefaultSubmenu ()
     {
@@ -91,7 +91,7 @@ class MolajoSubmenuHelper
      * addFeaturedSubmenu
      *
      * @param	array $permissions
-     * @since	1.6
+     * @since	1.0
      */
     public function addFeaturedSubmenu ()
     {
@@ -106,7 +106,7 @@ class MolajoSubmenuHelper
      * addStickiedSubmenu
      *
      * @param	array $permissions
-     * @since	1.6
+     * @since	1.0
      */
     public function addStickiedSubmenu ()
     {
@@ -121,7 +121,7 @@ class MolajoSubmenuHelper
      * addUnpublishedSubmenu
      *
      * @param	array $permissions
-     * @since	1.6
+     * @since	1.0
      */
     public function addUnpublishedSubmenu ()
     {

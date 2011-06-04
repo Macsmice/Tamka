@@ -13,7 +13,7 @@ defined('MOLAJO') or die;
  *
  * @package	Molajo
  * @subpackage	Controller
- * @since	1.6
+ * @since	1.0
  */
 class MolajoControllerRedirect extends MolajoController
 {
@@ -86,7 +86,7 @@ class MolajoControllerRedirect extends MolajoController
     * Establish the Link needed for redirecting after the task is complete (or fails)
     *
     * @return	boolean
-    * @since	1.6
+    * @since	1.0
     */
     public function initializeRedirectLinks ($task=null)
     {
@@ -164,7 +164,7 @@ class MolajoControllerRedirect extends MolajoController
      * instead of $context for returning due to an error
      *
      * @return	string	The return URL.
-     * @since	1.6
+     * @since	1.0
      */
     protected function setDatakey()
     {
@@ -179,7 +179,7 @@ class MolajoControllerRedirect extends MolajoController
     * Indicator of whether or not a redirect should be issued
     *
     * @return	boolean
-    * @since	1.6
+    * @since	1.0
     */
     public function setRedirectAction ($action)
     {
@@ -193,7 +193,7 @@ class MolajoControllerRedirect extends MolajoController
     * Message Type of Message: message, warning, or error
     *
     * @return	boolean
-    * @since	1.6
+    * @since	1.0
     */
     public function setRedirectMessageType ($messagetype)
     {
@@ -207,7 +207,7 @@ class MolajoControllerRedirect extends MolajoController
     * User Message regarding Task conclusion
     *
     * @return	boolean
-    * @since	1.6
+    * @since	1.0
     */
     public function setRedirectMessage ($message)
     {
@@ -221,7 +221,7 @@ class MolajoControllerRedirect extends MolajoController
     * Indicator as to whether or not the task succeeded or failed
     *
     * @return	boolean
-    * @since	1.6
+    * @since	1.0
     */
     public function setSuccessIndicator ($indicator = true)
     {
@@ -235,7 +235,7 @@ class MolajoControllerRedirect extends MolajoController
      * Redirects the browser or returns false if no redirect is set.
 	 *
 	 * @return	boolean	False if no redirect exists.
-	 * @since	1.6
+	 * @since	1.0
 	 */
 	public function redirect ($task=null)
 	{

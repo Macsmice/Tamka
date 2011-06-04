@@ -13,7 +13,7 @@ defined('MOLAJO') or die;
  *
  * @package	Molajo
  * @subpackage	Controller
- * @since	1.6
+ * @since	1.0
  */
 class MolajoController extends JController
 {
@@ -78,7 +78,7 @@ class MolajoController extends JController
     *
     * @param	array	$config	An optional associative array of configuration settings.
     * @see	JController
-    * @since	1.6
+    * @since	1.0
     */
     public function __construct($config = array())
     {
@@ -95,7 +95,7 @@ class MolajoController extends JController
      * @param	array		$urlparams	An array of safe url parameters and their variable types, for valid values see {@link JFilterInput::clean()}.
      *
      * @return	JController	This object to support chaining.
-     * @since	1.6
+     * @since	1.0
      */
     public function display($cachable = false, $urlparams = false)
     {
@@ -334,7 +334,7 @@ class MolajoController extends JController
      * method to set the checkout_time and checked_out values of the item
      *
      * @return	boolean
-     * @since	1.6
+     * @since	1.0
      */
     public function checkOutItem()
     {
@@ -367,7 +367,7 @@ class MolajoController extends JController
     * Molajo_Note: All Components have version management save and restore processes as an automatic option
     *
     * @return	void
-    * @since	1.6
+    * @since	1.0
     */
     public function createVersion ($context)
     {

@@ -13,7 +13,7 @@ defined('MOLAJO') or die;
  *
  * @package	Molajo
  * @subpackage	HTML
- * @since	1.6
+ * @since	1.0
  */
 class MolajoField
 {

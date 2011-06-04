@@ -13,7 +13,7 @@ defined('MOLAJO') or die;
  *
  * @package	Joomla
  * @subpackage	ACL
- * @since	1.6
+ * @since	1.0
  */
 class JoomlaACL extends ACL
 {

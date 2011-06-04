@@ -21,7 +21,7 @@ class MolajoComponentHelper
 	 * The component list cache
 	 *
 	 * @var		array
-	 * @since	1.6
+	 * @since	1.0
 	 */
 	protected static $_components = array();
 

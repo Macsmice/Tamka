@@ -22,7 +22,7 @@ defined('MOLAJO') or die;
  *
  * @package	Molajo
  * @subpackage	Controller
- * @since	1.6
+ * @since	1.0
  */
 class MolajoControllerMultiple extends MolajoControllerEdit
 {
@@ -59,7 +59,7 @@ class MolajoControllerMultiple extends MolajoControllerEdit
     * deleteItemBatch handles the delete processing
     *
     * @return	Boolean
-    * @since	1.6
+    * @since	1.0
     */
     public function copy ()
     {
@@ -81,7 +81,7 @@ class MolajoControllerMultiple extends MolajoControllerEdit
     *
     *
     * @return	Boolean
-    * @since	1.6
+    * @since	1.0
     */
     public function archive ()
     {
@@ -115,7 +115,7 @@ class MolajoControllerMultiple extends MolajoControllerEdit
     *
     *
     * @return	Boolean
-    * @since	1.6
+    * @since	1.0
     */
     public function feature () 
     {
@@ -136,7 +136,7 @@ class MolajoControllerMultiple extends MolajoControllerEdit
     * call processStateChange which then calls processItems which loops through the ids
     *
     * @return	Boolean
-    * @since	1.6
+    * @since	1.0
     */
     public function sticky ()
     {
@@ -157,7 +157,7 @@ class MolajoControllerMultiple extends MolajoControllerEdit
     * call processStateChange which then calls processItems which loops through the ids
     *
     * @return	Boolean
-    * @since	1.6
+    * @since	1.0
     */
     public function checkin ()
     {
@@ -170,7 +170,7 @@ class MolajoControllerMultiple extends MolajoControllerEdit
     * called by single item methods to loop through the ids and processed by processItem
     *
     * @return	Boolean
-    * @since	1.6
+    * @since	1.0
     */
     public function processItems ($column=null)
     {
@@ -310,7 +310,7 @@ class MolajoControllerMultiple extends MolajoControllerEdit
     * deleteItemBatch handles the delete processing
     *
     * @return	Boolean
-    * @since	1.6
+    * @since	1.0
     */
     public function processItem ($task, $column=null)
     {

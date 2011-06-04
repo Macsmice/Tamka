@@ -42,7 +42,7 @@ class MolajoModelCategories extends JModel
 	 *
 	 * Note. Calling getState in this method will result in recursion.
 	 *
-	 * @since	1.6
+	 * @since	1.0
 	 */
 	protected function populateState()
 	{
@@ -88,7 +88,7 @@ class MolajoModelCategories extends JModel
 	 * @param	bool	$recursive	True if you want to return children recursively.
 	 *
 	 * @return	mixed	An array of data items on success, false on failure.
-	 * @since	1.6
+	 * @since	1.0
 	 */
 	public function getItems($recursive = false)
 	{

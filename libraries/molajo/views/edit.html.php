@@ -15,7 +15,7 @@ defined('MOLAJO') or die;
  *
  * @package	Molajo
  * @subpackage	Single View
- * @since	1.6
+ * @since	1.0
  */
 class MolajoViewEdit extends JView
 {
@@ -97,7 +97,7 @@ var_dump($this->item );
         }
 
 		//Escape strings for HTML output
-		$this->state->get('page_class_suffix', '') = htmlspecialchars($this->params->get('pageclass_sfx'));
+		$this->state->get('page_class_suffix', htmlspecialchars($this->params->get('pageclass_sfx'));
 
         if (JFactory::getApplication()->getName() == 'site') {
             $documentHelper = new MolajoDocumentHelper ();

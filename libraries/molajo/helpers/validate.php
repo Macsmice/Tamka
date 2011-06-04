@@ -15,7 +15,7 @@ defined('MOLAJO') or die;
  *
  * @package	Molajo
  * @subpackage	Helper
- * @since	1.6
+ * @since	1.0
  */
 class MolajoValidateHelper
 {

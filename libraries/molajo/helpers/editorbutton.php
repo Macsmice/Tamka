@@ -17,7 +17,7 @@ class MolajoEditorbuttonHelper extends JPlugin {
      * $name == formname
      *
      * @param	string		$name
-     * @since	1.6
+     * @since	1.0
      */
     function checkCriteria ($name)
     {
