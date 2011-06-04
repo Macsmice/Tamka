@@ -8,7 +8,7 @@
  */
 defined('MOLAJO') or die;
 ?>
-<select name="filter_<?php echo strtolower($this->fieldName); ?>" class="inputbox" onchange="this.form.submit()">
-    <option value=""><?php echo JText::_('MOLAJO_SELECT_'.strtoupper($this->fieldName)); ?></option>
+<select name="filter_<?php echo strtolower($this->tempColumnName); ?>" class="inputbox" onchange="this.form.submit()">
+    <option value=""><?php echo JText::_('MOLAJO_SELECT_'.strtoupper($this->tempColumnName)); ?></option>
     <?php echo JHtml::_('select.options', $this->tempArray, 'value', 'text', $this->selectedValue); ?>
 </select>

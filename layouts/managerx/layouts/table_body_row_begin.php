@@ -8,4 +8,4 @@
  */
 defined('MOLAJO') or die; 
 ?>
-<tr class="row<?php echo $this->rowCount % 2; ?>">
+<tr class="row<?php echo $this->row->rowCount % 2; ?>">

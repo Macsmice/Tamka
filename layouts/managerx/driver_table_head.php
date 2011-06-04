@@ -18,14 +18,14 @@ require $this->layoutHelper->getPath ('table_head_column_first.php');
 /** loop thru header columns **/
 $this->tempColumnCount = 1;
 for ($i=1; $i < 1000; $i++) {
-    $this->columnName = $this->state->def('config_manager_grid_column'.$i, 0);
-    if ($this->columnName == null) {
+    $this->tempColumnName = $this->params->def('config_manager_grid_column'.$i, 0);
+    if ($this->tempColumnName == null) {
         break;
-    } else if ($this->columnName == '0') {
+    } else if ($this->tempColumnName == '0') {
     } else {
         $this->tempColumnCount++;
         /** see if column exists, if not use default handler **/
-        $results = $this->layoutHelper->getPath (strtolower('table_head_column_'.$this->columnName.'.php'), 0);
+        $results = $this->layoutHelper->getPath (strtolower('table_head_column_'.$this->tempColumnName.'.php'), 0);
         if ($results == false) {
             require $this->layoutHelper->getPath (strtolower('table_head_column_default.php'));
         } else {

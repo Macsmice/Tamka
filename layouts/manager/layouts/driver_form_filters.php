@@ -12,7 +12,7 @@ defined('MOLAJO') or die;
 $anyFilters = false;
 
 /** search **/
-if ($this->state->def('config_manager_list_search', 1) == '1') {
+if ($this->params->def('config_manager_list_search', 1) == '1') {
     if ($anyFilters == false) {
         $anyFilters = true;
         include dirname(__FILE__).'/form/form_filter_begin.php';
@@ -28,13 +28,13 @@ $loadFilterArray = array();
 
 /** loop thru filter options **/
 for ($i=1; $i < 1000; $i++) {
-    $this->fieldName = $this->state->def('config_manager_list_filters'.$i);
+    $this->tempColumnName = $this->params->def('config_manager_list_filters'.$i);
 
     /** encountered end of filters **/
-    if ($this->fieldName == null) {
+    if ($this->tempColumnName == null) {
 
-        $this->fieldName = 'title';
-        if (in_array($this->fieldName, $loadFilterArray)) {
+        $this->tempColumnName = 'title';
+        if (in_array($this->tempColumnName, $loadFilterArray)) {
             break;
         } else if ($this->state->get('filter.state') == MOLAJO_STATE_VERSION) {
             // forces in the title list for the version restore layout
@@ -43,15 +43,15 @@ for ($i=1; $i < 1000; $i++) {
         }
     }
     /** no filter was selected for configuration option **/
-    if (in_array($this->fieldName, $loadFilterArray)) {
+    if (in_array($this->tempColumnName, $loadFilterArray)) {
 
     /** no filter was selected for configuration option **/
-    } else if ($this->fieldName == '0') {
+    } else if ($this->tempColumnName == '0') {
 
     /** configuration option set for filter list **/
     } else {
         /** save so it does not get added multiple times **/
-        $loadFilterArray[] = $this->fieldName;
+        $loadFilterArray[] = $this->tempColumnName;
 
         /** first one - build row and column **/
         if ($i == 1) {
@@ -64,10 +64,10 @@ for ($i=1; $i < 1000; $i++) {
         }
 
         /** class name **/
-        $fieldClassName = 'MolajoField'.ucfirst($this->fieldName);
+        $fieldClassName = 'MolajoField'.ucfirst($this->tempColumnName);
 
         /** class file **/
-        MolajoField::requireFieldClassFile ($this->fieldName);
+        MolajoField::requireFieldClassFile ($this->tempColumnName);
 
         /** class instantiation **/
         if (class_exists($fieldClassName)) {
@@ -81,7 +81,7 @@ for ($i=1; $i < 1000; $i++) {
         $this->tempArray = $MolajoField->getOptions();
 
         /** selected value **/
-        $this->tempSelected = $this->state->get('filter.'.$this->fieldName);
+        $this->tempSelected = $this->state->get('filter.'.$this->tempColumnName);
 
         /** render field filter **/
         include dirname(__FILE__).'/form/form_filter_field.php';

@@ -34,19 +34,69 @@ class MolajoViewDisplay extends JView
      * 4. 
      *
      */
+
+    /**
+     * @var $system object
+     */
+    protected $system;
+
+    /**
+     * @var $document object
+     */
+    protected $document;
+
+    /**
+     * @var $user object
+     */
+    protected $user;
+
+    /**
+     * @var $state object
+     */
     protected $state;
+
+    /**
+     * @var $params object
+     */
     protected $params;
+
+    /**
+     * @var $rowset object
+     */
     protected $rowset;
+
+    /**
+     * @var $row array
+     */
     protected $row;
-    protected $rowCount;
 
     /** used in manager */
-    protected $columnName;
+
+    /**
+     * @var $render object
+     */
     protected $render;
 
+    /**
+     * @var s$aveOrder string
+     */
+    protected $saveOrder;
+
+    /**
+     * @var $layoutFolder string
+     */
+    protected $layoutFolder;
+
+    /** layout working fields */
+    protected $tempArray;
+    protected $tempSection;
+    protected $tempSelected;
+    protected $tempColumnCount;
+    protected $tempColumnName;
+
+    /** ?? */
     /** toolbar - layout? */
     protected $userToolbarButtonPermissions;
-    protected $saveOrder;
 
     /** blog variables
      move variables into $options
@@ -59,45 +109,35 @@ class MolajoViewDisplay extends JView
 	protected $link_items = array();
 	protected $columns = 1;
 
-    /** layout variables  **/
-    protected $layoutFolder;
-
-    /** layout working fields */
-    protected $tempArray;
-    protected $tempSelected;
-    protected $tempCount;
-    protected $tempColumnCount;
-
-    /**
-     * __construct
-     *
-     * Constructor.
-     *
-     * @param array $config
-     */
-    public function __construct($config = array())
-    {
-        parent::__construct($config);
-    }
-
     /**
      * display
      *
      * View for Display View that uses no forms
      *
      * @param null $tpl
-     * @return void
+     * @return bool
      */
     public function display($tpl = null)
     {
-//        $this->setState('filter_amy', 'stephen');
+        /** @var $system */
+        $this->system = JFactory::getConfig();
 
-        /** retrieve model data */
+        /** @var $document */
+        $this->document = JFactory::getDocument();
+
+        /** @var $user */
+        $this->user = JFactory::getUser();
+
+        /** @var $state */
         $this->state      = $this->get('State');
+
+        /** @var $rowset */
         $this->rowset     = $this->get('Items');
 
-        $this->render     = ''; /** used with fields */
+        /** @var $pagination */
+        $this->pagination = $this->get('Pagination');
 
+        /** @var $params */
         if (JFactory::getApplication()->getName() == 'site') {
            $this->params = JFactory::getApplication()->getParams();
    //         $this->_mergeParams ();
@@ -106,32 +146,7 @@ class MolajoViewDisplay extends JView
            $this->params = JComponentHelper::getParams(JRequest::getCmd('option'));
         }
 
-        /**
-$this->document
-$this->configuration
-$this->user
-$this->state
-$this->params
-Parameters (Includes Global Options, Menu Item, Item)
-$this->state->get('filter.category')                        state
-$this->params->get('layout_show_page_heading', 1)           parameters = layout_options?
-$this->state->get('layout_page_class_suffix', '')
- */
-        // $this->row is one item
-        //  $this->row->xxx->event->eventName
-        
-        $this->rowCount = 0;
 
-        /**
-         * Navigation
-         */
-
-//		$this->category	    = $this->get('Category');
-//      $this->tags (tag cloud)
-//      $this->calendar
-//		$this->children	    = $this->get('Children');
-//		$this->parent		= $this->get('Parent');
-//      $this->author
 //Navigation
 //$this->navigation->get('form_return_to_link')
 //$this->navigation->get('previous')
@@ -145,46 +160,128 @@ $this->state->get('layout_page_class_suffix', '')
 //$this->navigation->get('pagination_direction')
 //$this->breadcrumbs
 //$total = $this->getTotal();
+        /**
+$this->configuration
 
-        $this->pagination    = $this->get('Pagination');
+Parameters (Includes Global Options, Menu Item, Item)
+$this->params->get('layout_show_page_heading', 1)
+$this->params->get('layout_page_class_suffix', '')
+ */
 
-        /** error handling **/
+
+//		$this->category	            = $this->get('Category');
+//		$this->categoryAncestors    = $this->get('Ancestors');
+//		$this->categoryParent       = $this->get('Parent');
+//		$this->categoryPeers	    = $this->get('Peers');
+//		$this->categoryChildren	    = $this->get('Children');
+
+//      $this->authorProfile        = $this->get('Author');
+
+//      $this->tags (tag cloud)
+//      $this->tagCategories (menu)
+//      $this->calendar
+
+        /** process model errors */
         if (count($errors = $this->get('Errors'))) {
             JError::raiseError(500, implode("\n", $errors));
             return false;
         }
 
-        /** user object */
-        $this->user = JFactory::getUser();
+        /**
+         * Navigation
+         */
+
 
         if (JFactory::getApplication()->getName() == 'site') {
 
         }
 
-        $this->tempCount = 0;
         $this->layoutFolder = $this->findPath($this->state->get('request.layout'));
 $this->layoutFolder = $this->findPath('manager');
-
+        $results = $this->getColumns('user');
+        die();
         if ($this->layoutFolder === false) {
             parent::display($tpl);
         } else {
-            echo $this->renderOutput ();
+            echo $this->renderMolajoLayout ();
         }
     }
 
     /**
-     * Looks for path of $tpl as a layout folder, in this order:
+     * getColumns
      *
-     * - CurrentTemplate/html/$tpl/
-     * - components/com_thiscomponent/views/this_view/tmpl/$tpl/
-     * - MOLAJO_LAYOUTS/$tpl/
+     * Can be used in Layouts to retrieve column and column values from objects
      *
-     * - defaults to normal Joomla View processing
+     * @param  $type
+     * @return void
+     */
+    public function getColumns ($type, $format=0)
+    {
+        /** @var $tempArray */
+        $tempArray = array();
+        $registry = new JRegistry();
+
+        if ($type == 'document' || $type == 'user') {
+            foreach ($this->$type as $column=>$value) {
+                if ($column == 'params') {
+                    $registry->loadJSON($value);
+                    $p = $registry->toArray();
+                    var_dump($p);
+                    foreach ($p as $parmColumn=>$parmValue) {
+                        echo $parmColumn.': '.$parmValue;
+                    }
+                } else {
+                    echo $column.': '.$value.'<br />';
+                }
+            }
+            
+        } else if ($type == 'system' || $type == 'document' || $type == 'user') {
+            $registry->loadJSON($this->$type);
+            $options = $registry->toArray();
+
+            $i = 0;
+            foreach ($options as $column=>$value) {
+                $tempArray[$i]['column'] = $column;
+                $tempArray[$i]['syntax'] = 'echo $this->'.$type."->get('".$column."');  ";
+                $tempArray[$i]['value'] = $value;
+                $i++;
+            }
+            asort($tempArray);
+            echo '<table>';
+            foreach ($tempArray as $row) {
+                /** column - value - syntax */
+                if ($format == 0) {
+                    echo '<tr><td>';
+                    echo $row['column'];
+                    echo '</td><td>';
+                    echo $row['syntax'];
+                    echo '</td><td>';
+                    echo $row['value'];
+                    echo '</td>';
+                    echo '</tr>';
+                }
+            }
+            echo '</table>';
+
+
+        }
+    }
+    
+    /**
+     * findPath
+     * 
+     * Looks for path of Request Layout as a layout folder, in this order:
+     *
+     *  1. CurrentTemplate/html/$layout-folder/
+     *  2. components/com_component/views/$view/tmpl/$layout-folder/
+     *  3. MOLAJO_LAYOUTS/$layout-folder/
+     * 
+     *  4. If none of the above, use normal Joomla tmpl/layout.php
      *
      * @param  $tpl
-     * @return string
+     * @return bool|string
      */
-    public function findPath ($tpl)
+    public function findPath ($layout)
     {
         /** path: template **/
         $template = JFactory::getApplication()->getTemplate();
@@ -201,30 +298,36 @@ $this->layoutFolder = $this->findPath('manager');
         $corePath = MOLAJO_LAYOUTS.'/';
 
         /** template **/
-        if (is_dir($templatePath.$tpl)) {
-            return $templatePath.$tpl;
+        if (is_dir($templatePath.$layout)) {
+            return $templatePath.$layout;
 
         /** component **/
-        } else if (is_dir($componentPath.$tpl)) {
-            return $componentPath.$tpl;
+        } else if (is_dir($componentPath.$layout)) {
+            return $componentPath.$layout;
 
         /** molajao library **/
-        } else if (is_dir($corePath.$tpl)) {
-            return $corePath.$tpl;
+        } else if (is_dir($corePath.$layout)) {
+            return $corePath.$layout;
         }
 
         return false;
     }
 
     /**
-     * renderOutput
+     * renderMolajoLayout
+     *
+     * Loads Language, Document Head, Toolbar/Submenu and CSS
+     *
+     * Loops through rowset, one row at a time, including top, header, body, footer, and bottom files
      *
      * @param  $this->layoutFolder
-     *
      * @return string
      */
-    private function renderOutput ()
+    private function renderMolajoLayout ()
     {
+        /** @var $rowcount */
+        $rowcount = 0;
+
         /** start collecting the output */
         ob_start();
 
@@ -241,13 +344,12 @@ $this->layoutFolder = $this->findPath('manager');
          * C. After the last row in the rowset => layoutFolder/footer.php
          *
          */
-
         foreach ($this->rowset as $this->row) {
 
-            $this->row->rowCount = $this->rowCount++;
+            $this->row->rowCount = $rowcount++;
  
             /** layout: top */
-            if ($this->rowCount == 1) {
+            if ($rowcount == 1) {
                 if (file_exists($this->layoutFolder.'/layouts/top.php')) {
                     include $this->layoutFolder.'/layouts/top.php';
                 }

@@ -11,6 +11,6 @@ defined('MOLAJO') or die;
 <td class="center nowrap" width="2%" valign="top">
     <?php if (($this->row->canEdit && ((int) $this->row->state < 2))
                 || $this->row->canCheckin || $this->row->canEditState || $this->row->canDelete ) {
-            echo JHtml::_('grid.id', $this->rowCount, $this->row->id);
+            echo JHtml::_('grid.id', $this->row->rowCount, $this->row->id);
     } ?>
 </td>

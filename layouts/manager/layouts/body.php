@@ -10,27 +10,28 @@ defined('MOLAJO') or die;
 
 /** loop through columns **/
 for ($i=1; $i < 1000; $i++) {
-    $this->columnName = $this->params->get('config_manager_grid_column'.$i);
 
-    if ($this->columnName == null) {
+    $this->tempColumnName = $this->params->get('config_manager_grid_column'.$i);
+
+    if ($this->tempColumnName == null) {
         break;
-    } else if ($this->columnName == '0') {
+    } else if ($this->tempColumnName == '0') {
     } else {
 
         /** custom column file **/
-        $filename = dirname(__FILE__).'/form/'.strtolower('table_body_row_column_'.$this->columnName).'.php';
+        $filename = dirname(__FILE__).'/form/'.strtolower('table_body_row_column_'.$this->tempColumnName).'.php';
         $fileExists = JFile::exists($filename);
 
         if ($fileExists === false) {
 
             /** custom field rendering **/
-            $fieldClassName = 'MolajoField'.ucfirst($this->columnName);
-            MolajoField::requireFieldClassFile ($this->columnName, false);
+            $fieldClassName = 'MolajoField'.ucfirst($this->tempColumnName);
+            MolajoField::requireFieldClassFile ($this->tempColumnName, false);
 
             if (class_exists($fieldClassName)) {
                 $MolajoFieldClass = new $fieldClassName();
                 if (method_exists($MolajoFieldClass, 'render')) {
-                    $results = $MolajoFieldClass::render ($layout='admin', $this->row, $this->rowCount);
+                    $results = $MolajoFieldClass::render ($layout='admin', $this->row, $this->row->rowCount);
                     if ($results == false) {
                     } else {
                         $this->render = $results;
@@ -46,8 +47,8 @@ for ($i=1; $i < 1000; $i++) {
                 $this->render['sortable'] = true;
                 $this->render['checkbox'] = false;
                 $this->render['data_type'] = true;
-                $this->render['column_name'] = $this->columnName;
-                $columnName = $this->columnName;
+                $this->render['column_name'] = $this->tempColumnName;
+                $columnName = $this->tempColumnName;
                 $this->render['print_value'] = $this->row->$columnName;
                 $this->render['link_value'] = false;
             }

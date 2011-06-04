@@ -9,6 +9,6 @@
 defined('MOLAJO') or die;
 ?>
 <li>
-<?php echo $this->form->getLabel($this->columnName).
-        $this->form->getInput($this->columnName); ?>
+<?php echo $this->form->getLabel($this->tempColumnName).
+        $this->form->getInput($this->tempColumnName); ?>
 </li>

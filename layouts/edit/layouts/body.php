@@ -28,15 +28,15 @@ include dirname(__FILE__).'/form/'.'form_begin.php';
 include dirname(__FILE__).'/form/'.'left_column_begin.php';
 
 /** top **/
-$this->section = 'config_manager_editor_left_top_column';
+$this->tempSection = 'config_manager_editor_left_top_column';
 include dirname(__FILE__).'/driver_section.php';
 
 /** primary **/
-$this->section = 'config_manager_editor_primary_column';
+$this->tempSection = 'config_manager_editor_primary_column';
 include dirname(__FILE__).'/driver_section.php';
 
 /** bottom **/
-$this->section = 'config_manager_editor_left_bottom_column';
+$this->tempSection = 'config_manager_editor_left_bottom_column';
 include dirname(__FILE__).'/driver_section.php';
 
 /** end **/
@@ -50,7 +50,7 @@ include dirname(__FILE__).'/form/'.'left_column_end.php';
 include dirname(__FILE__).'/form/'.'right_column_begin.php';
 /** publishing **/
 include dirname(__FILE__).'/form/'.'right_column_publishing_top.php';
-$this->section = 'config_manager_editor_right_publishing_column';
+$this->tempSection = 'config_manager_editor_right_publishing_column';
 include dirname(__FILE__).'/driver_section.php';
 include dirname(__FILE__).'/form/'.'right_column_publishing_bottom.php';
 /** attribs **/

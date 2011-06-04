@@ -11,28 +11,29 @@ defined('MOLAJO') or die;
 /** loop through columns **/
 $count = 0;
 for ($i=1; $i < 1000; $i++) {
-    $this->columnName = $this->state->def($this->section.$i);
-    if ($this->columnName == null) {
+    $this->tempColumnName = $this->params->def($this->tempSection.$i);
+    if ($this->tempColumnName == null) {
         break;
-    } else if ($this->columnName == '0') {
+    } else if ($this->tempColumnName == '0') {
     } else {
         if ($count == 0) {
-            include $this->layoutHelper->getPath ('section_begin.php');
+            include dirname(__FILE__).'/form/section_begin.php';
         }
         $count++;
-        /** see if column exists, if not use default handler **/
-        $results = $this->layoutHelper->getPath (strtolower('edit_'.$this->columnName.'.php'), 0);
-        if ($results == false) {
-            if ($this->section == 'config_manager_editor_primary_column') {
-                include $this->layoutHelper->getPath ('primary.php');
+       /** see if column exists, if not use default handler **/
+        $filename = dirname(__FILE__).'/form/'.strtolower('edit_'.$this->tempColumnName).'.php';
+        $fileExists = JFile::exists($filename);
+        if ($fileExists === false) {
+            if ($this->tempSection == 'config_manager_editor_primary_column') {
+                include dirname(__FILE__).'/form/primary.php';
             } else {
-                include $this->layoutHelper->getPath ('standard_list_item.php');
+                include dirname(__FILE__).'/form/standard_list_item.php';
             }
         } else {
-            include $results;
+            include $filename;
         }
     }
 }
 if ($count > 0) {
-    include $this->layoutHelper->getPath ('section_end.php');
+    include dirname(__FILE__).'/form/section_end.php';
 }
