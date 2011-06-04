@@ -11,7 +11,7 @@ defined('MOLAJO') or die;
 <div class="item-page<?php echo $this->state->get('page_class_suffix', ''); ?>">
 
 <h2>
-<?php echo $this->escape($this->row->title); ?>
+<?php echo $this->row->title; ?>
 </h2>
 
 <?php if ($this->row->canEdit) : ?>

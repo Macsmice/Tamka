@@ -9,6 +9,6 @@
 defined('MOLAJO') or die; ?>
 <dt class="faq-item">
     <a href="<?php echo $this->row->url; ?>">
-        <h3><?php echo $this->escape($this->row->title); ?></h3>
+        <h3><?php echo $this->row->title; ?></h3>
     </a>
 </dt>

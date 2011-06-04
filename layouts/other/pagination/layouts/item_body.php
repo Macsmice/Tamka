@@ -8,7 +8,7 @@
  */
 defined('MOLAJO') or die; ?>
 <li class="latest-news-item">
-    <a href="<?php echo $this->row->url; ?>"><h3><?php echo $this->escape($this->row->title); ?></h3></a>
+    <a href="<?php echo $this->row->url; ?>"><h3><?php echo $this->row->title; ?></h3></a>
     <?php echo JText::_('MOLAJO_WRITTEN_BY').' '.$this->row->display_author_name; ?>
     <?php echo ' '.$this->row->published_pretty_date; ?>
 </li>

@@ -37,17 +37,16 @@ class MolajoViewDisplay extends JView
     protected $state;
     protected $params;
     protected $rowset;
-
-    /** toolbar - layout? */
-    protected $userToolbarButtonPermissions;
     protected $row;
     protected $rowCount;
 
-/*  navigation object */
-    protected $listOrder;
-    protected $listDirn;
+    /** used in manager */
+    protected $columnName;
+    protected $render;
+
+    /** toolbar - layout? */
+    protected $userToolbarButtonPermissions;
     protected $saveOrder;
-    protected $ordering;
 
     /** blog variables
      move variables into $options
@@ -61,7 +60,6 @@ class MolajoViewDisplay extends JView
 	protected $columns = 1;
 
     /** layout variables  **/
-    protected $layoutHelper;
     protected $layoutFolder;
 
     /** layout working fields */
@@ -96,8 +94,17 @@ class MolajoViewDisplay extends JView
 
         /** retrieve model data */
         $this->state      = $this->get('State');
-        $this->params     = $this->get('Params');
         $this->rowset     = $this->get('Items');
+
+        $this->render     = ''; /** used with fields */
+
+        if (JFactory::getApplication()->getName() == 'site') {
+           $this->params = JFactory::getApplication()->getParams();
+   //         $this->_mergeParams ();
+//		$this->getState('request.option')->get('page_class_suffix', '') = htmlspecialchars($this->params->get('pageclass_sfx'));
+        } else {
+           $this->params = JComponentHelper::getParams(JRequest::getCmd('option'));
+        }
 
         /**
 $this->document
