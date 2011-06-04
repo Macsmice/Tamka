@@ -20,7 +20,7 @@
 
 			<field name="id" type="modal_article"
 				label="COM_CONTENT_FIELD_SELECT_ARTICLE_LABEL"
-				required="true"
+				required="false"
 				description="COM_CONTENT_FIELD_SELECT_ARTICLE_DESC"
 			/>
 		</fieldset>
