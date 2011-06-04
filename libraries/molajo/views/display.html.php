@@ -31,7 +31,7 @@ class MolajoViewDisplay extends JView
      * 3. Component Request Variables
      *    $this->state->get('request.option'), and 'component_' + model, view, layout, default_view, single_view and task
      *
-     * 4. 
+     * 4.
      *
      */
 
@@ -199,7 +199,7 @@ $this->params->get('layout_page_class_suffix', '')
         $this->layoutFolder = $this->findPath($this->state->get('request.layout'));
 $this->layoutFolder = $this->findPath('manager');
         $results = $this->getColumns('user');
-        die();
+//        die();
         if ($this->layoutFolder === false) {
             parent::display($tpl);
         } else {
@@ -234,7 +234,7 @@ $this->layoutFolder = $this->findPath('manager');
                     echo $column.': '.$value.'<br />';
                 }
             }
-            
+
         } else if ($type == 'system' || $type == 'document' || $type == 'user') {
             $registry->loadJSON($this->$type);
             $options = $registry->toArray();
@@ -266,16 +266,16 @@ $this->layoutFolder = $this->findPath('manager');
 
         }
     }
-    
+
     /**
      * findPath
-     * 
+     *
      * Looks for path of Request Layout as a layout folder, in this order:
      *
      *  1. CurrentTemplate/html/$layout-folder/
      *  2. components/com_component/views/$view/tmpl/$layout-folder/
      *  3. MOLAJO_LAYOUTS/$layout-folder/
-     * 
+     *
      *  4. If none of the above, use normal Joomla tmpl/layout.php
      *
      * @param  $tpl
@@ -347,7 +347,7 @@ $this->layoutFolder = $this->findPath('manager');
         foreach ($this->rowset as $this->row) {
 
             $this->row->rowCount = $rowcount++;
- 
+
             /** layout: top */
             if ($rowcount == 1) {
                 if (file_exists($this->layoutFolder.'/layouts/top.php')) {
