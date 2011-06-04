@@ -18,7 +18,7 @@
 		<fieldset name="request"
 			addfieldpath="/administrator/components/com_articles/models/fields">
 
-			<field name="id" type="modal_article"
+			<field name="id" type="text"
 				label="COM_CONTENT_FIELD_SELECT_ARTICLE_LABEL"
 				required="false"
 				description="COM_CONTENT_FIELD_SELECT_ARTICLE_DESC"

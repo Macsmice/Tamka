@@ -249,7 +249,7 @@ class MolajoView extends JView
     protected function renderMolajoLayout ($layout='')
     {
         /** @var $rowCount */
-        $rowCount = 0;
+        $rowCount = 1;
 
         /** start collecting the output */
         ob_start();
@@ -302,6 +302,8 @@ class MolajoView extends JView
             if (file_exists($this->layoutFolder.'/layouts/footer.php')) {
                 include $this->layoutFolder.'/layouts/footer.php';
             }
+
+            $rowCount++;
         }
 
         /** layout: bottom */
