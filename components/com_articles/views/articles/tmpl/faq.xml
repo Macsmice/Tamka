@@ -1,26 +1,25 @@
 <metadata>
     <layout
-        title="COM_ARTICLES_DISPLAY_VIEW_ITEM_LAYOUT"
-        option="COM_ARTICLES_DISPLAY_VIEW_ITEM_LAYOUT_OPTION"
+        title="COM_ARTICLES_DISPLAY_VIEW_FAQ_LAYOUT"
+        option="COM_ARTICLES_DISPLAY_VIEW_FAQ_LAYOUT_OPTION"
         >
         <help
-            key = "MOLAJO_HELP_MENU_ITEM_ITEM_LAYOUT"
+            key = "MOLAJO_HELP_MENU_ITEM_FAQ_LAYOUT"
             />
         <message>
-            <![CDATA[MOLAJO_DISPLAY_VIEW_ITEM_LAYOUT_DESC]]>
+            <![CDATA[MOLAJO_DISPLAY_VIEW_FAQ_LAYOUT_DESC]]>
         </message>
     </layout>
 
 	<!-- Add fields to the request variables for the layout. -->
 	<fields name="request">
 		<fieldset name="request"
-			addfieldpath="/administrator/components/com_articles/helpers">
+			addfieldpath="/libraries/overrides/form/fields">
 
-			<field name="id"
-                type="modal_article"
-                table="#__articles"
+			<field name="catid"
+                type="category"
 				label="MOLAJO_CHOOSE_ITEM_LABEL"
-				required="false"
+				required="true"
                 extension="com_articles"
 				description="COM_ARTICLES_FIELD_SELECT_ARTICLE_LABEL"
 			/>

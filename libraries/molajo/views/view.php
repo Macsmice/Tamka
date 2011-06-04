@@ -18,6 +18,11 @@ defined('MOLAJO') or die;
 class MolajoView extends JView
 {
     /**
+     * @var $twig object
+     */
+    protected $twig;
+
+    /**
      * @var $system object
      */
     protected $system;
@@ -86,6 +91,13 @@ class MolajoView extends JView
 
         /** @var $user */
         $this->user = JFactory::getUser();
+
+        Twig_Autoloader::register();
+
+        $loader = new Twig_Loader_Filesystem(MOLAJO_LAYOUTS);
+        $this->twig = new Twig_Environment($loader, array(
+          'cache' => MOLAJO_LAYOUTS.'/cache',
+        ));        
     }
 
     /**
@@ -249,7 +261,7 @@ class MolajoView extends JView
     protected function renderMolajoLayout ($layout='')
     {
         /** @var $rowCount */
-        $rowCount = 0;
+        $rowCount = 1;
 
         /** start collecting the output */
         ob_start();
@@ -302,6 +314,8 @@ class MolajoView extends JView
             if (file_exists($this->layoutFolder.'/layouts/footer.php')) {
                 include $this->layoutFolder.'/layouts/footer.php';
             }
+
+            $rowCount++;
         }
 
         /** layout: bottom */

@@ -17,5 +17,5 @@ defined('MOLAJO') or die;
  * 2. Current Layout folder Language Files found in => layout/current-layout/[current-language]/
  */
 $language = JFactory::getLanguage();
-$language->load('layouts', MOLAJO_LAYOUTS);
-$language->load('layouts', MOLAJO_LAYOUTS.'/'.$this->layoutFolder);
+$language->load('layouts', MOLAJO_LAYOUTS, $language->getDefault(), true, true);
+$language->load('layouts_'.$this->state->get('request.layout'), $this->layoutFolder, $language->getDefault(), true, true);
