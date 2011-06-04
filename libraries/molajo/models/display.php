@@ -23,7 +23,7 @@ class MolajoModelDisplay extends JModel
      * $params
      *
      * @var		string
-     * @since	1.6
+     * @since	1.0
      */
     protected $params = null;
 
@@ -31,7 +31,7 @@ class MolajoModelDisplay extends JModel
      * $query
      *
      * @var		string
-     * @since	1.6
+     * @since	1.0
      */
     protected $query = null;
 
@@ -47,7 +47,7 @@ class MolajoModelDisplay extends JModel
      * $filterFieldName
      *
      * @var		string
-     * @since	1.6
+     * @since	1.0
      */
     protected $filterFieldName = null;
 
@@ -55,7 +55,7 @@ class MolajoModelDisplay extends JModel
      * Internal memory based cache array of data.
      *
      * @var		array
-     * @since	1.6
+     * @since	1.0
      */
     protected $cache = array();
 
@@ -63,7 +63,7 @@ class MolajoModelDisplay extends JModel
      * Context string for the model for uniqueness with caching data structures.
      *
      * @var		string
-     * @since	1.6
+     * @since	1.0
      */
     protected $context = null;
 
@@ -71,7 +71,7 @@ class MolajoModelDisplay extends JModel
      * Valid filter fields or ordering.
      *
      * @var		array
-     * @since	1.6
+     * @since	1.0
      */
     protected $filter_fields = array();
 
@@ -79,7 +79,7 @@ class MolajoModelDisplay extends JModel
      * Valid fields in table for verifying to select list and ordering values
      *
      * @var		array
-     * @since	1.6
+     * @since	1.0
      */
     protected $tableFieldList = array();
 
@@ -87,7 +87,7 @@ class MolajoModelDisplay extends JModel
      * Model Object for Molajo configuration
      *
      * @var		array
-     * @since	1.6
+     * @since	1.0
      */
     protected $molajoConfig = array();
 
@@ -95,7 +95,7 @@ class MolajoModelDisplay extends JModel
      * Molajo Field Class
      *
      * @var		array
-     * @since	1.6
+     * @since	1.0
      */
     protected $molajoField = array();
 
@@ -105,7 +105,7 @@ class MolajoModelDisplay extends JModel
      * Constructor.
      *
      * @param	array	An optional associative array of configuration settings.
-     * @since	1.6
+     * @since	1.0
      */
     public function __construct($config = array())
     {
@@ -128,7 +128,7 @@ class MolajoModelDisplay extends JModel
      * Method to auto-populate the model state.
      *
      * @return	void
-     * @since	1.6
+     * @since	1.0
      */
     protected function populateState ($ordering = 'ordering', $direction = 'ASC')
     {
@@ -138,7 +138,16 @@ class MolajoModelDisplay extends JModel
         $this->setState('request.option', JRequest::getCmd('option'));
         $this->setState('request.view', JRequest::getCmd('view'));
         $this->setState('request.model', JRequest::getCmd('model'));
-        $this->setState('request.layout', JRequest::getCmd('layout'));
+        if (JRequest::getCmd('layout') == 'default') {
+            if (JRequest::getInt('id') == 0) {
+                $this->setState('request.layout', 'list');
+            } else {
+                $this->setState('request.layout', 'item');
+            }
+        } else {
+            $this->setState('request.layout', JRequest::getCmd('layout'));
+        }
+
         $this->setState('request.task', JRequest::getCmd('task'));
         $this->setState('request.format', JRequest::getCmd('format'));
         $this->setState('request.component_table', JRequest::getCmd('component_table'));
@@ -190,7 +199,7 @@ class MolajoModelDisplay extends JModel
      * Method to auto-populate the model state.
      *
      * @return	void
-     * @since	1.6
+     * @since	1.0
      */
     protected function populateStateMultiple ($ordering = 'ordering', $direction = 'ASC')
     {
@@ -285,7 +294,7 @@ class MolajoModelDisplay extends JModel
      * Method to populate state values needed for Item Layout
      *
      * @return	void
-     * @since	1.6
+     * @since	1.0
      */
     protected function populateItemState ()
     {
@@ -369,7 +378,7 @@ class MolajoModelDisplay extends JModel
      *
      * @return	mixed	An array of objects on success, false on failure.
      *
-     * @since	1.6
+     * @since	1.0
      */
     public function getItems()
     {
@@ -415,7 +424,8 @@ class MolajoModelDisplay extends JModel
         /** ACL **/
         $aclClass = ucfirst($this->getState('request.default_view')).'ACL';
 
-        /** process resultset */
+        /** process rowset */
+        $rowCount = 0;
         if (count($items) > 0) {
 
             for ($i=0; $i < count($items); $i++) {
@@ -481,6 +491,8 @@ $items[$i]->checked_out = false;
                 $items[$i]->catslug		= $items[$i]->category_alias ? ($items[$i]->category_id.':'.$items[$i]->category_alias) : $items[$i]->category_id;
 //                $items[$i]->parent_slug	= $items[$i]->category_alias ? ($items[$i]->parent_id.':'.$items[$i]->parent_alias) : $items[$i]->parent_id;
 
+                $items[$i]->url		= '';
+                $items[$i]->readmore_link		= '';
                 // TODO: Change based on shownoauth
 //                $items[$i]->readmore_link = JRoute::_(ContentHelperRoute::getArticleRoute($items[$i]->slug, $items[$i]->catslug));
 
@@ -559,6 +571,7 @@ $items[$i]->checked_out = false;
                 
                 /** remove item overridden by category and no longer valid for criteria **/
                 if ($keep === true) {
+                    $items[$i]->rowCount = $rowCount++;
                 } else {
                     unset($items[$i]);
                 }
@@ -583,7 +596,7 @@ $items[$i]->checked_out = false;
      * This method ensures that the query is constructed only once for a given state of the model.
      *
      * @return	JDatabaseQuery
-     * @since	1.6
+     * @since	1.0
      */
     private function getListQueryCache()
     {
@@ -604,7 +617,7 @@ $items[$i]->checked_out = false;
      * Build query for retrieving a list of items subject to the model state.
      *
      * @return	JDatabaseQuery
-     * @since	1.6
+     * @since	1.0
      */
     function getListQuery()
     {
@@ -682,7 +695,7 @@ $items[$i]->checked_out = false;
      * Method to get a JPagination object for the data set.
      *
      * @return	object	A JPagination object for the data set.
-     * @since	1.6
+     * @since	1.0
      */
     public function getPagination()
     {
@@ -712,7 +725,7 @@ $items[$i]->checked_out = false;
      * Method to get the total number of items for the data set.
      *
      * @return	integer	The total number of items available in the data set.
-     * @since	1.6
+     * @since	1.0
      */
     public function getTotal()
     {
@@ -748,7 +761,7 @@ $items[$i]->checked_out = false;
      * Method to get the starting number of items for the data set.
      *
      * @return	integer	The starting number of items available in the data set.
-     * @since	1.6
+     * @since	1.0
      */
     public function getStart()
     {
@@ -783,7 +796,7 @@ $items[$i]->checked_out = false;
      * @param	string		$id	A prefix for the store id.
      *
      * @return	string		A store id.
-     * @since	1.6
+     * @since	1.0
      */
     protected function getStoreId ($id = '')
     {
@@ -816,7 +829,7 @@ $items[$i]->checked_out = false;
      * Build a list of authors
      *
      * @return	JDatabaseQuery
-     * @since	1.6
+     * @since	1.0
      */
     public function getAuthors()
     {
@@ -841,7 +854,7 @@ $items[$i]->checked_out = false;
      * Build a list of created date months in content
      *
      * @return	JDatabaseQuery
-     * @since	1.6
+     * @since	1.0
      */
     public function getMonthsCreate($table = null)
     {
@@ -854,7 +867,7 @@ $items[$i]->checked_out = false;
      * Build a list of modified months in content
      *
      * @return	JDatabaseQuery
-     * @since	1.6
+     * @since	1.0
      */
     public function getMonthsModified($table = null)
     {
@@ -867,7 +880,7 @@ $items[$i]->checked_out = false;
      * Build a list of publish months in content
      *
      * @return	JDatabaseQuery
-     * @since	1.6
+     * @since	1.0
      */
     public function getMonthsUpdate($table = null)
     {
@@ -880,7 +893,7 @@ $items[$i]->checked_out = false;
      * Build a list of publish months in content
      *
      * @return	JDatabaseQuery
-     * @since	1.6
+     * @since	1.0
      */
     public function getMonthsPublish($table = null)
     {
@@ -893,7 +906,7 @@ $items[$i]->checked_out = false;
      * Build a list of months in content
      *
      * @return	JDatabaseQuery
-     * @since	1.6
+     * @since	1.0
      */
     public function getMonths($columnName, $table = null)
     {
@@ -1074,7 +1087,7 @@ $items[$i]->checked_out = false;
      * @param string $columnName
      * @param string $value
      * @return boolean
-     * @since	1.6
+     * @since	1.0
      */
     public function checkCategories ($categoryArray)
     {

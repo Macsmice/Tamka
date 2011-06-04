@@ -13,7 +13,7 @@ defined('MOLAJO') or die;
  *
  * @package	Molajo
  * @subpackage	Helper
- * @since	1.6
+ * @since	1.0
  */
 class MolajoToolbarHelper
 {
@@ -21,7 +21,7 @@ class MolajoToolbarHelper
      * addButtonsDefaultLayout
      *
      * @param	string	The name of the active view.
-     * @since	1.6
+     * @since	1.0
      */
     public function addButtonsDefaultLayout ($state, $userToolbarButtonPermissions)
     {
@@ -41,7 +41,7 @@ class MolajoToolbarHelper
      * addButtonsEditLayout
      *
      * @param	string	The name of the active view.
-     * @since	1.6
+     * @since	1.0
      */
     public function addButtonsEditLayout ($state, $userToolbarButtonPermissions, $id, $item=null)
     {
@@ -66,7 +66,7 @@ class MolajoToolbarHelper
      * addTitle
      *
      * @param	array $userToolbarButtonPermissions
-     * @since	1.6
+     * @since	1.0
      */
     public function addTitle ($imageParameter, $titleParameter)
     {
@@ -147,7 +147,7 @@ class MolajoToolbarHelper
      * addArchiveButton
      *
      * @param	array $userToolbarButtonPermissions
-     * @since	1.6
+     * @since	1.0
      */
     public function addArchiveButton ($state, $userToolbarButtonPermissions, $id, $item=null)
     {
@@ -158,7 +158,7 @@ class MolajoToolbarHelper
      * addCheckinButton
      *
      * @param	array $userToolbarButtonPermissions
-     * @since	1.6
+     * @since	1.0
      */
     public function addCheckinButton ($state, $userToolbarButtonPermissions, $id, $item=null)
     {
@@ -169,7 +169,7 @@ class MolajoToolbarHelper
      * addDeleteButton
      *
      * @param	array $userToolbarButtonPermissions
-     * @since	1.6
+     * @since	1.0
      */
     public function addDeleteButton ($state, $userToolbarButtonPermissions, $id, $item=null)
     {
@@ -182,7 +182,7 @@ class MolajoToolbarHelper
      * addEditButton
      *
      * @param	array $userToolbarButtonPermissions
-     * @since	1.6
+     * @since	1.0
      */
     public function addEditButton ($state, $userToolbarButtonPermissions, $id, $item=null)
     {
@@ -193,7 +193,7 @@ class MolajoToolbarHelper
      * addFeatureButton
      *
      * @param	array $userToolbarButtonPermissions
-     * @since	1.6
+     * @since	1.0
      */
     public function addFeatureButton ($state, $userToolbarButtonPermissions, $id, $item=null)
     {
@@ -204,7 +204,7 @@ class MolajoToolbarHelper
      * addOptionsButton
      *
      * @param	string	The name of the active view.
-     * @since	1.6
+     * @since	1.0
      */
     public function addOptionsButton ($state, $userToolbarButtonPermissions, $id, $item=null)
     {
@@ -215,7 +215,7 @@ class MolajoToolbarHelper
      * addPublishButton
      *
      * @param	array $userToolbarButtonPermissions
-     * @since	1.6
+     * @since	1.0
      */
     public function addPublishButton ($state, $userToolbarButtonPermissions, $id, $item=null)
     {
@@ -226,7 +226,7 @@ class MolajoToolbarHelper
      * addSpamButton
      *
      * @param	array $userToolbarButtonPermissions
-     * @since	1.6
+     * @since	1.0
      */
     public function addSpamButton ($state, $userToolbarButtonPermissions, $id, $item=null)
     {
@@ -240,7 +240,7 @@ class MolajoToolbarHelper
      * addStickyButton
      *
      * @param	array $userToolbarButtonPermissions
-     * @since	1.6
+     * @since	1.0
      */
     public function addStickyButton ($state, $userToolbarButtonPermissions, $id, $item=null)
     {
@@ -251,7 +251,7 @@ class MolajoToolbarHelper
      * addTrashButton
      *
      * @param	array $userToolbarButtonPermissions
-     * @since	1.6
+     * @since	1.0
      */
     public function addTrashButton ($state, $userToolbarButtonPermissions, $id, $item=null)
     {
@@ -265,7 +265,7 @@ class MolajoToolbarHelper
      * addUnpublishButton
      *
      * @param	array $userToolbarButtonPermissions
-     * @since	1.6
+     * @since	1.0
      */
     public function addUnpublishButton ($state, $userToolbarButtonPermissions, $id, $item=null)
     {
@@ -280,7 +280,7 @@ class MolajoToolbarHelper
      * addApplyButton
      *
      * @param	array $userToolbarButtonPermissions
-     * @since	1.6
+     * @since	1.0
      */
     public function addApplyButton ($state, $userToolbarButtonPermissions, $id, $item=null)
     {
@@ -294,7 +294,7 @@ class MolajoToolbarHelper
      * addCloseButton
      *
      * @param	array $userToolbarButtonPermissions
-     * @since	1.6
+     * @since	1.0
      */
     public function addCloseButton ($state, $userToolbarButtonPermissions, $id, $item=null)
     {
@@ -305,7 +305,7 @@ class MolajoToolbarHelper
      * addCancelButton
      *
      * @param	array $userToolbarButtonPermissions
-     * @since	1.6
+     * @since	1.0
      */
     public function addCancelButton ($state, $userToolbarButtonPermissions, $id, $item=null)
     {
@@ -316,7 +316,7 @@ class MolajoToolbarHelper
      * addOpenButton
      *
      * @param	array $userToolbarButtonPermissions
-     * @since	1.6
+     * @since	1.0
      */
     public function addOpenButton ($state, $userToolbarButtonPermissions, $id, $item=null)
     {
@@ -327,7 +327,7 @@ class MolajoToolbarHelper
      * addSaveButton
      *
      * @param	array $userToolbarButtonPermissions
-     * @since	1.6
+     * @since	1.0
      */
     public function addSaveButton ($state, $userToolbarButtonPermissions, $id, $item=null)
     {
@@ -341,7 +341,7 @@ class MolajoToolbarHelper
      * addSaveandnewButton
      *
      * @param	array $userToolbarButtonPermissions
-     * @since	1.6
+     * @since	1.0
      */
     public function addSave2newButton ($state, $userToolbarButtonPermissions, $id, $item=null)
     {
@@ -361,7 +361,7 @@ class MolajoToolbarHelper
      * addSaveascopyButton
      *
      * @param	array $userToolbarButtonPermissions
-     * @since	1.6
+     * @since	1.0
      */
     public function addSave2copyButton ($state, $userToolbarButtonPermissions, $id, $item=null)
     {
@@ -379,7 +379,7 @@ class MolajoToolbarHelper
      * addSeparatorButton
      *
      * @param	string	The name of the active view.
-     * @since	1.6
+     * @since	1.0
      */
     public function addSeparatorButton ($state, $userToolbarButtonPermissions, $id, $item=null)
     {
@@ -390,7 +390,7 @@ class MolajoToolbarHelper
      * addHelpButton
      *
      * @param	string	The name of the active view.
-     * @since	1.6
+     * @since	1.0
      */
     public function addHelpButton ($state, $userToolbarButtonPermissions, $id, $item=null)
     {
@@ -401,7 +401,7 @@ class MolajoToolbarHelper
      * addNewButton
      *
      * @param	array $userToolbarButtonPermissions
-     * @since	1.6
+     * @since	1.0
      */
     public function addNewButton ($state, $userToolbarButtonPermissions, $id, $item=null)
     {
@@ -412,7 +412,7 @@ class MolajoToolbarHelper
      * addRestoreButton
      *
      * @param	array $userToolbarButtonPermissions
-     * @since	1.6
+     * @since	1.0
      */
     public function addRestoreButton ($state, $userToolbarButtonPermissions, $id, $item=null)
     {        

@@ -19,7 +19,7 @@ class MolajoModelEdit extends JModel
 {
     /**
      * @var	object	params
-     * @since	1.6
+     * @since	1.0
      */
     protected $params;
 
@@ -34,7 +34,7 @@ class MolajoModelEdit extends JModel
      * @param	array	$config	An optional associative array of configuration settings.
      *
      * @see	JController
-     * @since	1.6
+     * @since	1.0
      */
     public function __construct($config = array())
     {
@@ -148,7 +148,7 @@ class MolajoModelEdit extends JModel
      * @param	boolean	$loadData	True if the form is to load its own data (default case), false if not.
      *
      * @return	mixed	A JForm object on success, false on failure
-     * @since	1.6
+     * @since	1.0
      */
     public function getForm ($data = array(), $loadData = true)
     {
@@ -216,7 +216,7 @@ class MolajoModelEdit extends JModel
      * getItem - read given request id or return empty structure
      *
      * @return	mixed	The data for the form.
-     * @since	1.6
+     * @since	1.0
      */
     protected function loadFormData()
     {
@@ -293,7 +293,7 @@ class MolajoModelEdit extends JModel
      * @param	JTable	A JTable object.
      *
      * @return	void
-     * @since	1.6
+     * @since	1.0
      */
     protected function prepareTable($table)
     {
@@ -319,7 +319,7 @@ class MolajoModelEdit extends JModel
      * @table	array	The table data.
      *
      * @return	boolean	True on success.
-     * @since	1.6
+     * @since	1.0
      */
     public function save($table)
     {
@@ -340,7 +340,7 @@ class MolajoModelEdit extends JModel
      * @param	int	$ids	An array of record primary keys.
      *
      * @return	boolean	True if successful, false if an error occurs.
-     * @since	1.6
+     * @since	1.0
      */
     public function delete($id)
     {
@@ -368,7 +368,7 @@ class MolajoModelEdit extends JModel
      * @param	$id of copy requested
      *
      * @return	void
-     * @since	1.6
+     * @since	1.0
      */
     public function copy ($id, $catid)
     {
@@ -426,7 +426,7 @@ class MolajoModelEdit extends JModel
      * @param	$id of copy requested
      *
      * @return	void
-     * @since	1.6
+     * @since	1.0
      */
     public function move ($id, $catid)
     {
@@ -460,7 +460,7 @@ class MolajoModelEdit extends JModel
      * @param	$id of restore requested
      *
      * @return	void
-     * @since	1.6
+     * @since	1.0
      */
     public function createVersion ($id)
     {
@@ -564,7 +564,7 @@ class MolajoModelEdit extends JModel
      * @param	$id of restore requested
      *
      * @return	void
-     * @since	1.6
+     * @since	1.0
      */
     public function restore ($id)
     {    
@@ -635,7 +635,7 @@ class MolajoModelEdit extends JModel
      * @param	$$maintainVersions number of copies to maintain
      *
      * @return	void
-     * @since	1.6
+     * @since	1.0
      */
     public function maintainVersionCount ($id, $maintainVersions)
     {
@@ -694,7 +694,7 @@ class MolajoModelEdit extends JModel
      * @param	int		$value	The value of the published state.
      *
      * @return	boolean	True on success.
-     * @since	1.6
+     * @since	1.0
      */
     public function archive ($id)      { return $this->manageState($id, MOLAJO_STATE_ARCHIVED); }
     public function publish ($id)      { return $this->manageState($id, MOLAJO_STATE_PUBLISHED); }
@@ -771,7 +771,7 @@ class MolajoModelEdit extends JModel
      * @param	integer	$id	The ID of the primary key
      *
      * @return	Boolean
-     * @since	1.6
+     * @since	1.0
      */
     public function checkin ($id)
     {
@@ -807,7 +807,7 @@ class MolajoModelEdit extends JModel
      * @param	int $id	The ID of the primary key.
      *
      * @return	boolean	True if successful, false if an error occurs.
-     * @since	1.6
+     * @since	1.0
      */
     public function checkout($id)
     {
@@ -848,7 +848,7 @@ class MolajoModelEdit extends JModel
      * @param	integer		$delta	Increment, usually +1 or -1
      *
      * @return	boolean|null	False on failure or error, true on success.
-     * @since	1.6
+     * @since	1.0
      */
     public function reorder($ids, $delta = 0)
     {
@@ -906,7 +906,7 @@ class MolajoModelEdit extends JModel
      * @param	object	A record object.
      *
      * @return	array	An array of conditions to add to add to ordering queries.
-     * @since	1.6
+     * @since	1.0
      */
     protected function getReorderConditions ($table)
     {
@@ -923,7 +923,7 @@ class MolajoModelEdit extends JModel
      * @param	int		$order	+/-1
      *
      * @return	mixed
-     * @since	1.6
+     * @since	1.0
      */
     function saveorder($ids = null, $order = null)
     {

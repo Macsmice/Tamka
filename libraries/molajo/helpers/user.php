@@ -27,7 +27,7 @@ class JUserHelper
 	 * @param	integer		$userId		The id of the user.
 	 * @param	integer		$groupId	The id of the group.
 	 * @return	mixed		Boolean true on success, JException on error.
-	 * @since	1.6
+	 * @since	1.0
 	 */
 	public static function addUserToGroup($userId, $groupId)
 	{
@@ -83,7 +83,7 @@ class JUserHelper
 	 *
 	 * @param	integer		$userId		The id of the user.
 	 * @return	mixed		Array on success, JException on error.
-	 * @since	1.6
+	 * @since	1.0
 	 */
 	public static function getUserGroups($userId)
 	{
@@ -99,7 +99,7 @@ class JUserHelper
 	 * @param	integer		$userId		The id of the user.
 	 * @param	integer		$groupId	The id of the group.
 	 * @return	mixed		Boolean true on success, JException on error.
-	 * @since	1.6
+	 * @since	1.0
 	 */
 	public static function removeUserFromGroup($userId, $groupId)
 	{
@@ -138,7 +138,7 @@ class JUserHelper
 	 * @param	integer		$userId		The id of the user.
 	 * @param	array		$groups		An array of group ids to put the user in.
 	 * @return	mixed		Boolean true on success, JException on error.
-	 * @since	1.6
+	 * @since	1.0
 	 */
 	public static function setUserGroups($userId, $groups)
 	{

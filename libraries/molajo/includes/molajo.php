@@ -89,7 +89,12 @@ if ($format == 'html' || $format == 'feed' || $format == 'raw') {
     $format == 'raw';
 }
 foreach ($files as $file) {
-    if (strpos($file, $format)) {
-        $filehelper->requireClassFile(MOLAJO_LIBRARY.'/views/'.$file, 'MolajoView'.ucfirst(substr($file, 0, strpos($file, '.'))));
+
+    if ($file == 'view.php') {
+        $filehelper->requireClassFile(MOLAJO_LIBRARY.'/views/view.php', 'MolajoView');
+    } else {
+        if (strpos($file, $format)) {
+            $filehelper->requireClassFile(MOLAJO_LIBRARY.'/views/'.$file, 'MolajoView'.ucfirst(substr($file, 0, strpos($file, '.'))));
+        }
     }
 }

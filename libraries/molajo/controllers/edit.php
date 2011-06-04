@@ -21,7 +21,7 @@ defined('MOLAJO') or die;
  *
  * @package	Molajo
  * @subpackage	Controller
- * @since	1.6
+ * @since	1.0
  */
 class MolajoControllerEdit extends MolajoController
 {
@@ -33,7 +33,7 @@ class MolajoControllerEdit extends MolajoController
      * Tasks: cancel and close
      *
      * @return	Boolean
-     * @since	1.6
+     * @since	1.0
      */
     public function cancel ()
     {
@@ -70,7 +70,7 @@ class MolajoControllerEdit extends MolajoController
     * uses saveItem to process save after preparing the data
     *
     * @return	Boolean
-    * @since	1.6
+    * @since	1.0
     */
     public function restore ()
     {
@@ -103,7 +103,7 @@ class MolajoControllerEdit extends MolajoController
     * uses saveItem to process save after preparing the data
     *
     * @return	Boolean
-    * @since	1.6
+    * @since	1.0
     */
     public function saveItemBatch($task)
     {
@@ -136,7 +136,7 @@ class MolajoControllerEdit extends MolajoController
     * and then SaveItem to actually save the data
     *
     * @return	Boolean
-    * @since	1.6
+    * @since	1.0
     */
     public function apply ()
     {
@@ -167,7 +167,7 @@ class MolajoControllerEdit extends MolajoController
     * Method called by apply, create, save, save2copy and save2new tasks
     *
     * @return	Boolean
-    * @since	1.6
+    * @since	1.0
     */
     public function saveItemForm($task)
     {
@@ -198,7 +198,7 @@ class MolajoControllerEdit extends MolajoController
     * Also batch-copy uses SaveItem, as well
     *
     * @return	Boolean
-    * @since	1.6
+    * @since	1.0
     */
     public function saveItem ($data, $task=null)
     {
@@ -375,7 +375,7 @@ class MolajoControllerEdit extends MolajoController
      * deletes individual items
      *
      * @return	void
-     * @since	1.6
+     * @since	1.0
      */
     public function deleteItem ()
     {

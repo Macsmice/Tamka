@@ -13,7 +13,7 @@ defined('MOLAJO') or die;
  *
  * @package	Molajo
  * @subpackage	Single View
- * @since	1.6
+ * @since	1.0
  */
 class MolajoTable extends JTable
 {
@@ -35,7 +35,7 @@ class MolajoTable extends JTable
      * Method to return the title to use for the asset table.
      *
      * @return	string
-     * @since	1.6
+     * @since	1.0
      */
     protected function _getAssetTitle()
     {
@@ -48,7 +48,7 @@ class MolajoTable extends JTable
      * Get the parent asset id for the record
      *
      * @return	int
-     * @since	1.6
+     * @since	1.0
      */
     protected function _getAssetParentId ($table = null, $id = null)
     {
@@ -86,7 +86,7 @@ class MolajoTable extends JTable
      *
      * @return	null|string null is operation was satisfactory, otherwise returns an error
      * @see	JTable:bind
-     * @since	1.6
+     * @since	1.0
      */
     public function bind($array, $ignore = '')
     {
@@ -118,7 +118,7 @@ class MolajoTable extends JTable
      *
      * @return	boolean
      * @see	JTable::check
-     * @since	1.6
+     * @since	1.0
      */
     public function check()
     {
@@ -173,7 +173,7 @@ class MolajoTable extends JTable
      * @param	boolean	True to update fields even if they are null.
      *
      * @return	boolean	True on success.
-     * @since	1.6
+     * @since	1.0
      */
     public function store($updateNulls = false)
     {
@@ -215,7 +215,7 @@ class MolajoTable extends JTable
      * Verify, or create and then verify, a unique value for Alias
      *
      * @return	boolean
-     * @since	1.6
+     * @since	1.0
      */
     protected function _getAlias ()
     {

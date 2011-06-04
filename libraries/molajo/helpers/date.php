@@ -12,7 +12,7 @@ class MolajoDateHelper {
 
     /**
      * convertCCYYMMDD
-     * 
+     *
      * @param date $date
      * @return string CCYY-MM-DD
      */
@@ -23,29 +23,29 @@ class MolajoDateHelper {
 
     /**
      * differenceDays
-     * 
+     *
      * @param $date1 string expressed as CCYY-MM-DD
      * @param $date2 string expressed as CCYY-MM-DD
      * returns integer difference in days
      */
     function differenceDays ($date1, $date2)
     {
-       $day1mm = substr($date1, 5, 2);
-       $day1dd = substr($date1, 8, 2);
-       $day1ccyy = substr($date1, 0, 4);
-       $gregdate1 = gregoriantojd ( $day1mm, $day1dd, $day1ccyy );
-
-       $day2mm = substr($date2, 5, 2);
-       $day2dd = substr($date2, 8, 2);
-       $day2ccyy = substr($date2, 0, 4);
-       $gregdate2 = gregoriantojd ( $day2mm, $day2dd, $day2ccyy );
-
-       return $gregdate1 - $gregdate2;
+//       $day1mm = substr($date1, 5, 2);
+//       $day1dd = substr($date1, 8, 2);
+//       $day1ccyy = substr($date1, 0, 4);
+//       $gregdate1 = gregoriantojd ( $day1mm, $day1dd, $day1ccyy );
+//
+//       $day2mm = substr($date2, 5, 2);
+//       $day2dd = substr($date2, 8, 2);
+//       $day2ccyy = substr($date2, 0, 4);
+//       $gregdate2 = gregoriantojd ( $day2mm, $day2dd, $day2ccyy );
+//
+//       return $gregdate1 - $gregdate2;
     }
 
     /**
      * prettydate
-     * 
+     *
      * @param  $date
      * @return string human-readable pretty date
      */

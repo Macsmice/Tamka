@@ -16,7 +16,7 @@ jimport('molajo.user.user');
  *
  * @package	Joomla
  * @subpackage	ACL
- * @since	1.6
+ * @since	1.0
  */
 class MolajoACL extends ACL
 {	

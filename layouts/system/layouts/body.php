@@ -1,10 +1,12 @@
 <?php
 /**
- * @version     $id: header.php
+ * @version     $id: body.php
  * @package     Molajo
- * @subpackage  Latest News Layout
+ * @subpackage  System Layout
  * @copyright   Copyright (C) 2011 Amy Stephen. All rights reserved.
  * @license     GNU General Public License Version 2, or later http://www.gnu.org/licenses/gpl.html
  */
-defined('MOLAJO') or die; ?>
-<ul class="latest-news<?php echo $this->params->get('page_class_suffix', ''); ?>">
+defined('MOLAJO') or die;
+foreach ($this->row as $name=>$value) {
+    echo '<td align="left" valign="top">'.$value.'</td>';
+}

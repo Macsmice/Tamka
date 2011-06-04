@@ -60,7 +60,7 @@ class MolajoModelCategory extends JModel
          *
          * @param	array	An optional associative array of configuration settings.
          * @see		JController
-         * @since	1.6
+         * @since	1.0
          */
         public function __construct($config = array())
         {
@@ -73,7 +73,7 @@ class MolajoModelCategory extends JModel
          * Note. Calling getState in this method will result in recursion.
          *
          * return	void
-         * @since	1.6
+         * @since	1.0
          */
         protected function populateState($ordering = null, $direction = null)
         {
@@ -299,7 +299,7 @@ class MolajoModelCategory extends JModel
          * @param	int		An optional category id. If not supplied, the model state 'category.id' will be used.
          *
          * @return	mixed	An array of categories or false if an error occurs.
-         * @since	1.6
+         * @since	1.0
          */
         public function getParent()
         {
@@ -314,7 +314,7 @@ class MolajoModelCategory extends JModel
          * Get the left sibling (adjacent) categories.
          *
          * @return	mixed	An array of categories or false if an error occurs.
-         * @since	1.6
+         * @since	1.0
          */
         function &getLeftSibling()
         {
@@ -329,7 +329,7 @@ class MolajoModelCategory extends JModel
          * Get the right sibling (adjacent) categories.
          *
          * @return	mixed	An array of categories or false if an error occurs.
-         * @since	1.6
+         * @since	1.0
          */
         function &getRightSibling()
         {
@@ -346,7 +346,7 @@ class MolajoModelCategory extends JModel
          * @param	int		An optional category id. If not supplied, the model state 'category.id' will be used.
          *
          * @return	mixed	An array of categories or false if an error occurs.
-         * @since	1.6
+         * @since	1.0
          */
         function &getChildren()
         {

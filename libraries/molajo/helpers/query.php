@@ -13,7 +13,7 @@ defined('MOLAJO') or die;
  *
  * @package	Molajo
  * @subpackage	Helper
- * @since	1.6
+ * @since	1.0
  */
 class MolajoQueryHelper
 {
@@ -118,7 +118,7 @@ class MolajoQueryHelper
 	 * @param	string	$orderDate	The ordering code.
 	 *
 	 * @return	string	The SQL field(s) to order by.
-	 * @since	1.6
+	 * @since	1.0
 	 */
 	public static function getQueryDate($orderDate) {
 
@@ -185,7 +185,7 @@ class MolajoQueryHelper
 	 * @param	integer	$numColumns	Number of columns in the layout
 	 *
 	 * @return	array	Reordered array to achieve desired ordering down columns
-	 * @since	1.6
+	 * @since	1.0
 	 */
 	public static function orderDownColumns($dogs, $numColumns = 1)
 	{
